@@ -1,0 +1,59 @@
+plugins {
+  id 'de.undercouch.download' version '4.0.2'
+}
+
+ext {
+  interlokVersion = '3.9.2-RELEASE'
+  interlokUiVersion = interlokVersion
+  interlokUrlVersion = interlokVersion.replace('-RELEASE', '')
+  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokVersion + "/build.gradle" // from 3.9.3
+  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokVersion + "/parent.gradle"
+  interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/master/build.gradle"
+  interlokBaseFilesystemUrl = 'https://development.adaptris.net/installers/interlok/' + interlokUrlVersion + '/base-filesystem.zip'
+  additionalNexusBaseUrl = project.hasProperty('additionalNexusBaseUrl') ? project.getProperty('additionalNexusBaseUrl') :  ''
+}
+
+repositories {
+	if (project.hasProperty('additionalNexusBaseUrl')) {
+    	maven { url "${additionalNexusBaseUrl}/nexus/content/groups/public" }
+    	maven { url "${additionalNexusBaseUrl}/nexus/content/groups/interlok" }
+    }
+}
+
+configurations {
+    interlokRuntime{}
+    interlokTestRuntime{}
+    interlokJavadocs{}
+}
+
+dependencies {
+  #{interlokRuntime}
+
+  #{interlokJavadocs}
+}
+
+allprojects {
+  apply from: "${interlokParentGradle}"
+}
+
+/**
+ * The following two tasks download a ZIP file and extract its
+ * contents to the build directory
+ */
+task downloadBaseFilesystemZip(type: Download) {
+    src interlokBaseFilesystemUrl
+    dest new File(buildDir, 'base-filesystem.zip')
+}
+
+// This will override the war file
+task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
+    from zipTree(downloadBaseFilesystemZip.dest)
+    into new File('/src/main/interlok/')
+}
+// Do we need that or the previous step is enough?
+task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
+    from '/src/main/interlok/config'
+    into interlokTmpConfigDirectory
+}
+
+assemble.dependsOn downloadAndUnzipFileAndCopyConfigDir

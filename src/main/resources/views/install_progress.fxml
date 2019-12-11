@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.collections.*?> 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?> 
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import fxmltableview.*?>
+<?import java.lang.Object?> 
+
+
+<VBox fx:controller="com.adaptris.fxinstaller.controllers.InstallProgressController" 
+    xmlns:fx="http://javafx.com/fxml" styleClass="install-progress" spacing="10">
+    
+	<padding><Insets top="85" right="20" bottom="10" left="20"/></padding>
+	
+	<children>
+		<Label text="Installing Interloks"></Label>
+		<GridPane prefWidth="660" prefHeight="300" alignment="top_left" hgap="10" vgap="0" styleClass="grid">
+		
+			<padding><Insets top="0" bottom="0" /></padding>
+			
+			<children>
+				<VBox spacing="10">
+					<ProgressBar fx:id="progressBar" prefWidth="660"></ProgressBar>
+					<TextArea fx:id="textArea" editable="false" prefWidth="660" prefHeight="200"></TextArea>
+					<Label fx:id="finishedLabel" text=""></Label>
+				</VBox>
+			</children>
+		</GridPane>
+		<HBox spacing="10" alignment="center_right">
+			<Button fx:id="exitButton" text="Exit" disable="true" onAction="#handleExit"></Button>
+		</HBox>
+	</children>
+	<stylesheets>
+		<URL value="@/css/install_progress.css" />
+	</stylesheets>
+</VBox>
+

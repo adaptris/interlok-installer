@@ -1,0 +1,10 @@
+.install-directory {
+}
+
+.install-directory .directory-picker .text-field {
+	-fx-min-width: 400px;
+}
+
+.install-directory .url-picker .text-field {
+	-fx-min-width: 505px;
+}
