@@ -1,0 +1,78 @@
+SOFTWARE LICENCE TERMS & CONDITIONS
+
+Please read the terms of this Software Licence Agreement carefully before opening the software package.  This is a legal agreement between you the Licensee and Adaptris Limited for the software. By opening the software package, you the Licensee agree to these terms.  If you do not agree to all these terms, promptly return the unused software to your place of purchase for a refund.
+
+1. INTERPRETATION
+In these terms and conditions ("terms") the following expressions will have the following meanings:
+ "Adaptris" means Adaptris Limited whose registered office is at Old Tavern, Market Square, Petworth, West Sussex, GU28 0AH.
+"Contract" means the contract of sale concluded between the Licensee and Adaptris;
+"Licence" means the licence granted by Adaptris to the Licensee in respect of the Software in accordance with clauses 9.1 and 9.2 of these terms;
+"Licensee" means the person(s) or entity who purchases the Software;
+"Price" means the price paid by the Licensee to Adaptris for the Software;
+ "Software" the software (including any computer program and related documentation) to be licensed by Adaptris to the Licensee in accordance with these terms.
+
+2. SCOPE OF CONTRACT
+2.1 Neither the Licensee nor Adaptris will be bound by any variation, waiver of or addition to these terms except as agreed in writing by an authorised signatory of the Licensee and an authorised signatory of Adaptris.
+2.2 Any terms and conditions used by the Licensee in the course of its business will not apply to the Contract.
+2.3 These terms contain the whole agreement between the parties and supersede any prior oral or written agreement between them.  The Licensee and Adaptris confirm that they have not entered into the Contract on the basis of any representations that are not expressly incorporated in these terms.
+
+3. INSPECTION
+3.1 The Licensee will inspect the Software immediately after it has been unpacked.
+3.2 The Licensee will be deemed to have accepted the Software as satisfactory, undamaged and in accordance with these terms once the Licensee opens the Software package.  Unless the Licensee notifies Adaptris in writing within four days of receipt of the Software.
+3.3 The Licensee agrees that the period of four days referred to in clause 3.2 is a reasonable period, given the nature of the Software.
+
+4. RISK
+4.1 The risk in the Software will pass to the Licensee once the Price has been paid by the Licensee to Adaptris.
+
+5. WARRANTIES AND REPRESENTATIONS
+5.1 Adaptris warrants that it has title to the Software or will have such title at the time this Contract is agreed.
+5.2 Adaptris warrants that the Software will be provided in accordance with reasonable professional standards.
+5.3 Except as expressly stated in these terms all warranties and conditions whether express or implied by statute usage trade custom or otherwise relating to the quality or nature of the Software or their life or wear or fitness for any particular purpose or use under any specific conditions are expressly excluded, to the extent that such exclusion is permitted by law.  ADAPTRIS SPECIFICALLY EXCLUDES ANY IMPLIED WARRANTY OF SATISFACTORY QUALITY, FITNESS FOR PURPOSE, OR NON-INFRINGEMENT.
+5.4 Measurements, dimensions, weights, colours and other details contained in Adaptris' catalogues, sale manuals, photographs, drawings, illustrations and price lists and Adaptris' samples constitute only an approximate guide and do not form part of the Contract.  No warranty is given that the Software will correspond exactly with those specified.
+
+6. RETURNS
+6.1 Adaptris is not obliged to accept the return of the Software other than as provided in this clause 6. The Licensee will pay to Adaptris a sum equal to 15 percent of the Price subject to a minimum charge of £50, in respect of such return.
+6.2 Software must be properly and securely packed by the Licensee, clearly marked on the outside packaging and any accompanying paperwork.
+6.3 No Software will be accepted for return by Adaptris if the alleged defect has been caused by an accident, neglect or misuse by the Licensee.
+
+7. PATENTS AND COPYRIGHT
+7.1 Adaptris will have no liability in respect of any infringement by the Software of any third party's intellectual property rights.
+7.2 All specifications, drawings and technical documents issued by Adaptris either before or after conclusion of the Contract are issued solely for the Licensee's use in connection with the Software and the Licensee may not copy reproduce or communicate to any third party the contents of such documents without Adaptris' written consent.
+
+8. SOFTWARE
+8.1 Title and Licence
+8.1.1 The Software is protected by copyright law and/or contains proprietary information protected by law.  All Software  remain the sole property of Adaptris.  Unless and to the extent that a separate software licence is entered into for the Software the provisions of clauses 9.1 and 9.2 apply.
+8.1.2 Adaptris grants the Licensee a personal, non-transferable and non-exclusive right to use the Software.  The Licence takes effect from the time the Licensee accepts it.  By opening the packaging of the Software, the Licensee agrees to be bound by these terms.  If the Licensee does not agree with these terms, Adaptris is unwilling to licence the Software to the Licensee.
+8.1.3 The Licensee will use its best efforts to ensure that any user of the Software complies with the terms of this licence and refrains from taking any steps such as reverse assembly or compilation, to derive a source code equivalent of the Software, except to the extent and as permitted by law.
+8.2 Software Use
+8.2.1 The Licensee is permitted to make a single archive copy of the Software, provided the Software shall not be otherwise reproduced, copied, or, except for the documentation, disclosed to others in whole or in part, and provided that the archive copy shall maintain the same copyright notice and proprietary marketing including diskette or CD-ROM marking, as appears on the original Software.
+8.2.2 The Software together with any archive copy of it, shall be either returned to Adaptris or destroyed when no longer used, or when the Licence is terminated in accordance with clause 9.3.
+8.2.3 If the Licensee is in material breach of one or more of these terms, Adaptris may terminate the Licence immediately on written notice to the Licensee.
+8.2.4 The Licensee warrants that it will not reverse, engineer, decompile or disassemble the Software, except and only to the extent that such activity is expressly permitted by applicable law notwithstanding this limitation.
+8.3 Limited Warranty
+8.3.1 Adaptris warrants that the Software will operate substantially as described in its user documentation for a period of 90 days from the date of acceptance of these terms ("Warranty Period").  Adaptris shall use reasonable commercial efforts to remedy any defect in the Software that causes breach of the foregoing warranty, provided that the Licensee notifies Adaptris of the defect in writing within the Warranty Period and Adaptris is able to reproduce such defect.  If Adaptris is unable to remedy such defect, Adaptris shall refund the Price to the Licensee.  THE FOREGOING IS THE LICENSEE'S SOLE REMEDY FOR BREACH OF THE WARRANTY CONTAINED IN THIS CLAUSE.
+8.3.2 Any statements relating to the Software made in any brochure or advertising material or verbally by or on behalf of Adaptris shall not be binding on Adaptris.
+8.3.3 Adaptris bears no responsibility for supplying assistance, for fixing or communicating known errors to the Licensee pertaining to the Software, save during the Warranty Period.
+8.4 User Responsibilities
+8.4.1 The Licensee is liable for the damage or destruction of the Software howsoever caused.
+8.5 Enhancements
+8.5.1 Adaptris reserves the right to change and improve the Software without notice.
+
+9. GENERAL
+9.1 Adaptris will not be affected by any delay or failure in exercising or any partial exercising of its rights under these terms unless it has signed an express written waiver or release.
+9.2 The Licensee will not assign its rights under these terms without the prior written consent of Adaptris.
+9.3 No agreement may be cancelled by the Licensee without Adaptris' written consent, which will be subject to Adaptris' right to be indemnified by the Licensee in respect of all costs, claims, losses and expenses caused by such cancellation, including any consequential loss and loss of profits.
+9.4 Any notice given under these terms will be duly served on the Licensee if it is left at or sent by first class post or commercial courier to its address last known to Adaptris or on Adaptris if it is left at or sent by first class post or commercial courier to its address last known to the Licensee.  It will be assumed that any notice sent by post will be delivered on the fifth working day after posting.
+9.5 This Contract will be construed in accordance with the laws of England and Adaptris and the Licensee submit to the non-exclusive jurisdiction of the English courts.
+9.6 All rights afforded to third parties to these terms by operation of the Contracts (Rights of Third Parties) Act 1998 are hereby expressly excluded.
+
+
+READ THE TERMS OF THESE SUPPLEMENTAL LICENCE TERMS AND THE ASSOCIATED END-USER LICENCE AGREEMENT (COLLECTIVELY "EULA") CAREFULLY BEFORE OPENING THE SOFTWARE MEDIA PACKAGE.
+
+THIS IS A LEGAL AGREEMENT BETWEEN YOU (EITHER AN INDIVIDUAL OR A SINGLE ENTITY) AND ADAPTRIS LIMITED ("ADAPTRIS"), FOR THE SOFTWARE PRODUCT IDENTIFIED ABOVE, WHICH INCLUDES COMPUTER SOFTWARE AND MAY INCLUDE ASSOCIATED MEDIA, PRINTED MATERIALS, AND "ONLINE" OR ELECTRONIC DOCUMENTATION ("SOFTWARE").  BY OPENING THE SOFTWARE MEDIA PACKAGE, YOU AGREE TO THE TERMS OF THIS EULA.
+
+IF YOU ARE ACCESSING THE SOFTWARE ELECTRONICALLY, INDICATE YOUR ACCEPTANCE OF THESE TERMS BY SELECTING THE "ACCEPT" BUTTON AT THE END OF THIS EULA.  IF YOU DO NOT AGREE TO ALL THESE TERMS, PROMPTLY RETURN THE UNUSED SOFTWARE TO YOUR PLACE OF PURCHASE FOR A REFUND OR, IF THE SOFTWARE IS ACCESSED ELECTRONICALLY, SELECT THE "DECLINE" BUTTON AT THE END OF THIS EULA.
+
+1.	APACHE SOFTWARE.  Without limiting the terms of paragraph 5 of the Software Licence Agreement ("WARRANTIES AND REPRESENTATIONS"), User acknowledges that the Products include software developed by the Apache Software Foundation  (http://www.apache.org/).  Copyright (c) 1999-2000 The Apache Software Foundation.  All rights reserved.  The names "Xerces", "The Jakarta Project", "Tomcat", "Struts" and "Apache Software Foundation" must not be used to endorse or promote products derived from the Products without prior written permission.  Any product derived from the Products may not be called "Apache", nor may "Apache" appear in their name, without prior written permission.  For written permission, please contact apache@apache.org.    No GNU public license or similar open source licenses contained within the Products shall be removed or modified and no proprietary rights notices or agreements accompanying the Products shall be deleted.  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE  DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+2.	IAIK SOFTWARE.  Without limiting the terms of paragraph 5 of the Software Licence Agreement ("WARRANTIES AND REPRESENTATIONS"), User acknowledges that the Products include software developed by the Institute for Applied Information Processing and Communications, Graz University of Technology ("IAIK") (http://jcewww.iaik.at).  IAIK grants the Licensee ("Adaptris") a non-exclusive, non-sublicensable licence to run the respective number of IAIK-Crypto Software-based Applications that have been developed by the Licensee under a Developers Licence. These licences are transferable to customers or other third parties ("User"), which means that if the User acquires a certain number of licences for IAIK-Crypto Software-based Applications ("the Products") from Adaptris, the respective number of runtime licences are transferred to User.  Full details of IAIK's licence terms are available from http://jcewww.iaik.at/sales/licences/commercial/index.php.

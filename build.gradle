@@ -1,0 +1,80 @@
+plugins {
+    // Apply the java-library plugin to add support for Java Library
+    id "application"
+    id "java-library"
+    id "org.openjfx.javafxplugin" version "0.0.8"
+}
+
+ext {
+  interlokCoreVersion = project.hasProperty("interlokCoreVersion") ? project.getProperty("interlokCoreVersion") : "3.9-SNAPSHOT"
+  releaseVersion = project.hasProperty("releaseVersion") ? project.getProperty("releaseVersion") : "3.9-SNAPSHOT"
+  nexusBaseUrl = project.hasProperty("nexusBaseUrl") ? project.getProperty("nexusBaseUrl") : "https://nexus.adaptris.net/nexus"
+  mavenPublishUrl = project.hasProperty("mavenPublishUrl") ? project.getProperty("mavenPublishUrl") : nexusBaseUrl + "/content/repositories/snapshots"
+  javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
+  repoUsername = project.hasProperty("repoUsername") ? project.getProperty("repoUsername") : "unknown"
+  repoPassword = project.hasProperty("repoPassword") ? project.getProperty("repoPassword") : "unknown"
+  defaultNexusRepo = project.hasProperty("defaultNexusRepo") ? project.getProperty("defaultNexusRepo") : "https://repo1.maven.org/maven2/"
+  offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
+
+  interlokJavadocs= project.hasProperty("interlokJavadocs") ? project.getProperty("interlokJavadocs") : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
+  interlokCommonJavadocs= project.hasProperty("interlokCommonJavadocs") ? project.getProperty("interlokCommonJavadocs") : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
+  componentName="Interlok Installer Fx"
+  organizationName = "Adaptris Ltd"
+  organizationUrl = "http://interlok.adaptris.net"
+  slf4jVersion = "1.7.29"
+}
+
+repositories {
+  mavenCentral()
+  maven { url "$defaultNexusRepo" }
+  maven {
+      credentials {
+        username repoUsername
+        password repoPassword
+      }
+      url "$nexusBaseUrl/content/groups/private"
+    }
+  maven { url "$nexusBaseUrl/content/groups/public" }
+  maven { url "$nexusBaseUrl/content/groups/interlok" }
+  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" }
+}
+
+
+dependencies {
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation "com.google.guava:guava:23.0"
+    
+    implementation "org.gradle:gradle-tooling-api:6.0.1"
+
+    // Use JUnit test framework
+    testImplementation "junit:junit:4.12"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.adaptris.fxinstaller.Launcher"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+javafx {
+    version = "11.0.2"
+    modules = [ "javafx.controls", "javafx.fxml" ]
+}
+
+run {
+    if (javafx.platform.classifier == "win") {
+        // Temporal fix for Eclipse with JDK 1.8 and Windows 
+        systemProperty "java.library.path", "C:\tmp"
+    }
+}
+
+mainClassName = "com.adaptris.fxinstaller.Launcher"
