@@ -64,8 +64,4 @@ public class InstallerDataHolder {
     this.selectedOptionalComponents.addAll(selectedOptionalComponents);
   }
 
-  public void addSelectedOptionalComponent(OptionalComponent optionalComponent) {
-    selectedOptionalComponents.add(optionalComponent);
-  }
-
 }

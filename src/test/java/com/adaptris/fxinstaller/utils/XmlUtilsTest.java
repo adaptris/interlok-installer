@@ -17,7 +17,7 @@ public class XmlUtilsTest {
 
   @Test
   public void testGetDocument() throws Exception {
-    Document document = XmlUtils.getDocument(getClass().getResource("/interlok-csv.xml").toString());
+    Document document = XmlUtils.getDocument(getClass().getResource("/interlok-json.xml").toString());
 
     assertNotNull(document);
     assertNotNull("project", document.getNodeName());

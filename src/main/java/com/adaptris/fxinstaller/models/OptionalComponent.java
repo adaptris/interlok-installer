@@ -10,7 +10,6 @@ public class OptionalComponent implements Comparable<OptionalComponent> {
   private String tags;
   private String icon;
   private String url;
-  private String externalUrl;
   private String license;
   private String deprecatedText;
 
@@ -19,11 +18,11 @@ public class OptionalComponent implements Comparable<OptionalComponent> {
   }
 
   public OptionalComponent(String id, String name, String description, String tags) {
-    this.id = id;
-    icon = id + ".png";
-    this.name = name;
-    this.description = description;
-    this.tags = tags;
+    setId(id);
+    setIcon(id + ".png");
+    setName(name);
+    setDescription(description);
+    setTags(tags);
   }
 
   public String getId() {
@@ -72,14 +71,6 @@ public class OptionalComponent implements Comparable<OptionalComponent> {
 
   public void setUrl(String url) {
     this.url = url;
-  }
-
-  public String getExternalUrl() {
-    return externalUrl;
-  }
-
-  public void setExternalUrl(String externalUrl) {
-    this.externalUrl = externalUrl;
   }
 
   public String getLicense() {

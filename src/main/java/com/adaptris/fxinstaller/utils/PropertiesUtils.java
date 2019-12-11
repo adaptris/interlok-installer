@@ -10,7 +10,7 @@ public class PropertiesUtils {
 
   public static Properties loadFromStreamQuietly(ClassLoader classLoader, String name) {
     Properties properties = new Properties();
-    if (name != null) {
+    if (Objects.nonNull(name)) {
       try (InputStream inputStream = classLoader.getResourceAsStream(name)) {
         if (Objects.isNull(inputStream)) {
           throw new Exception(name + " not found in classpath");

@@ -34,7 +34,7 @@ public class InstallerProperties {
   }
 
   private String getInstallDir(String osName) {
-    return osName.toLowerCase().contains("win") ? getProperty(INSTALL_DIR_WINDOWS) : getProperty(INSTALL_DIR_LINUX);
+    return osName.toLowerCase().contains("win") ? getWindowsInstallDir() : getLinuxInstallDir();
   }
 
   public String getWindowsInstallDir() {
@@ -55,6 +55,14 @@ public class InstallerProperties {
 
   public String getProperty(String key, String defaultValue) {
     return properties.getProperty(key, defaultValue);
+  }
+
+  public Properties getProperties() {
+    Properties newProperties = new Properties();
+    properties.forEach((key, value) -> {
+      newProperties.put(key, value);
+    });
+    return newProperties;
   }
 
 }

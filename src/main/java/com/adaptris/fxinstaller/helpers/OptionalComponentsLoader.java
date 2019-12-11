@@ -12,9 +12,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.adaptris.fxinstaller.models.OptionalComponent;
@@ -41,7 +39,14 @@ public class OptionalComponentsLoader {
 
   private List<String> unwantedArtifacts = new ArrayList<>();
 
+  private final InstallerProperties installerProperties;
+
   public OptionalComponentsLoader() {
+    this(InstallerProperties.getInstance());
+  }
+
+  public OptionalComponentsLoader(InstallerProperties installerProperties) {
+    this.installerProperties = installerProperties;
     unwantedArtifacts.addAll(Arrays.asList(getUnwantedArtifacts()));
   }
 
@@ -89,44 +94,29 @@ public class OptionalComponentsLoader {
 
   private OptionalComponent loadArtifact(String artifactId) throws Exception {
     OptionalComponent component = new OptionalComponent(artifactId);
-    populateProjectDetails(XmlUtils.getDocument(getNexusArtifactPomUrl(artifactId)), component);
+    new PomHelper(installerProperties.getProperties()).populateProjectDetails(XmlUtils.getDocument(getNexusArtifactPomUrl(artifactId)),
+        component);
     return component;
-  }
-
-  protected final void populateProjectDetails(Document pom, OptionalComponent component) {
-    XPathFactory xPathfactory = XPathFactory.newInstance();
-    component.setName(getString(getProperty("artifact.project.name.xpath"), xPathfactory, pom));
-    component.setDescription(getString(getProperty("artifact.project.description.xpath"), xPathfactory, pom));
-    component.setUrl(getString(getProperty("artifact.project.url.xpath"), xPathfactory, pom));
-
-    component.setExternalUrl(getPomProperty("externalUrl", pom, xPathfactory));
-    component.setDeprecatedText(getPomProperty("deprecated", pom, xPathfactory));
-    component.setLicense(getPomProperty("license", pom, xPathfactory));
-    component.setTags(getPomProperty("tags", pom, xPathfactory));
-
-    if (component.getUrl() == null || component.getUrl().trim().length() == 0) {
-      component.setUrl(getPomProperty("url", pom, xPathfactory));
-    }
   }
 
   protected final String getNexusIndexUrl() {
     return getProperty(ARTIFACT_INDEX_URL).replace(NEXUS_BASE_URL_TKN, getProperty(NEXUS_BASE_URL))
         .replace(REPOSITORY_TKN, getProperty(REPOSITORY_RELEASE))
-        .replace(ARTIFACT_VERSION_TKN, InstallerProperties.getInstance().getVersion());
+        .replace(ARTIFACT_VERSION_TKN, installerProperties.getVersion());
   }
 
   protected final String getNexusArtifactPomUrl(String artifactId) {
     return getProperty(ARTIFACT_MAVEN_POM_URL).replace(NEXUS_BASE_URL_TKN, getProperty(NEXUS_BASE_URL))
         .replace(REPOSITORY_TKN, getProperty(REPOSITORY_RELEASE))
-        .replace(ARTIFACT_VERSION_TKN, InstallerProperties.getInstance().getVersion()).replace(ARTIFACT_NAME_TKN, artifactId);
+        .replace(ARTIFACT_VERSION_TKN, installerProperties.getVersion()).replace(ARTIFACT_NAME_TKN, artifactId);
   }
 
-  protected final String[] getUnwantedArtifacts() {
-    return InstallerProperties.getInstance().getProperty(UNWANTED_ARTIFACTS, "").split(",");
+  private String[] getUnwantedArtifacts() {
+    return installerProperties.getProperty(UNWANTED_ARTIFACTS, "").split(",");
   }
 
   private String getProperty(String key) {
-    return InstallerProperties.getInstance().getProperty(key);
+    return installerProperties.getProperty(key);
   }
 
   protected final List<String> extractArtifacts(Document index) throws Exception {
@@ -145,27 +135,6 @@ public class OptionalComponentsLoader {
 
   private boolean notUnwanted(String artifactId) {
     return !unwantedArtifacts.contains(artifactId);
-  }
-
-  protected final String getPomProperty(String propertyName, Document pom, XPathFactory xPathfactory) {
-    String value = getString(getProperty("artifact.project.properties.xpath") + "/" + propertyName, xPathfactory, pom);
-    if (StringUtils.isBlank(value)) {
-      value = getString(getProperty("artifact.project.properties.xpath") + "[@name='" + propertyName + "']/@value", xPathfactory, pom);
-    }
-    return value;
-  }
-
-  // TODO move this somewhere else
-  private String getString(String xpathString, XPathFactory xPathfactory, Node node) {
-    String strValue = null;
-    try {
-      XPathExpression expr = xPathfactory.newXPath().compile(xpathString);
-      strValue = (String) expr.evaluate(node, XPathConstants.STRING);
-    } catch (Exception expt) {
-      System.out.println("Unable to eval " + xpathString + ": " + expt.getLocalizedMessage());
-    }
-
-    return StringUtils.defaultIfBlank(strValue, null);
   }
 
 }

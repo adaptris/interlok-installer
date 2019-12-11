@@ -1,7 +1,6 @@
 package com.adaptris.fxinstaller.helpers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
@@ -16,10 +15,16 @@ public class InstallerPropertiesTest {
   }
 
   @Test
-  public void testInstallDir() {
-    String installDir = InstallerProperties.getInstance().getWindowsInstallDir();
+  public void testInstallDirWindows() {
+    String osName = System.getProperty("os.name");
+    try {
+      System.setProperty("os.name", "windows");
+      String installDir = InstallerProperties.getInstance().getInstallDir();
 
-    assertNotNull(installDir);
+      assertEquals("C:\\Adaptris\\Interlok", installDir);
+    } finally {
+      System.setProperty("os.name", osName);
+    }
   }
 
   @Test
@@ -27,6 +32,19 @@ public class InstallerPropertiesTest {
     String installDir = InstallerProperties.getInstance().getWindowsInstallDir();
 
     assertEquals("C:\\Adaptris\\Interlok", installDir);
+  }
+
+  @Test
+  public void testInstallDirLinux() {
+    String osName = System.getProperty("os.name");
+    try {
+      System.setProperty("os.name", "linux");
+      String installDir = InstallerProperties.getInstance().getInstallDir();
+
+      assertEquals("/opt/Adaptris/Interlok", installDir);
+    } finally {
+      System.setProperty("os.name", osName);
+    }
   }
 
   @Test

@@ -23,4 +23,11 @@ public class PropertiesUtilsTest {
     assertNull(properties.getProperty("interlok.version"));
   }
 
+  @Test
+  public void testLoadFromStreamQuietlyNullName() {
+    Properties properties = PropertiesUtils.loadFromStreamQuietly(getClass().getClassLoader(), null);
+
+    assertNull(properties.getProperty("interlok.version"));
+  }
+
 }

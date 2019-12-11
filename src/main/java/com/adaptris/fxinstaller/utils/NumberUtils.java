@@ -2,6 +2,9 @@ package com.adaptris.fxinstaller.utils;
 
 public class NumberUtils {
 
+  private NumberUtils() {
+  }
+
   public static Double toDouble(String str) {
     try {
       return Double.parseDouble(str);

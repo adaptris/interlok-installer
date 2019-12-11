@@ -96,11 +96,9 @@ public class OptionalComponentsController extends AbstractInstallerController {
 
   @FXML
   private void handleInstallInterlok(ActionEvent event) throws IOException {
-    for (OptionalComponentCell optionalComponentCell : optionalComponentCells) {
-      if (optionalComponentCell.getSelected()) {
-        InstallerDataHolder.getInstance().addSelectedOptionalComponent(optionalComponentCell.getOptionalComponent());
-      }
-    }
+    InstallerDataHolder.getInstance().setSelectedOptionalComponents(optionalComponentCells.stream()
+        .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
+
     FxInstallerApp.goToInstallProgress(((Button) event.getSource()).getScene());
   }
 
