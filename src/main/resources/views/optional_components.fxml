@@ -25,27 +25,27 @@
 			<children>
 				<TableView fx:id="tableView" editable="true" prefWidth="660" prefHeight="300" GridPane.columnIndex="0" GridPane.rowIndex="1">
 					<columns>
-						<TableColumn fx:id="iconColumn" minWidth="40" maxWidth="40" reorderable="false" sortable="false" text="Icon">
+						<TableColumn fx:id="iconColumn" minWidth="40" maxWidth="40" sortable="false" text="Icon">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="icon" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="selectColumn" minWidth="60" maxWidth="60" reorderable="false" sortable="false" text="Select">
+						<TableColumn fx:id="selectColumn" minWidth="68" maxWidth="68" sortable="false" text="Select">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="selected" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="nameColumn" minWidth="140" maxWidth="400" reorderable="false" text="Name">
+						<TableColumn fx:id="nameColumn" minWidth="140" maxWidth="400" text="Name">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="name" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="descriptionColumn" minWidth="260" maxWidth="500" reorderable="false" text="Description">
+						<TableColumn fx:id="descriptionColumn" minWidth="252" maxWidth="500" text="Description">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="description" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="tagsColumn" minWidth="140" maxWidth="400" reorderable="false" sortable="false" text="Tags">
+						<TableColumn fx:id="tagsColumn" minWidth="140" maxWidth="400" sortable="false" text="Tags">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="tags" />
 				        	</cellValueFactory>
