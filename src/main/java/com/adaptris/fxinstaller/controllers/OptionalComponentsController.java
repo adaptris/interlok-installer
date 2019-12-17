@@ -58,7 +58,7 @@ public class OptionalComponentsController extends AbstractInstallerController {
     selectColumn.setGraphic(allCheckBox);
 
     descriptionColumn.setCellFactory(tc -> {
-      return new TableCell<>() {
+      return new TableCell<OptionalComponentCell, String>() {
         @Override
         public void updateItem(String desc, boolean empty) {
           super.updateItem(desc, empty);
@@ -86,7 +86,7 @@ public class OptionalComponentsController extends AbstractInstallerController {
   }
 
   private EventHandler<ActionEvent> handleSelectAllCheckbox() {
-    return new EventHandler<>() {
+    return new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         handleSelectAllCheckbox(event);

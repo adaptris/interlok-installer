@@ -1,6 +1,7 @@
 package com.adaptris.fxinstaller.helpers;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,7 +54,7 @@ public class BuildGradleFileGenerator {
     String buildGradleContent = buildGradleTemplate.replace("#{interlokRuntime}", interlokRuntimeSb.toString());
     buildGradleContent = buildGradleContent.replace("#{interlokJavadocs}", interlokJavadocsSb.toString());
 
-    Files.writeString(buildGradlePath, buildGradleContent);
+    Files.write(buildGradlePath, buildGradleContent.getBytes(StandardCharsets.UTF_8));
   }
 
   private void createGradlePropertiesFile(String interlokVersion, String interlokDistDirectory, String additionalNexusBaseUrl,
