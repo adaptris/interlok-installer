@@ -24,7 +24,7 @@ public class FxInstallerApp extends Application {
     stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/logo.png")));
     stage.setResizable(false);
 
-    Scene scene = new Scene(loadPrepareInstallerNode(), 700, 470);
+    Scene scene = new Scene(loadPrepareInstallerNode(), 800, 600);
 
     scene.getStylesheets().add("/css/style.css");
     stage.setScene(scene);

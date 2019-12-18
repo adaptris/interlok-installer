@@ -14,38 +14,38 @@
 <VBox fx:controller="com.adaptris.fxinstaller.controllers.OptionalComponentsController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="optional-components" spacing="10">
     
-	<padding><Insets top="85" right="20" bottom="10" left="20"/></padding>
+	<padding><Insets top="115" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
 		<Label text="Select Optional Component"></Label>
-		<GridPane prefWidth="660" prefHeight="300" alignment="center" hgap="10" vgap="0" styleClass="grid">
+		<GridPane prefWidth="770" prefHeight="430" alignment="center" hgap="10" vgap="0" styleClass="grid">
 		
 			<padding><Insets top="0" bottom="0" /></padding>
 			
 			<children>
-				<TableView fx:id="tableView" editable="true" prefWidth="660" prefHeight="300" GridPane.columnIndex="0" GridPane.rowIndex="1">
+				<TableView fx:id="tableView" editable="true" prefWidth="770" prefHeight="430" GridPane.columnIndex="0" GridPane.rowIndex="1">
 					<columns>
 						<TableColumn fx:id="iconColumn" minWidth="40" maxWidth="40" sortable="false" text="Icon">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="icon" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="selectColumn" minWidth="68" maxWidth="68" sortable="false" text="Select">
+						<TableColumn fx:id="selectColumn" minWidth="75" maxWidth="75" sortable="false" text="Select">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="selected" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="nameColumn" minWidth="140" maxWidth="400" text="Name">
+						<TableColumn fx:id="nameColumn" minWidth="185" maxWidth="400" text="Name">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="name" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="descriptionColumn" minWidth="252" maxWidth="500" text="Description">
+						<TableColumn fx:id="descriptionColumn" minWidth="280" maxWidth="500" text="Description">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="description" />
 				        	</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="tagsColumn" minWidth="140" maxWidth="400" sortable="false" text="Tags">
+						<TableColumn fx:id="tagsColumn" minWidth="160" maxWidth="400" sortable="false" text="Tags">
 					        <cellValueFactory>
 					        	<PropertyValueFactory property="tags" />
 				        	</cellValueFactory>
