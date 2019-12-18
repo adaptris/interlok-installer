@@ -5,6 +5,10 @@
 	-fx-height: 50px; 
 }
 
+.optional-components .filter-text .text-field {
+	-fx-min-width: 350px;
+}
+
 #welcome-text {
  	-fx-font-size: 32px;
   	-fx-font-family: "Arial Black";

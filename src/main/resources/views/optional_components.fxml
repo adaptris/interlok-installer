@@ -23,42 +23,55 @@
 			<padding><Insets top="0" bottom="0" /></padding>
 			
 			<children>
-				<TableView fx:id="tableView" editable="true" prefWidth="750" prefHeight="430" GridPane.columnIndex="0" GridPane.rowIndex="1">
-					<columns>
-						<TableColumn fx:id="iconColumn" minWidth="40" maxWidth="40" reorderable="false" sortable="false" text="Icon">
-					        <cellValueFactory>
-					        	<PropertyValueFactory property="icon" />
-				        	</cellValueFactory>
-						</TableColumn>
-						<TableColumn fx:id="selectColumn" minWidth="75" maxWidth="75" sortable="false" text="Select">
-					        <cellValueFactory>
-					        	<PropertyValueFactory property="selected" />
-				        	</cellValueFactory>
-						</TableColumn>
-						<TableColumn fx:id="nameColumn" minWidth="185" maxWidth="400" text="Name">
-					        <cellValueFactory>
-					        	<PropertyValueFactory property="name" />
-				        	</cellValueFactory>
-						</TableColumn>
-						<TableColumn fx:id="descriptionColumn" minWidth="280" maxWidth="500" text="Description">
-					        <cellValueFactory>
-					        	<PropertyValueFactory property="description" />
-				        	</cellValueFactory>
-						</TableColumn>
-						<TableColumn fx:id="tagsColumn" minWidth="160" maxWidth="400" sortable="false" text="Tags">
-					        <cellValueFactory>
-					        	<PropertyValueFactory property="tags" />
-				        	</cellValueFactory>
-						</TableColumn>
-					</columns>
-					<items>
-					    <FXCollections fx:factory="observableArrayList">
-					    </FXCollections>
-					</items>
-					<placeholder>
-						<Label text="No Interlok optional components could be loaded"></Label>
-					</placeholder>
-				</TableView>
+			
+				<VBox spacing="10" styleClass="">
+					<children>
+						<HBox spacing="5" prefWidth="750" styleClass="filter-text">
+							<children>
+								<Label text="Filter"></Label>
+								<TextField fx:id="filterTextField" text="" promptText="Filter"></TextField>
+							</children>
+						</HBox>
+
+						<TableView fx:id="tableView" editable="true" prefWidth="750" prefHeight="390" GridPane.columnIndex="0" GridPane.rowIndex="1">
+							<columns>
+								<TableColumn fx:id="iconColumn" minWidth="40" maxWidth="40" reorderable="false" sortable="false" text="Icon">
+							        <cellValueFactory>
+							        	<PropertyValueFactory property="icon" />
+						        	</cellValueFactory>
+								</TableColumn>
+								<TableColumn fx:id="selectColumn" minWidth="70" maxWidth="70" sortable="false" text="Select">
+							        <cellValueFactory>
+							        	<PropertyValueFactory property="selected" />
+						        	</cellValueFactory>
+								</TableColumn>
+								<TableColumn fx:id="nameColumn" minWidth="160" maxWidth="400" text="Name">
+							        <cellValueFactory>
+							        	<PropertyValueFactory property="name" />
+						        	</cellValueFactory>
+								</TableColumn>
+								<TableColumn fx:id="descriptionColumn" minWidth="275" maxWidth="500" text="Description">
+							        <cellValueFactory>
+							        	<PropertyValueFactory property="description" />
+						        	</cellValueFactory>
+								</TableColumn>
+								<TableColumn fx:id="tagsColumn" minWidth="150" maxWidth="400" sortable="false" text="Tags">
+							        <cellValueFactory>
+							        	<PropertyValueFactory property="tags" />
+						        	</cellValueFactory>
+								</TableColumn>
+							</columns>
+							<items>
+							    <FXCollections fx:factory="observableArrayList">
+							    </FXCollections>
+							</items>
+							<placeholder>
+								<Label text="No Interlok optional components could be loaded"></Label>
+							</placeholder>
+						</TableView>
+				
+					</children>
+				</VBox>
 			</children>
 		</GridPane>
 		<HBox spacing="10" alignment="center_right">
