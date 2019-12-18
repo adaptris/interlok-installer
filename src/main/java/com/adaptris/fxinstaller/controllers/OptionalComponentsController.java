@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
+
 import com.adaptris.fxinstaller.FxInstallerApp;
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.OptionalComponentCell;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,12 +23,15 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.ImageView;
 
 public class OptionalComponentsController extends AbstractInstallerController {
 
+  @FXML
+  private TextField filterTextField;
   @FXML
   private TableView<OptionalComponentCell> tableView;
   @FXML
@@ -70,11 +76,33 @@ public class OptionalComponentsController extends AbstractInstallerController {
 
     optionalComponentCells.addAll(convertToCells(InstallerDataHolder.getInstance().getOptionalComponents()));
 
-    tableView.setItems(FXCollections.observableList(optionalComponentCells));
+    FilteredList<OptionalComponentCell> filteredOptionalComponentCells = new FilteredList<>(
+        FXCollections.observableList(optionalComponentCells));
+
+    tableView.setItems(filteredOptionalComponentCells);
+
+    filterTextField.textProperty().addListener((observable, oldText, newText) -> {
+      filteredOptionalComponentCells.setPredicate(oc -> match(oc, newText));
+    });
   }
 
   private List<OptionalComponentCell> convertToCells(List<OptionalComponent> optionalComponents) {
     return optionalComponents.stream().map(oc -> new OptionalComponentCell(oc)).collect(Collectors.toList());
+  }
+
+  private boolean match(OptionalComponentCell occ, String str) {
+    if (StringUtils.isBlank(str)) {
+      return true;
+    }
+
+    String lowerCaseFilter = str.toLowerCase();
+
+    if (occ.getName().toLowerCase().contains(lowerCaseFilter)
+        || StringUtils.trimToEmpty(occ.getTags()).toLowerCase().contains(lowerCaseFilter)) {
+      return true;
+    }
+
+    return false;
   }
 
   @FXML
