@@ -14,13 +14,13 @@
 <VBox fx:controller="com.adaptris.fxinstaller.controllers.InstallDirectoryController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="install-directory" spacing="10">
     
-	<padding><Insets top="85" right="20" bottom="10" left="20"/></padding>
+	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
 		<Label text="Where would you like to install Interlok:"></Label>
-		<GridPane prefWidth="660" prefHeight="60" alignment="top_left" hgap="10" vgap="0" styleClass="grid">
+		<GridPane prefWidth="750" prefHeight="60" alignment="top_left" hgap="10" vgap="0" styleClass="grid">
 		
-			<padding><Insets top="0" bottom="0" /></padding>
+			<padding><Insets top="0" bottom="30" /></padding>
 			
 			<children>
 				<HBox spacing="5" styleClass="directory-picker">
@@ -32,7 +32,7 @@
 			</children>
 		</GridPane>
 		<Label text="Additional Nexus Base Url:"></Label>
-		<GridPane prefWidth="660" prefHeight="201" alignment="top_left" hgap="10" vgap="0" styleClass="grid">
+		<GridPane prefWidth="750" prefHeight="361" alignment="top_left" hgap="10" vgap="0" styleClass="grid">
 		
 			<padding><Insets top="0" bottom="0" /></padding>
 			
