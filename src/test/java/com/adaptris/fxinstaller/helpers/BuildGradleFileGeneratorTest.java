@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,7 +36,7 @@ public class BuildGradleFileGeneratorTest {
     gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve("gradle.properties")));
 
     assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("build.gradle")));
-    assertFalse(Files.readString(buildGradleDirPath.resolve("build.gradle")).isBlank());
+    assertFalse(new String(Files.readAllBytes(buildGradleDirPath.resolve("build.gradle")), StandardCharsets.UTF_8).isEmpty());
     assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("gradle.properties")));
     assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
     assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
@@ -60,7 +61,7 @@ public class BuildGradleFileGeneratorTest {
     gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve("gradle.properties")));
 
     assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("build.gradle")));
-    assertFalse(Files.readString(buildGradleDirPath.resolve("build.gradle")).isBlank());
+    assertFalse(new String(Files.readAllBytes(buildGradleDirPath.resolve("build.gradle")), StandardCharsets.UTF_8).isEmpty());
     assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("gradle.properties")));
     assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
     assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
