@@ -22,7 +22,6 @@ public class OptionalComponentsLoader {
 
   public static final String PROPERTIES_FILE = "installer.properties";
 
-  private static final String REPOSITORY_RELEASE = "repository.release";
   private static final String NEXUS_BASE_URL = "nexus.base.url";
   public static final String ARTIFACT_INDEX_URL = "artifact.index.url";
   public static final String ARTIFACT_MAVEN_LATEST_URL = "artifact.maven.latest.url";
@@ -61,19 +60,24 @@ public class OptionalComponentsLoader {
     // "Everything JSON related; transformations, schemas, json-path (xpath-alike), splitting", "json,transform,jdbc"));
 
     List<String> artifactIds = loadArtifacts();
-    int nbThreads = artifactIds.size() / Math.min(artifactIds.size(), 5);
-    ExecutorService executorService = Executors.newFixedThreadPool(nbThreads);
-    for (String artifactId : artifactIds) {
-      executorService.execute(new Runnable() {
-        @Override
-        public void run() {
-          loadArtifactAndAdd(artifactId, optionalComponents);
-        }
-      });
+    if (artifactIds.isEmpty()) {
+      // Should not happen if we can connect to nexus with the right url and version
+      System.out.println("No arifact could be found.");
+    } else {
+      int nbThreads = artifactIds.size() / Math.min(artifactIds.size(), 5);
+      ExecutorService executorService = Executors.newFixedThreadPool(nbThreads);
+      for (String artifactId : artifactIds) {
+        executorService.execute(new Runnable() {
+          @Override
+          public void run() {
+            loadArtifactAndAdd(artifactId, optionalComponents);
+          }
+        });
+      }
+      executorService.shutdown();
+      // We wait a bit here to enjoy the progress bar
+      executorService.awaitTermination(30, TimeUnit.SECONDS);
     }
-    executorService.shutdown();
-    // We wait a bit here to enjoy the progress bar
-    executorService.awaitTermination(30, TimeUnit.SECONDS);
   }
 
   private List<String> loadArtifacts() throws Exception {
@@ -101,13 +105,13 @@ public class OptionalComponentsLoader {
 
   protected final String getNexusIndexUrl() {
     return getProperty(ARTIFACT_INDEX_URL).replace(NEXUS_BASE_URL_TKN, getProperty(NEXUS_BASE_URL))
-        .replace(REPOSITORY_TKN, getProperty(REPOSITORY_RELEASE))
+        .replace(REPOSITORY_TKN, installerProperties.getRepository())
         .replace(ARTIFACT_VERSION_TKN, installerProperties.getVersion());
   }
 
   protected final String getNexusArtifactPomUrl(String artifactId) {
     return getProperty(ARTIFACT_MAVEN_POM_URL).replace(NEXUS_BASE_URL_TKN, getProperty(NEXUS_BASE_URL))
-        .replace(REPOSITORY_TKN, getProperty(REPOSITORY_RELEASE))
+        .replace(REPOSITORY_TKN, installerProperties.getRepository())
         .replace(ARTIFACT_VERSION_TKN, installerProperties.getVersion()).replace(ARTIFACT_NAME_TKN, artifactId);
   }
 

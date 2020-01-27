@@ -16,7 +16,7 @@ import com.adaptris.fxinstaller.utils.ResourceUtils;
 
 public class BuildGradleFileGenerator {
 
-  private static final String INTERLOK_FX_INSTALLER_TMP_DIR = "interlok-fx-installer-tmp";
+  private static final String INTERLOK_FX_INSTALLER_TMP_DIR = "interlok-fx-installer-tmp-";
   private static final String BUILD_GRADLE_TEMPLATE = "/templates/build.gradle.template";
   private static final String BUILD_GRADLE = "build.gradle";
   private static final String GRADLE_PROPERTIES = "gradle.properties";
@@ -26,7 +26,7 @@ public class BuildGradleFileGenerator {
 
   public Path generate(InterlokProject interlokProject) throws IOException {
     Path tmpDirPath = Paths.get(System.getProperty("java.io.tmpdir"));
-    Path destDir = Files.createDirectories(tmpDirPath.resolve(INTERLOK_FX_INSTALLER_TMP_DIR));
+    Path destDir = Files.createDirectories(tmpDirPath.resolve(INTERLOK_FX_INSTALLER_TMP_DIR + interlokProject.getVersion()));
 
     // TODO Use better template engine
     createBuildGradleFile(interlokProject.getOptionalComponents(), BUILD_GRADLE_TEMPLATE, destDir);
