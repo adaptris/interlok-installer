@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.*
+
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id "application"
@@ -6,8 +8,8 @@ plugins {
 }
 
 ext {
-  interlokCoreVersion = project.hasProperty("interlokCoreVersion") ? project.getProperty("interlokCoreVersion") : "3.9-SNAPSHOT"
-  releaseVersion = project.hasProperty("releaseVersion") ? project.getProperty("releaseVersion") : "3.9-SNAPSHOT"
+  interlokCoreVersion = project.hasProperty("interlokCoreVersion") ? project.getProperty("interlokCoreVersion") : "3.10-SNAPSHOT"
+  releaseVersion = project.hasProperty("releaseVersion") ? project.getProperty("releaseVersion") : "3.10-SNAPSHOT"
   nexusBaseUrl = project.hasProperty("nexusBaseUrl") ? project.getProperty("nexusBaseUrl") : "https://nexus.adaptris.net/nexus"
   mavenPublishUrl = project.hasProperty("mavenPublishUrl") ? project.getProperty("mavenPublishUrl") : nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
@@ -39,7 +41,6 @@ repositories {
   maven { url "https://repo.gradle.org/gradle/libs-releases-local/" }
 }
 
-
 dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
@@ -54,6 +55,12 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+        "release.version": project.property("releaseVersion")
+    ]
 }
 
 jar {
