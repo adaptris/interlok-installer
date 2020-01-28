@@ -18,7 +18,7 @@
 	
 	<children>
 		<Label text="Select Optional Component"></Label>
-		<GridPane prefWidth="750" prefHeight="430" alignment="center" hgap="10" vgap="0" styleClass="grid">
+		<VBox prefHeight="425" spacing="10" alignment="center" >
 		
 			<padding><Insets top="0" bottom="0" /></padding>
 			
@@ -73,11 +73,13 @@
 					</children>
 				</VBox>
 			</children>
-		</GridPane>
+		</VBox>
 		<HBox spacing="10" alignment="center_right">
-			<Button text="Cancel" onAction="#handleCancel"></Button>
-			<Button text="Previous" onAction="#handlePrevious"></Button>
-			<Button text="Install" onAction="#handleInstallInterlok"></Button>
+			<children>
+				<Button text="Cancel" onAction="#handleCancel"></Button>
+				<Button text="Previous" onAction="#handlePrevious"></Button>
+				<Button text="Install" onAction="#handleInstallInterlok"></Button>
+			</children>
 		</HBox>
 	</children>
 	<stylesheets>
