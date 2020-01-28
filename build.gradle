@@ -14,10 +14,10 @@ plugins {
     // Apply the java-library plugin to add support for Java Library
     id "application"
     id "java-library"
-	id 'jacoco'
+	id "jacoco"
 }
 
-apply plugin: 'javafx-gradle-plugin'
+apply plugin: "javafx-gradle-plugin"
 
 ext {
   interlokCoreVersion = project.hasProperty("interlokCoreVersion") ? project.getProperty("interlokCoreVersion") : "3.10-SNAPSHOT"
