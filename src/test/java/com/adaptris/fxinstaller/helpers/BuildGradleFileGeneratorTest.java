@@ -40,6 +40,30 @@ public class BuildGradleFileGeneratorTest {
     assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
     assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
     assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
+    assertNull(gradleProperties.get("interlokBaseFilesystemUrl"));
+    assertNull(gradleProperties.get("additionalNexusBaseUrl"));
+  }
+
+  @Test
+  public void testGenerateSnapshotVersion() throws Exception {
+    Path resourcesPath = Paths.get(getClass().getResource("/interlok-json.xml").toURI()).getParent();
+    Path interlokProjectPath = resourcesPath.resolve("test-project");
+
+    InterlokProject interlokProject = newProject(interlokProjectPath);
+    interlokProject.setVersion("3.9.3-SNAPSHOT");
+
+    Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);
+
+    Properties gradleProperties = new Properties();
+    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve("gradle.properties")));
+
+    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("build.gradle")));
+    assertFalse(new String(Files.readAllBytes(buildGradleDirPath.resolve("build.gradle")), StandardCharsets.UTF_8).isEmpty());
+    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("gradle.properties")));
+    assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
+    assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
+    assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
+    assertNotNull(gradleProperties.get("interlokBaseFilesystemUrl"));
     assertNull(gradleProperties.get("additionalNexusBaseUrl"));
   }
 
@@ -62,6 +86,7 @@ public class BuildGradleFileGeneratorTest {
     assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
     assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
     assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
+    assertNull(gradleProperties.get("interlokBaseFilesystemUrl"));
     assertNotNull(gradleProperties.get("additionalNexusBaseUrl"));
   }
 

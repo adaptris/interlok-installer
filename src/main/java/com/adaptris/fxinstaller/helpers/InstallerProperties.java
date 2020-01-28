@@ -3,6 +3,7 @@ package com.adaptris.fxinstaller.helpers;
 import java.util.Properties;
 
 import com.adaptris.fxinstaller.utils.PropertiesUtils;
+import com.adaptris.fxinstaller.utils.VersionUtils;
 
 public class InstallerProperties {
 
@@ -36,7 +37,7 @@ public class InstallerProperties {
   }
 
   public String getRepository(String version) {
-    if (version.toUpperCase().endsWith("-SNAPSHOT")) {
+    if (VersionUtils.isSnapshot(version)) {
       return getProperty(REPOSITORY_SNAPSHOT);
     } else {
       return getProperty(REPOSITORY_RELEASE);
