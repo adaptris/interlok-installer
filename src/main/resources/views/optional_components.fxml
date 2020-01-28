@@ -18,7 +18,7 @@
 	
 	<children>
 		<Label text="Select Optional Component"></Label>
-		<GridPane prefWidth="770" prefHeight="430" alignment="center" hgap="10" vgap="0" styleClass="grid">
+		<VBox prefHeight="425" spacing="10" alignment="center" >
 		
 			<padding><Insets top="0" bottom="0" /></padding>
 			
@@ -32,7 +32,7 @@
 							</children>
 						</HBox>
 
-						<TableView fx:id="tableView" editable="true" prefWidth="770" prefHeight="390" GridPane.columnIndex="0" GridPane.rowIndex="1">
+						<TableView fx:id="tableView" editable="true" prefWidth="770" prefHeight="360" GridPane.columnIndex="0" GridPane.rowIndex="1">
 							<columns>
 								<TableColumn fx:id="iconColumn" minWidth="40" maxWidth="40" sortable="false" text="Icon">
 							        <cellValueFactory>
@@ -71,11 +71,13 @@
 					</children>
 				</VBox>
 			</children>
-		</GridPane>
+		</VBox>
 		<HBox spacing="10" alignment="center_right">
-			<Button text="Cancel" onAction="#handleCancel"></Button>
-			<Button text="Previous" onAction="#handlePrevious"></Button>
-			<Button text="Install" onAction="#handleInstallInterlok"></Button>
+			<children>
+				<Button text="Cancel" onAction="#handleCancel"></Button>
+				<Button text="Previous" onAction="#handlePrevious"></Button>
+				<Button text="Install" onAction="#handleInstallInterlok"></Button>
+			</children>
 		</HBox>
 	</children>
 	<stylesheets>
