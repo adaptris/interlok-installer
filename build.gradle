@@ -58,9 +58,11 @@ java {
 }
 
 processResources {
-    filter ReplaceTokens, tokens: [
-        "release.version": project.property("releaseVersion")
-    ]
+     filesMatching("**/*.properties") {
+	    filter ReplaceTokens, tokens: [
+	        "release.version": project.property("releaseVersion")
+	    ]
+     }
 }
 
 jar {
@@ -82,6 +84,16 @@ run {
         // Temporal fix for Eclipse with JDK 1.8 and Windows 
         systemProperty "java.library.path", "C:\tmp"
     }
+
+jacocoTestReport {
+  reports {
+    xml.enabled true
+    html.enabled true
+  }
+}
+
+test {
+  include "com/adaptris/**/*Test*.class"
 }
 
 mainClassName = "com.adaptris.fxinstaller.Launcher"

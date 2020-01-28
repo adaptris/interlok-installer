@@ -31,6 +31,7 @@
 			</children>
 		</GridPane>
 		<HBox spacing="10" alignment="center_right">
+			<Button fx:id="downloadGradleFileButton" text="Download gradle files" disable="true" onAction="#handleDownloadGradleFile"></Button>
 			<Button fx:id="exitButton" text="Exit" disable="true" onAction="#handleExit"></Button>
 		</HBox>
 	</children>
