@@ -4,6 +4,7 @@ plugins {
     // Apply the java-library plugin to add support for Java Library
     id "application"
     id "java-library"
+    id "jacoco"
     id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
@@ -85,6 +86,10 @@ run {
         systemProperty "java.library.path", "C:\tmp"
     }
 
+jacoco {
+  toolVersion="0.8.3"
+}
+
 jacocoTestReport {
   reports {
     xml.enabled true
@@ -95,5 +100,7 @@ jacocoTestReport {
 test {
   include "com/adaptris/**/*Test*.class"
 }
+
+check.dependsOn jacocoTestReport
 
 mainClassName = "com.adaptris.fxinstaller.Launcher"
