@@ -70,9 +70,11 @@ java {
 }
 
 processResources {
-    filter ReplaceTokens, tokens: [
-        "release.version": project.property("releaseVersion")
-    ]
+     filesMatching("**/*.properties") {
+	    filter ReplaceTokens, tokens: [
+	        "release.version": project.property("releaseVersion")
+	    ]
+     }
 }
 
 jar {
@@ -103,7 +105,7 @@ jacocoTestReport {
 }
 
 test {
-  include 'com/adaptris/**/*Test*.class'
+  include "com/adaptris/**/*Test*.class"
 }
 
 check.dependsOn jacocoTestReport

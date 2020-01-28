@@ -27,9 +27,9 @@ configurations {
 }
 
 dependencies {
-  #{interlokRuntime}
+#{interlokRuntime}
 
-  #{interlokJavadocs}
+#{interlokJavadocs}
 }
 
 allprojects {
