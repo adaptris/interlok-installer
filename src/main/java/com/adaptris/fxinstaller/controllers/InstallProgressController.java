@@ -8,6 +8,7 @@ import java.util.function.Function;
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.helpers.BuildGradleFileGenerator;
 import com.adaptris.fxinstaller.helpers.InterlokInstaller;
+import com.adaptris.fxinstaller.helpers.LogHelper;
 import com.adaptris.fxinstaller.models.InterlokProject;
 
 import javafx.concurrent.Task;
@@ -21,6 +22,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 
 public class InstallProgressController extends AbstractInstallerController {
+  private LogHelper log = LogHelper.getInstance();
 
   @FXML
   private ProgressBar progressBar;
@@ -43,7 +45,7 @@ public class InstallProgressController extends AbstractInstallerController {
    */
   @FXML
   private void initialize() throws IOException, URISyntaxException {
-    interlokProject = buildProject();
+    interlokProject = InstallerDataHolder.getInstance().buildProject();
     installInterlok(interlokProject);
   }
 
@@ -57,8 +59,7 @@ public class InstallProgressController extends AbstractInstallerController {
         new BuildGradleFileGenerator().downloadGradleFiles(interlokProject, file);
       } catch (IOException ioe) {
         finishedLabel.setText("Could not download gradle files.");
-        System.out.println("Could not download gradle files.");
-        ioe.printStackTrace();
+        log.error("Could not download gradle files.", ioe);
       }
     }
   }
@@ -73,15 +74,6 @@ public class InstallProgressController extends AbstractInstallerController {
     directoryChooser.setTitle("Select Download Dir");
     directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     return directoryChooser;
-  }
-
-  private InterlokProject buildProject() {
-    InterlokProject interlokProject = new InterlokProject();
-    interlokProject.setVersion(InstallerDataHolder.getInstance().getVersion());
-    interlokProject.setDirectory(InstallerDataHolder.getInstance().getInstallDir());
-    interlokProject.setAdditionalNexusBaseUrl(InstallerDataHolder.getInstance().getAdditionalNexusBaseUrl());
-    interlokProject.setOptionalComponents(InstallerDataHolder.getInstance().getSelectedOptionalComponents());
-    return interlokProject;
   }
 
   private void installInterlok(InterlokProject interlokProject) throws URISyntaxException, IOException {

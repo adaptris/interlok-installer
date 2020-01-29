@@ -3,6 +3,7 @@ package com.adaptris.fxinstaller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.adaptris.fxinstaller.models.InterlokProject;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
 public class InstallerDataHolder {
@@ -62,6 +63,15 @@ public class InstallerDataHolder {
   public void setSelectedOptionalComponents(List<OptionalComponent> selectedOptionalComponents) {
     this.selectedOptionalComponents.clear();
     this.selectedOptionalComponents.addAll(selectedOptionalComponents);
+  }
+
+  public InterlokProject buildProject() {
+    InterlokProject interlokProject = new InterlokProject();
+    interlokProject.setVersion(getVersion());
+    interlokProject.setDirectory(getInstallDir());
+    interlokProject.setAdditionalNexusBaseUrl(getAdditionalNexusBaseUrl());
+    interlokProject.setOptionalComponents(getSelectedOptionalComponents());
+    return interlokProject;
   }
 
 }

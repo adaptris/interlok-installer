@@ -12,14 +12,15 @@ import com.adaptris.fxinstaller.models.InterlokProject;
 import com.adaptris.fxinstaller.utils.NumberUtils;
 
 public class InterlokInstaller {
+  private LogHelper log = LogHelper.getInstance();
 
   public void install(InterlokProject interlokProject, Function<Double, Void> updateProgress, Function<String, Void> updateMessage) throws URISyntaxException, IOException {
-    System.out.println("Installing Interlok in '" + interlokProject.getDirectory() + "'");
+    log.info("Installing Interlok in '" + interlokProject.getDirectory() + "'");
 
     Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);
     new GradleBuildRunner(new GradleOutputStream(updateProgress, updateMessage), System.out).run(buildGradleDirPath);
 
-    System.out.println("Interlok successfully installed in '" + interlokProject.getDirectory() + "'");
+    log.info("Interlok successfully installed in '" + interlokProject.getDirectory() + "'");
   }
 
   public class GradleOutputStream extends ByteArrayOutputStream {
@@ -47,7 +48,7 @@ public class InterlokInstaller {
         updateMessage.apply(progressString.replaceFirst("\\<=*.*-*\\>", ""));
       } else {
         updateMessage.apply(progressString);
-        System.out.println(progressString);
+        log.info(progressString);
       }
     }
 

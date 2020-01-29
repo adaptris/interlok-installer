@@ -24,7 +24,6 @@ ext {
   componentName="Interlok Installer Fx"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
-  slf4jVersion = "1.7.29"
 }
 
 repositories {
@@ -39,18 +38,14 @@ repositories {
     }
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
-  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" }
+  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx dependencies
 }
 
 dependencies {
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation "com.google.guava:guava:23.0"
-    
     implementation "org.gradle:gradle-tooling-api:6.0.1"
 
     // Use JUnit test framework
-    testImplementation "junit:junit:4.12"
+    testImplementation "junit:junit:4.13"
 }
 
 java {

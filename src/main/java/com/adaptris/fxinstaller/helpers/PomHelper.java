@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
 public class PomHelper {
+  private LogHelper log = LogHelper.getInstance();
 
   private final Properties properties;
 
@@ -52,7 +53,7 @@ public class PomHelper {
       XPathExpression expr = xPathfactory.newXPath().compile(xpathString);
       strValue = (String) expr.evaluate(node, XPathConstants.STRING);
     } catch (Exception expt) {
-      System.out.println("Unable to eval " + xpathString + ": " + expt.getLocalizedMessage());
+      log.error("Unable to eval " + xpathString + ": " + expt.getLocalizedMessage());
     }
 
     return StringUtils.defaultIfBlank(strValue, null);
