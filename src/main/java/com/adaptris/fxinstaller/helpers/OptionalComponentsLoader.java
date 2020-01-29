@@ -63,7 +63,7 @@ public class OptionalComponentsLoader {
     List<String> artifactIds = loadArtifacts();
     if (artifactIds.isEmpty()) {
       // Should not happen if we can connect to nexus with the right url and version
-      log.info("No arifact could be found.");
+      log.info("No artifact could be found.");
     } else {
       int nbThreads = artifactIds.size() / Math.min(artifactIds.size(), 5);
       ExecutorService executorService = Executors.newFixedThreadPool(nbThreads);
