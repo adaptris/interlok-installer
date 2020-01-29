@@ -7,10 +7,10 @@ import com.adaptris.fxinstaller.utils.VersionUtils;
 
 public class InstallerProperties {
 
-  public static final String PROPERTIES_FILE = "installer.properties";
-  public static final String INTERLOK_VERSION = "interlok.version";
   private static final String REPOSITORY_RELEASE = "repository.release";
   private static final String REPOSITORY_SNAPSHOT = "repository.snapshot";
+  public static final String PROPERTIES_FILE = "installer.properties";
+  public static final String INTERLOK_VERSION = "interlok.version";
   public static final String INSTALL_DIR_WINDOWS = "install.directory.windows";
   public static final String INSTALL_DIR_LINUX = "install.directory.linux";
 
@@ -18,13 +18,13 @@ public class InstallerProperties {
 
   private static InstallerProperties INSTANCE = new InstallerProperties();
 
-  private Properties properties;
+  protected final Properties properties;
 
   public static InstallerProperties getInstance() {
     return INSTANCE;
   }
 
-  private InstallerProperties() {
+  protected InstallerProperties() {
     properties = PropertiesUtils.loadFromStreamQuietly(getClass().getClassLoader(), PROPERTIES_FILE);
   }
 
