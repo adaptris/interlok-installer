@@ -19,6 +19,7 @@ import com.adaptris.fxinstaller.models.OptionalComponent;
 import com.adaptris.fxinstaller.utils.XmlUtils;
 
 public class OptionalComponentsLoader {
+  private LogHelper log = LogHelper.getInstance();
 
   public static final String PROPERTIES_FILE = "installer.properties";
 
@@ -62,7 +63,7 @@ public class OptionalComponentsLoader {
     List<String> artifactIds = loadArtifacts();
     if (artifactIds.isEmpty()) {
       // Should not happen if we can connect to nexus with the right url and version
-      System.out.println("No arifact could be found.");
+      log.info("No arifact could be found.");
     } else {
       int nbThreads = artifactIds.size() / Math.min(artifactIds.size(), 5);
       ExecutorService executorService = Executors.newFixedThreadPool(nbThreads);
@@ -91,8 +92,7 @@ public class OptionalComponentsLoader {
       OptionalComponent component = loadArtifact(artifactId);
       optionalComponents.add(component);
     } catch (Exception expt) {
-      System.out.println("Could not load information for artifact " + artifactId);
-      expt.printStackTrace();
+      log.error("Could not load information for artifact " + artifactId, expt);
     }
   }
 
