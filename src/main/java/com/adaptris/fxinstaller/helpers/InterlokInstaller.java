@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.adaptris.fxinstaller.models.InterlokProject;
+import com.adaptris.fxinstaller.utils.GradleConsoleUtils;
 import com.adaptris.fxinstaller.utils.NumberUtils;
 
 public class InterlokInstaller {
@@ -25,7 +26,7 @@ public class InterlokInstaller {
 
   public class GradleOutputStream extends ByteArrayOutputStream {
 
-    private static final String PERCENT_PATTERN = "\\<=*.*-*\\> (\\d{1,3})\\% ";
+    private static final String PERCENT_PATTERN = "\\<=*-*\\> (\\d{1,3})\\% ";
     private Function<Double, Void> updateProgress;
     private Function<String, Void> updateMessage;
 
@@ -38,14 +39,15 @@ public class InterlokInstaller {
     @Override
     public synchronized void write(byte[] b, int off, int len) {
       super.write(b, off, len);
-      String progressString = new String(b, off, len)
-          .replace("> IDLE ", "")
-          .replace(" root project >", "");
+      String progressString = GradleConsoleUtils.clearAnsiEscapeCode(new String(b, off, len))
+          .replaceFirst("^\\> ", "")
+          .replace("IDLE> ", "")
+          .replace("root project > ", "");
       Matcher matcher = Pattern.compile(PERCENT_PATTERN).matcher(progressString);
       if (matcher.find()) {
         String progressPercent = matcher.group(1);
         updateProgress.apply(NumberUtils.toDouble(progressPercent));
-        updateMessage.apply(progressString.replaceFirst("\\<=*.*-*\\>", ""));
+        updateMessage.apply(GradleConsoleUtils.clearProgressBar(progressString));
       } else {
         updateMessage.apply(progressString);
         log.info(progressString);

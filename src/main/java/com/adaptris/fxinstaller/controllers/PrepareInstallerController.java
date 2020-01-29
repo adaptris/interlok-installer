@@ -2,6 +2,7 @@ package com.adaptris.fxinstaller.controllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import com.adaptris.fxinstaller.FxInstallerApp;
@@ -51,8 +52,10 @@ public class PrepareInstallerController {
         InstallerDataHolder.getInstance().setInstallDir(InstallerProperties.getInstance().getInstallDir());
         InstallerDataHolder.getInstance().setAdditionalNexusBaseUrl(InstallerProperties.getInstance().getAdditionalNexusBaseUrl());
         loadOptionalComponents(InstallerDataHolder.getInstance().getOptionalComponents());
+      } catch (UnknownHostException uhe) {
+        log.error("Failed to prepare installer. " + uhe.getLocalizedMessage() + ". Make sure you have an internet connection");
       } catch (Exception expt) {
-        log.error("Failed to prepare installer", expt);
+        log.error("Failed to prepare installer. Make sure you have an internet connection.", expt);
         throw expt;
       }
 
