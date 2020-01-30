@@ -12,6 +12,7 @@ ext {
   releaseInterlokBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/" + interlokUrlVersion + "/base-filesystem.zip"
   interlokBaseFilesystemUrl = project.hasProperty("interlokBaseFilesystemUrl") ? project.getProperty("interlokBaseFilesystemUrl") : releaseInterlokBaseFilesystemUrl
   additionalNexusBaseUrl = project.hasProperty("additionalNexusBaseUrl") ? project.getProperty("additionalNexusBaseUrl") :  ""
+  srcInterlokDir = "src/main/interlok/"
 }
 
 repositories {
@@ -49,12 +50,7 @@ task downloadBaseFilesystemZip(type: Download) {
 // This will override the war file
 task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
     from zipTree(downloadBaseFilesystemZip.dest)
-    into new File("/src/main/interlok/")
-}
-// Do we need that or the previous step is enough?
-task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
-    from "/src/main/interlok/config"
-    into interlokTmpConfigDirectory
+    into file(srcInterlokDir)
 }
 
-assemble.dependsOn downloadAndUnzipFileAndCopyConfigDir
+assemble.dependsOn downloadAndUnzipFile
