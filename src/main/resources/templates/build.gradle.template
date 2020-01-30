@@ -52,5 +52,10 @@ task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
     from zipTree(downloadBaseFilesystemZip.dest)
     into file(srcInterlokDir)
 }
+// Do we need that or the previous step is enough?
+task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
+    from file(srcInterlokDir + "config/")
+    into interlokTmpConfigDirectory
+}
 
-assemble.dependsOn downloadAndUnzipFile
+assemble.dependsOn downloadAndUnzipFileAndCopyConfigDir
