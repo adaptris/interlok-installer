@@ -18,7 +18,7 @@
 	
 	<children>
 		<Label text="Installing Interloks"></Label>
-		<VBox prefHeight="425" spacing="10">
+		<VBox prefHeight="430" spacing="10">
 		
 			<padding><Insets top="0" bottom="0" /></padding>
 			
@@ -26,7 +26,7 @@
 				<VBox spacing="10">
 					<children>
 						<ProgressBar fx:id="progressBar" prefWidth="750"></ProgressBar>
-						<TextArea fx:id="textArea" editable="false" prefHeight="350"></TextArea>
+						<TextArea fx:id="textArea" editable="false" prefHeight="270"></TextArea>
 						<Label fx:id="finishedLabel" text=""></Label>
 					</children>
 				</VBox>
