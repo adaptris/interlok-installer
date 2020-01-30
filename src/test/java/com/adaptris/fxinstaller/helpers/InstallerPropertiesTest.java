@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Properties;
+
 import org.junit.Test;
 
 public class InstallerPropertiesTest {
@@ -59,6 +61,26 @@ public class InstallerPropertiesTest {
   }
 
   @Test
+  public void testInstallDirMac() {
+    String osName = System.getProperty("os.name");
+    try {
+      System.setProperty("os.name", "mac");
+      String installDir = InstallerProperties.getInstance().getInstallDir();
+
+      assertEquals("/Applications/Adaptris/Interlok", installDir);
+    } finally {
+      System.setProperty("os.name", osName);
+    }
+  }
+
+  @Test
+  public void testGetMacInstallDir() {
+    String installDir = InstallerProperties.getInstance().getMacInstallDir();
+
+    assertEquals("/Applications/Adaptris/Interlok", installDir);
+  }
+
+  @Test
   public void testInstallDirLinux() {
     String osName = System.getProperty("os.name");
     try {
@@ -110,6 +132,13 @@ public class InstallerPropertiesTest {
     String property = InstallerProperties.getInstance().getProperty("property.doesnt.exist", "defaultValue");
 
     assertEquals("defaultValue", property);
+  }
+
+  @Test
+  public void testGetProperties() {
+    Properties properties = InstallerProperties.getInstance().getProperties();
+
+    assertEquals(18, properties.size());
   }
 
 }
