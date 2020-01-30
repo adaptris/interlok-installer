@@ -1,5 +1,8 @@
 package com.adaptris.fxinstaller.utils;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URL;
@@ -12,16 +15,11 @@ import java.util.zip.ZipException;
 
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ZipUtilsTest {
 
   private final URL resource;
-
-  @Rule
-  public ExpectedException expectedEx = ExpectedException.none();
 
   public ZipUtilsTest() {
     resource = getClass().getClassLoader().getResource("zip-test");
@@ -48,25 +46,25 @@ public class ZipUtilsTest {
 
   @Test
   public void testZipFileListNullFile() throws Exception {
-    expectedEx.expect(NullPointerException.class);
-
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-      ZipUtils.zipFileList(Collections.<File>singletonList(null), baos);
-    }
+    assertThrows(NullPointerException.class, () -> {
+      try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        ZipUtils.zipFileList(Collections.<File> singletonList(null), baos);
+      }
+    });
   }
 
   @Test
   public void testZipFileListDuplicatedFile() throws Exception {
-    expectedEx.expect(ZipException.class);
-    expectedEx.expectMessage("duplicate entry: zip-test-file.txt");
-
-    File testFile = Paths.get(resource.toURI()).resolve("zip-test-file.txt").toFile();
-    List<File> files = new ArrayList<>();
-    files.add(testFile);
-    files.add(testFile);
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-      ZipUtils.zipFileList(files, baos);
-    }
+    ZipException exception = assertThrows(ZipException.class, () -> {
+      File testFile = Paths.get(resource.toURI()).resolve("zip-test-file.txt").toFile();
+      List<File> files = new ArrayList<>();
+      files.add(testFile);
+      files.add(testFile);
+      try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        ZipUtils.zipFileList(files, baos);
+      }
+    });
+    assertEquals("duplicate entry: zip-test-file.txt", exception.getMessage());
   }
 
 }

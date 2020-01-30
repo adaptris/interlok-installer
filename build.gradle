@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.gradle:gradle-tooling-api:6.0.1"
+    implementation "org.gradle:gradle-tooling-api:6.1.1"
 
     // Use JUnit test framework
     testImplementation "junit:junit:4.13"
@@ -75,11 +75,7 @@ javafx {
     modules = [ "javafx.controls", "javafx.fxml" ]
 }
 
-run {
-    if (javafx.platform.classifier == "win") {
-        // Temporal fix for Eclipse with JDK 1.8 and Windows 
-        systemProperty "java.library.path", "C:\tmp"
-    }
+mainClassName = "com.adaptris.fxinstaller.Launcher"
 
 jacoco {
   toolVersion="0.8.3"
@@ -97,5 +93,3 @@ test {
 }
 
 check.dependsOn jacocoTestReport
-
-mainClassName = "com.adaptris.fxinstaller.Launcher"
