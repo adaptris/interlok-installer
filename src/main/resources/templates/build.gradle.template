@@ -6,8 +6,8 @@ ext {
   interlokVersion = project.hasProperty("interlokVersion") ? project.getProperty("interlokVersion") : "NEED interlokVersion PROPERTY"
   interlokUiVersion = interlokVersion
   interlokUrlVersion = interlokVersion.replace("-RELEASE", "")
-  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokVersion + "/build.gradle" // from 3.9.3
-  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokVersion + "/parent.gradle"
+  interlokBuildParentVersion = interlokVersion.endsWith("-SNAPSHOT") ? "master" : interlokVersion
+  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokBuildParentVersion + "/build.gradle"
   interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/master/build.gradle"
   releaseInterlokBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/" + interlokUrlVersion + "/base-filesystem.zip"
   interlokBaseFilesystemUrl = project.hasProperty("interlokBaseFilesystemUrl") ? project.getProperty("interlokBaseFilesystemUrl") : releaseInterlokBaseFilesystemUrl

@@ -84,9 +84,13 @@ public class BuildGradleFileGenerator {
 
     for (OptionalComponent optionalComponent : optionalComponents) {
       interlokRuntimeSb.append("  interlokRuntime (\"com.adaptris:").append(optionalComponent.getId())
-      .append(":$interlokVersion\") { changing=true }").append(System.lineSeparator());
+      .append(":$interlokVersion\") { changing=true }");
       interlokJavadocsSb.append("  interlokJavadocs (\"com.adaptris:").append(optionalComponent.getId())
-      .append(":$interlokVersion:javadoc\") { changing=true; transitive=false }").append(System.lineSeparator());
+      .append(":$interlokVersion:javadoc\") { changing=true; transitive=false }");
+      if (optionalComponents.indexOf(optionalComponent) != optionalComponents.size() - 1) {
+        interlokRuntimeSb.append(System.lineSeparator());
+        interlokJavadocsSb.append(System.lineSeparator());
+      }
     }
 
     String buildGradleTemplate = ResourceUtils.toString(buildGradleTemplateName);
