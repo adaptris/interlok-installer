@@ -4,7 +4,6 @@ dist: trusty
 
 before_install:
   - sudo service haveged start
-  - sudo apt install openjfx
   - export DISPLAY=:99.0
 
 script: ./gradlew --no-daemon -PverboseTests=true test jacocoTestReport
@@ -13,7 +12,7 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 jdk:
-  - openjdk8
+  - oraclejdk8
 
 addons:
   apt:
