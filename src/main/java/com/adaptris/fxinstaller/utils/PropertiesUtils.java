@@ -4,7 +4,10 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
 
+import com.adaptris.fxinstaller.helpers.LogHelper;
+
 public class PropertiesUtils {
+  private static LogHelper LOG = LogHelper.getInstance();
 
   private PropertiesUtils() {}
 
@@ -17,7 +20,7 @@ public class PropertiesUtils {
         }
         properties.load(inputStream);
       } catch (Exception expt) {
-        System.out.println("Could not load properties file [" + name + "]. " + expt.getLocalizedMessage());
+        LOG.error("Could not load properties file [" + name + "]. " + expt.getLocalizedMessage());
       }
     }
     return properties;

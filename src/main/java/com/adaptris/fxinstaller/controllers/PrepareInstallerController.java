@@ -2,11 +2,13 @@ package com.adaptris.fxinstaller.controllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import com.adaptris.fxinstaller.FxInstallerApp;
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.helpers.InstallerProperties;
+import com.adaptris.fxinstaller.helpers.LogHelper;
 import com.adaptris.fxinstaller.helpers.OptionalComponentsLoader;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
@@ -16,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 
 public class PrepareInstallerController {
+  private LogHelper log = LogHelper.getInstance();
 
   @FXML
   private ProgressBar progressBar;
@@ -49,12 +52,13 @@ public class PrepareInstallerController {
         InstallerDataHolder.getInstance().setInstallDir(InstallerProperties.getInstance().getInstallDir());
         InstallerDataHolder.getInstance().setAdditionalNexusBaseUrl(InstallerProperties.getInstance().getAdditionalNexusBaseUrl());
         loadOptionalComponents(InstallerDataHolder.getInstance().getOptionalComponents());
+      } catch (UnknownHostException uhe) {
+        log.error("Failed to prepare installer. " + uhe.getLocalizedMessage() + ". Make sure you have an internet connection");
       } catch (Exception expt) {
-        expt.printStackTrace();
+        log.error("Failed to prepare installer. Make sure you have an internet connection.", expt);
         throw expt;
       }
 
-      FxInstallerApp.goToLicenseAgreement(progressBar.getScene());
       return null;
     }
 
@@ -64,13 +68,18 @@ public class PrepareInstallerController {
 
     @Override
     protected void failed() {
-      System.out.println("Preparation failed");
+      log.error("Preparation failed");
       Platform.exit();
     }
 
     @Override
     protected void succeeded() {
-      System.out.println("Preparation succeeded");
+      log.info("Preparation succeeded");
+      goToLicenseAgreement();
+    }
+
+    private void goToLicenseAgreement() {
+      FxInstallerApp.goToLicenseAgreement(progressBar.getScene());
     }
 
   }

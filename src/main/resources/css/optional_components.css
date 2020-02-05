@@ -1,10 +1,6 @@
 .optional-components {
 }
 
-.optional-components .grid {
-	-fx-height: 50px; 
-}
-
 .optional-components .filter-text .text-field {
 	-fx-min-width: 350px;
 }

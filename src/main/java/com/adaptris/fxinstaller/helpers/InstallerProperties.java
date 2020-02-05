@@ -3,25 +3,29 @@ package com.adaptris.fxinstaller.helpers;
 import java.util.Properties;
 
 import com.adaptris.fxinstaller.utils.PropertiesUtils;
+import com.adaptris.fxinstaller.utils.VersionUtils;
 
 public class InstallerProperties {
 
+  private static final String REPOSITORY_RELEASE = "repository.release";
+  private static final String REPOSITORY_SNAPSHOT = "repository.snapshot";
   public static final String PROPERTIES_FILE = "installer.properties";
   public static final String INTERLOK_VERSION = "interlok.version";
   public static final String INSTALL_DIR_WINDOWS = "install.directory.windows";
+  public static final String INSTALL_DIR_MAC = "install.directory.mac";
   public static final String INSTALL_DIR_LINUX = "install.directory.linux";
 
   public static final String ADDITIONAL_NEXUS_BASE_URL = "additionalNexusBaseUrl";
 
   private static InstallerProperties INSTANCE = new InstallerProperties();
 
-  private Properties properties;
+  protected final Properties properties;
 
   public static InstallerProperties getInstance() {
     return INSTANCE;
   }
 
-  private InstallerProperties() {
+  protected InstallerProperties() {
     properties = PropertiesUtils.loadFromStreamQuietly(getClass().getClassLoader(), PROPERTIES_FILE);
   }
 
@@ -29,16 +33,37 @@ public class InstallerProperties {
     return getProperty(INTERLOK_VERSION);
   }
 
+  public String getRepository() {
+    return getRepository(getVersion());
+  }
+
+  public String getRepository(String version) {
+    if (VersionUtils.isSnapshot(version)) {
+      return getProperty(REPOSITORY_SNAPSHOT);
+    } else {
+      return getProperty(REPOSITORY_RELEASE);
+    }
+  }
+
   public String getInstallDir() {
     return getInstallDir(System.getProperty("os.name"));
   }
 
   private String getInstallDir(String osName) {
-    return osName.toLowerCase().contains("win") ? getWindowsInstallDir() : getLinuxInstallDir();
+    if (osName.toLowerCase().contains("win")) {
+      return getWindowsInstallDir();
+    } else if (osName.toLowerCase().contains("mac")) {
+      return getMacInstallDir();
+    }
+    return getLinuxInstallDir();
   }
 
   public String getWindowsInstallDir() {
     return getProperty(INSTALL_DIR_WINDOWS);
+  }
+
+  public String getMacInstallDir() {
+    return getProperty(INSTALL_DIR_MAC);
   }
 
   public String getLinuxInstallDir() {
