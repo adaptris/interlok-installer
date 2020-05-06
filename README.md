@@ -19,6 +19,8 @@ scoop install zulufx8
 
 This will install zulu8+javafx to `~/scoop/apps/javafx8/current`; you can set your JAVA_HOME manually (PATH should be automatically modified).
 
+There doesn't appear to be an equivalent homebrew package for the Mac (yet); you can try this : [https://github.com/quotidian-ennui/homebrew-zulufx](https://github.com/quotidian-ennui/homebrew-zulufx).
+
 **JavaFX will be required at runtime.**
 
 ## Build
