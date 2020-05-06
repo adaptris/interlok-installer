@@ -1,7 +1,6 @@
 package com.adaptris.fxinstaller.helpers;
 
 import java.util.Properties;
-
 import com.adaptris.fxinstaller.utils.PropertiesUtils;
 import com.adaptris.fxinstaller.utils.VersionUtils;
 
@@ -63,7 +62,7 @@ public class InstallerProperties {
   }
 
   public String getMacInstallDir() {
-    return getProperty(INSTALL_DIR_MAC);
+    return System.getProperty("user.home") + getProperty(INSTALL_DIR_MAC);
   }
 
   public String getLinuxInstallDir() {

@@ -65,7 +65,7 @@ public class InstallerPropertiesTest {
       System.setProperty("os.name", "mac");
       String installDir = InstallerProperties.getInstance().getInstallDir();
 
-      assertEquals("/Applications/Adaptris/Interlok", installDir);
+      assertTrue(installDir.contains("/Adaptris/Interlok"));
     } finally {
       System.setProperty("os.name", osName);
     }
@@ -75,7 +75,7 @@ public class InstallerPropertiesTest {
   public void testGetMacInstallDir() {
     String installDir = InstallerProperties.getInstance().getMacInstallDir();
 
-    assertEquals("/Applications/Adaptris/Interlok", installDir);
+    assertTrue(installDir.contains("/Adaptris/Interlok"));
   }
 
   @Test
