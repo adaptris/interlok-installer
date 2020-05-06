@@ -11,4 +11,8 @@ public class VersionUtils {
     return StringUtils.trimToEmpty(version).toUpperCase().endsWith("-SNAPSHOT");
   }
 
+  public static boolean isBeta(String version) {
+    return StringUtils.trimToEmpty(version).toUpperCase().matches(".*B[0-9]+.*-RELEASE");
+  }
+
 }

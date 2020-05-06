@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
 import java.util.Properties;
-
 import org.junit.Test;
 
 public class InstallerPropertiesTest {
@@ -137,8 +135,8 @@ public class InstallerPropertiesTest {
   @Test
   public void testGetProperties() {
     Properties properties = InstallerProperties.getInstance().getProperties();
-
-    assertEquals(18, properties.size());
+    // Bit magic number, this is the number of properties we have atm.
+    assertEquals(20, properties.size());
   }
 
 }
