@@ -38,7 +38,7 @@ java -DadditionalNexusBaseUrl=http://your-nexus.com/path/to/content ./build/libs
 
 ## Notes
 
-* There are no executables bundled in this installer; you need to execute
+* There are no executables bundled in this installer; you need to execute `java -jar lib/interlok-boot.jar`
 * If you want to "run as Windows services" then we suggest using something like [https://github.com/winsw/winsw](https://github.com/winsw/winsw) to wrap the java process.
 * You will have to explicitly choose all the optional components you want
 * You will need internet access
