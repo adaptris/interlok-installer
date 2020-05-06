@@ -5,6 +5,7 @@ plugins {
     id "application"
     id "java-library"
     id "jacoco"
+    id "maven-publish"
     id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
@@ -21,7 +22,7 @@ ext {
 
   interlokJavadocs= project.hasProperty("interlokJavadocs") ? project.getProperty("interlokJavadocs") : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
   interlokCommonJavadocs= project.hasProperty("interlokCommonJavadocs") ? project.getProperty("interlokCommonJavadocs") : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
-  componentName="Interlok Installer Fx"
+  componentName="Interlok Installer Java FX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
 }
@@ -29,24 +30,20 @@ ext {
 repositories {
   mavenCentral()
   maven { url "$defaultNexusRepo" }
-  maven {
-      credentials {
-        username repoUsername
-        password repoPassword
-      }
-      url "$nexusBaseUrl/content/groups/private"
-    }
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
   maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx dependencies
 }
 
 dependencies {
-    implementation "org.gradle:gradle-tooling-api:6.1.1"
+  implementation "org.gradle:gradle-tooling-api:6.1.1"
 
-    // Use JUnit test framework
-    testImplementation "junit:junit:4.13"
+  // Use JUnit test framework
+  testImplementation "junit:junit:4.13"
 }
+
+group   = 'com.adaptris'
+version = releaseVersion
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -62,12 +59,12 @@ processResources {
 }
 
 jar {
-    manifest {
-        attributes "Main-Class": "com.adaptris.fxinstaller.Launcher"
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+  manifest {
+    attributes "Main-Class": "com.adaptris.fxinstaller.Launcher"
+  }
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
 }
 
 javafx {
@@ -90,6 +87,43 @@ jacocoTestReport {
 
 test {
   include "com/adaptris/**/*Test*.class"
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+  archives sourcesJar
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      artifact sourcesJar { classifier "sources" }
+
+      pom.withXml {
+        asNode().appendNode("name", "Interlok JavaFX Installer")
+        asNode().appendNode("description", "Interlok installer built using JavaFX")
+        def properties = asNode().appendNode("properties")
+        properties.appendNode("target", "3.10.0+")
+        properties.appendNode("license", "false")
+        properties.appendNode("readme", "https://raw.githubusercontent.com/adaptris/interlok-fx-installer/develop/README.md")
+        properties.appendNode("repository", "https://github.com/adaptris/interlok-fx-installer")
+      }
+    }
+  }
+  repositories {
+    maven {
+      credentials {
+        username repoUsername
+        password repoPassword
+      }
+      url mavenPublishUrl
+    }
+  }
 }
 
 check.dependsOn jacocoTestReport
