@@ -10,11 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
-
 import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
-
 import com.adaptris.fxinstaller.models.InterlokProject;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 import com.adaptris.fxinstaller.utils.ResourceUtils;
@@ -30,14 +30,25 @@ public class BuildGradleFileGenerator {
   private static final String INTERLOK_VERSION = "interlokVersion";
   private static final String INTERLOK_DIST_DIRECTORY = "interlokDistDirectory";
   private static final String INTERLOK_BASE_FILESYSTEM_URL = "interlokBaseFilesystemUrl";
-  private static final String BASE_FILESYSTEM_URL = "base.filesystem.url";
   private static final String ADDITIONAL_NEXUS_BASE_URL = "additionalNexusBaseUrl";
   private static final String INTERLOK_GRADLE_FILES = "interlok-gradle-files-";
   private static final String ZIP = ".zip";
 
+  private static final String INSTALLER_PROPERTY_SNAPSHOT_FILESYSTEM_URL = "snapshot.filesystem.url";
+  private static final String INSTALLER_PROPERTY_BETA_FILESYSTEM_URL = "beta.filesystem.url";
+  private static final String INSTALLER_PROPERTY_RELEASE_FILESYSTEM_URL = "release.filesystem.url";
+
   private final Path tmpDirPath;
   private final InstallerProperties installerProperties;
 
+  private final List<BaseFilesystemBuilder> BASE_URL_PARSERS =
+      Collections.unmodifiableList(
+          Arrays.asList(new BaseFilesystemBuilder[] {
+          (interlokVersion) -> snapshotUrl(interlokVersion),
+          (interlokVersion) -> betaUrl(interlokVersion),
+          (interlokVersion) -> releaseUrl(interlokVersion)
+      }));
+  
   public BuildGradleFileGenerator() {
     this(Paths.get(System.getProperty("java.io.tmpdir")));
   }
@@ -113,14 +124,41 @@ public class BuildGradleFileGenerator {
     if (StringUtils.isNotBlank(additionalNexusBaseUrl)) {
       properties.put(ADDITIONAL_NEXUS_BASE_URL, additionalNexusBaseUrl);
     }
-    if (VersionUtils.isSnapshot(interlokVersion)) {
-      properties.put(INTERLOK_BASE_FILESYSTEM_URL,
-          installerProperties.getProperty(BASE_FILESYSTEM_URL).replace("${today}", LocalDate.now().minusDays(1).toString()));
-    }
+    Optional<String> baseUrl =
+        BASE_URL_PARSERS.stream().map((p) -> p.build(interlokVersion)).filter((o) -> o.isPresent()).findFirst()
+            .orElse(Optional.empty());
+    baseUrl.ifPresent((val) -> properties.put(INTERLOK_BASE_FILESYSTEM_URL, val));
 
     try (OutputStream outputStream = Files.newOutputStream(gradlePropertiesPath)) {
       properties.store(outputStream, "");
     }
+  }
+
+  private Optional<String> betaUrl(String interlokVersion) {
+    if (VersionUtils.isBeta(interlokVersion)) {
+      String rawVersion = interlokVersion.replace("-RELEASE", "");
+      return Optional.of(installerProperties.getProperty(INSTALLER_PROPERTY_BETA_FILESYSTEM_URL).replace("${release}", rawVersion));
+    }
+    return Optional.empty();
+  }
+
+  private Optional<String> snapshotUrl(String interlokVersion) {
+    if (VersionUtils.isSnapshot(interlokVersion)) {
+      return Optional.of(installerProperties.getProperty(INSTALLER_PROPERTY_SNAPSHOT_FILESYSTEM_URL).replace("${today}",
+          LocalDate.now().minusDays(1).toString()));
+    }
+    return Optional.empty();
+  }
+
+  private Optional<String> releaseUrl(String interlokVersion) {
+    String rawVersion = interlokVersion.replace("-RELEASE", "");
+    return Optional
+        .of(installerProperties.getProperty(INSTALLER_PROPERTY_RELEASE_FILESYSTEM_URL).replace("${release}", rawVersion));
+  }
+
+  @FunctionalInterface
+  private static interface BaseFilesystemBuilder {
+    Optional<String> build(String s);
   }
 
 }

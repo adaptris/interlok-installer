@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -14,9 +13,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Properties;
-
 import org.junit.Test;
-
 import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.InterlokProject;
 
@@ -40,7 +37,8 @@ public class BuildGradleFileGeneratorTest {
     assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
     assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
     assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
-    assertNull(gradleProperties.get("interlokBaseFilesystemUrl"));
+    // never null
+    assertNotNull(gradleProperties.get("interlokBaseFilesystemUrl"));
     assertNull(gradleProperties.get("additionalNexusBaseUrl"));
   }
 
@@ -86,7 +84,8 @@ public class BuildGradleFileGeneratorTest {
     assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
     assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
     assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
-    assertNull(gradleProperties.get("interlokBaseFilesystemUrl"));
+    // never null
+    assertNotNull(gradleProperties.get("interlokBaseFilesystemUrl"));
     assertNotNull(gradleProperties.get("additionalNexusBaseUrl"));
   }
 

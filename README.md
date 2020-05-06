@@ -37,7 +37,7 @@ java -Dinterlok.version=3.10.0-RELEASE ./build/libs/interlok-fx-installer.jar
 If you want to include a different maven compatible nexus instance (either you're mirroring our public repo, or private dependencies are stored there) then you can also do this either as a system property or do it when the installer window presents itself.
 
 ```
-java -DadditionalNexusBaseUrl=http://your-nexus.com ./build/libs/interlok-fx-installer.jar
+java -DadditionalNexusBaseUrl=http://your-nexus.com/path/to/content ./build/libs/interlok-fx-installer.jar
 ```
 
 
