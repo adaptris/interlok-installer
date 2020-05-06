@@ -6,7 +6,7 @@ Java FX installer for Interlok. This automatically downloads the selected option
 
 * It uses gradle behind the scenes.
 * It makes use our parent build.gradle [https://github.com/adaptris-labs/interlok-build-parent](https://github.com/adaptris-labs/interlok-build-parent)
-* You can optionally download the generated build.gradle to easy your transition to using build.gradle
+* You can optionally download the generated build.gradle to ease your transition to using build.gradle since this is our preferred project management tool.
 
 ## Pre-Requisites
 
