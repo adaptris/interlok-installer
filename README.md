@@ -10,11 +10,16 @@ Java FX installer for Interlok. This automatically downloads the selected option
 
 ## Pre-Requisites
 
-This requires a JavaFX enabled JDK which means either OracleJDK or OpenJDK with OpenJFX with your JAVA_HOME environment variable set to the correct location. Azul systems has a Java 8 bundle with OpenJFX; one of the easiest ways is to install it via scoop. JavaFX will also be required at runtime.
+This requires a JavaFX enabled JDK which means either OracleJDK or OpenJDK with OpenJFX with your JAVA_HOME environment variable set to the correct location. Azul systems has a Java 8 bundle with OpenJFX; one of the easiest ways is to install it via [scoop](https://scoop.sh) if you're on Windows.
 
 ```
+scoop bucket add java
 scoop install zulufx8
 ```
+
+This will install zulu8+javafx to `~/scoop/apps/javafx8/current`; you can set your JAVA_HOME manually (PATH should be automatically modified).
+
+**JavaFX will be required at runtime.**
 
 ## Build
 
