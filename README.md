@@ -8,14 +8,6 @@ Java FX installer for Interlok. This automatically downloads the selected option
 * It makes use our parent build.gradle [https://github.com/adaptris-labs/interlok-build-parent](https://github.com/adaptris-labs/interlok-build-parent)
 * You can optionally download the generated build.gradle to easy your transition to using build.gradle
 
-## Pre-Requisites
-
-This requires a JavaFX enabled JDK which means either OracleJDK or OpenJDK with OpenJFX with your JAVA_HOME environment variable set to the correct location. Azul systems has a Java 8 bundle with OpenJFX; one of the easiest ways is to install it via scoop. JavaFX will also be required at runtime.
-
-```
-scoop install zulufx8
-```
-
 ## Build
 
 ```
