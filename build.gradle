@@ -10,18 +10,12 @@ plugins {
 }
 
 ext {
-  interlokCoreVersion = project.hasProperty("interlokCoreVersion") ? project.getProperty("interlokCoreVersion") : "3.10-SNAPSHOT"
-  releaseVersion = project.hasProperty("releaseVersion") ? project.getProperty("releaseVersion") : "3.10-SNAPSHOT"
-  nexusBaseUrl = project.hasProperty("nexusBaseUrl") ? project.getProperty("nexusBaseUrl") : "https://nexus.adaptris.net/nexus"
-  mavenPublishUrl = project.hasProperty("mavenPublishUrl") ? project.getProperty("mavenPublishUrl") : nexusBaseUrl + "/content/repositories/snapshots"
+  releaseVersion = project.findProperty("releaseVersion") ?: "3.10-SNAPSHOT"
+  nexusBaseUrl = project.findProperty("nexusBaseUrl") ?: "https://nexus.adaptris.net/nexus"
+  mavenPublishUrl = project.findProperty("mavenPublishUrl") ?: nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
-  repoUsername = project.hasProperty("repoUsername") ? project.getProperty("repoUsername") : "unknown"
-  repoPassword = project.hasProperty("repoPassword") ? project.getProperty("repoPassword") : "unknown"
-  defaultNexusRepo = project.hasProperty("defaultNexusRepo") ? project.getProperty("defaultNexusRepo") : "https://repo1.maven.org/maven2/"
-  offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
-
-  interlokJavadocs= project.hasProperty("interlokJavadocs") ? project.getProperty("interlokJavadocs") : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
-  interlokCommonJavadocs= project.hasProperty("interlokCommonJavadocs") ? project.getProperty("interlokCommonJavadocs") : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
+  repoUsername = project.findProperty("repoUsername") ?: "set in gradle.properties"
+  repoPassword = project.findProperty("repoPassword") ?: "set in gradle.properties"
   componentName="Interlok Installer Java FX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
@@ -29,7 +23,6 @@ ext {
 
 repositories {
   mavenCentral()
-  maven { url "$defaultNexusRepo" }
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
   maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx dependencies
