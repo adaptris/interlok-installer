@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.junit.Test;
 
+import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.InterlokProject;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
@@ -15,9 +16,9 @@ public class InterlokProjectTest {
 
   @Test
   public void testVersion() {
-    interlokProjectTest.setVersion("3.9.2-RELEASE");
+    interlokProjectTest.setVersion(TestUtils.INTERLOK_VERSION);
 
-    assertEquals("3.9.2-RELEASE", interlokProjectTest.getVersion());
+    assertEquals(TestUtils.INTERLOK_VERSION, interlokProjectTest.getVersion());
   }
 
   @Test

@@ -7,6 +7,7 @@ import java.util.Collections;
 
 import org.junit.Test;
 
+import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.InterlokProject;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
@@ -16,9 +17,9 @@ public class InstallerDataHolderTest {
 
   @Test
   public void testVersion() {
-    installerDataHolder.setVersion("3.9.2-RELEASE");
+    installerDataHolder.setVersion(TestUtils.INTERLOK_VERSION);
 
-    assertEquals("3.9.2-RELEASE", installerDataHolder.getVersion());
+    assertEquals(TestUtils.INTERLOK_VERSION, installerDataHolder.getVersion());
   }
 
   @Test
@@ -51,7 +52,7 @@ public class InstallerDataHolderTest {
 
   @Test
   public void testBuildProject() {
-    installerDataHolder.setVersion("3.9.2-RELEASE");
+    installerDataHolder.setVersion(TestUtils.INTERLOK_VERSION);
     installerDataHolder.setInstallDir("/path/to/interlok");
     installerDataHolder.setAdditionalNexusBaseUrl("https://nexus.adaptris.net");
     installerDataHolder.setSelectedOptionalComponents(Collections.singletonList(new OptionalComponent("interlok-json")));
