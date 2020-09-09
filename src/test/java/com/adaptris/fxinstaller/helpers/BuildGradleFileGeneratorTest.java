@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,7 +14,9 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Properties;
+
 import org.junit.Test;
+
 import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.InterlokProject;
 
@@ -104,11 +107,11 @@ public class BuildGradleFileGeneratorTest {
 
       buildGradleFileGenerator.downloadGradleFiles(interlokProject, resourcesPath.toFile());
 
-      assertTrue(Files.isRegularFile(resourcesPath.resolve("interlok-gradle-files-3.9.2-RELEASE.zip")));
+      assertTrue(Files.isRegularFile(resourcesPath.resolve("interlok-gradle-files-" + TestUtils.INTERLOK_VERSION + ".zip")));
     } finally {
       Files.walk(buildGradleDirPath).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
       Files.deleteIfExists(buildGradleDirPath);
-      Files.deleteIfExists(resourcesPath.resolve("interlok-gradle-files-3.9.2-RELEASE.zip"));
+      Files.deleteIfExists(resourcesPath.resolve("interlok-gradle-files-" + TestUtils.INTERLOK_VERSION + ".zip"));
     }
   }
 
@@ -121,7 +124,7 @@ public class BuildGradleFileGeneratorTest {
 
     new BuildGradleFileGenerator(resourcesPath).downloadGradleFiles(interlokProject, resourcesPath.toFile());
 
-    assertFalse(Files.isRegularFile(resourcesPath.resolve("interlok-gradle-files-3.9.2-RELEASE.zip")));
+    assertFalse(Files.isRegularFile(resourcesPath.resolve("interlok-gradle-files-" + TestUtils.INTERLOK_VERSION + ".zip")));
 
     // TODO At the moment we rely on testGenerate to be ran before.
     // We need to fix that and also test if the file don't exist
@@ -131,7 +134,7 @@ public class BuildGradleFileGeneratorTest {
     InterlokProject interlokProject = new InterlokProject();
     interlokProject.setOptionalComponents(Collections.singletonList(TestUtils.buildOptionalComponent()));
     interlokProject.setDirectory(interlokProjectPath.toAbsolutePath().toString());
-    interlokProject.setVersion("3.9.2-RELEASE");
+    interlokProject.setVersion(TestUtils.INTERLOK_VERSION);
     return interlokProject;
   }
 

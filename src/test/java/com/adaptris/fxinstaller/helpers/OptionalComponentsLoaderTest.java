@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
 public class OptionalComponentsLoaderTest {
@@ -51,7 +52,7 @@ public class OptionalComponentsLoaderTest {
   public static class TestInstallerProperties extends InstallerProperties {
 
     public TestInstallerProperties() {
-      properties.setProperty(INTERLOK_VERSION, "3.9.2-RELEASE");
+      properties.setProperty(INTERLOK_VERSION, TestUtils.INTERLOK_VERSION);
     }
 
   }

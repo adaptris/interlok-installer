@@ -1,6 +1,9 @@
 package com.adaptris.fxinstaller.helpers;
 
 import java.util.Properties;
+
+import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
+
 import com.adaptris.fxinstaller.utils.PropertiesUtils;
 import com.adaptris.fxinstaller.utils.VersionUtils;
 
@@ -29,7 +32,7 @@ public class InstallerProperties {
   }
 
   public String getVersion() {
-    return getProperty(INTERLOK_VERSION);
+    return StringUtils.defaultString(System.getProperty(INTERLOK_VERSION), getProperty(INTERLOK_VERSION));
   }
 
   public String getRepository() {

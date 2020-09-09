@@ -4,6 +4,8 @@ import com.adaptris.fxinstaller.models.OptionalComponent;
 
 public class TestUtils {
 
+  public static final String INTERLOK_VERSION = "3.10.2-RELEASE";
+
   private TestUtils() {
   }
 
