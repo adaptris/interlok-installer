@@ -41,6 +41,7 @@ java -jar ./build/libs/interlok-fx-installer.jar
 ## Additional configuration
 
 All the base configuration is stored in `src/main/resources/installer.properties` which can be overriden either at build time; or via system properties on startup.
+
 ```
 java -Dinterlok.version=3.10.0-RELEASE ./build/libs/interlok-fx-installer.jar
 ```
