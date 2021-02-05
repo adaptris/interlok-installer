@@ -4,8 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
 import java.util.Properties;
+
 import org.junit.Test;
+
+import com.adaptris.TestUtils;
 
 public class InstallerPropertiesTest {
 
@@ -13,7 +17,8 @@ public class InstallerPropertiesTest {
   public void testGetVersion() {
     String version = InstallerProperties.getInstance().getVersion();
 
-    assertTrue(version.matches("(3)\\.(\\d{1,2})(?:.(\\d{1,2}))?(?:B(\\d{1,2}))?-(RELEASE|SNAPSHOT)"));
+    assertTrue("Should match pattern but was " + version,
+        version.matches("(4)\\.(\\d{1,2})(?:.(\\d{1,2}))?(?:B(\\d{1,2}))?-(RELEASE|SNAPSHOT)"));
   }
 
   @Test
@@ -26,14 +31,14 @@ public class InstallerPropertiesTest {
 
   @Test
   public void testGetRepositoryRelease() {
-    String repository = InstallerProperties.getInstance().getRepository("3.10.0-RELEASE");
+    String repository = InstallerProperties.getInstance().getRepository(TestUtils.INTERLOK_VERSION);
 
     assertEquals("releases", repository);
   }
 
   @Test
   public void testGetRepositorySnapshot() {
-    String repository = InstallerProperties.getInstance().getRepository("3.10-SNAPSHOT");
+    String repository = InstallerProperties.getInstance().getRepository("4.0-SNAPSHOT");
 
     assertEquals("snapshots", repository);
   }

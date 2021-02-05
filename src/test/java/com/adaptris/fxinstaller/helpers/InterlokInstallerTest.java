@@ -22,7 +22,9 @@ public class InterlokInstallerTest {
     InterlokProject interlokProject = new InterlokProject();
     interlokProject.setOptionalComponents(Collections.singletonList(TestUtils.buildOptionalComponent()));
     interlokProject.setDirectory(interlokProjectPath.toAbsolutePath().toString());
-    interlokProject.setVersion("3.10.2-RELEASE");
+    // We can use this line when we get a 4.0.0-RELEASE version
+    // interlokProject.setVersion(TestUtils.INTERLOK_VERSION);
+    interlokProject.setVersion("3.11.1-RELEASE");
 
     new InterlokInstaller().install(interlokProject,
         p -> {

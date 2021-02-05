@@ -60,7 +60,16 @@ public class OptionalComponentsLoader {
     // optionalComponents.add(new OptionalComponent("interlok-json", "Interlok Json",
     // "Everything JSON related; transformations, schemas, json-path (xpath-alike), splitting", "json,transform,jdbc"));
 
-    List<String> artifactIds = loadArtifacts();
+    loadArtifactsAndAddToList(loadArtifactIds(), optionalComponents);
+  }
+
+  private List<String> loadArtifactIds() throws Exception {
+    List<String> artifacts = extractArtifacts(XmlUtils.getDocument(getNexusIndexUrl()));
+    Collections.sort(artifacts);
+    return artifacts;
+  }
+
+  private void loadArtifactsAndAddToList(List<String> artifactIds, List<OptionalComponent> optionalComponents) throws InterruptedException {
     if (artifactIds.isEmpty()) {
       // Should not happen if we can connect to nexus with the right url and version
       log.info("No artifact could be found.");
@@ -71,7 +80,7 @@ public class OptionalComponentsLoader {
         executorService.execute(new Runnable() {
           @Override
           public void run() {
-            loadArtifactAndAdd(artifactId, optionalComponents);
+            loadArtifactAndAddToList(artifactId, optionalComponents);
           }
         });
       }
@@ -81,13 +90,7 @@ public class OptionalComponentsLoader {
     }
   }
 
-  private List<String> loadArtifacts() throws Exception {
-    List<String> artifacts = extractArtifacts(XmlUtils.getDocument(getNexusIndexUrl()));
-    Collections.sort(artifacts);
-    return artifacts;
-  }
-
-  private void loadArtifactAndAdd(String artifactId, List<OptionalComponent> optionalComponents) {
+  protected final void loadArtifactAndAddToList(String artifactId, List<OptionalComponent> optionalComponents) {
     try {
       OptionalComponent component = loadArtifact(artifactId);
       optionalComponents.add(component);

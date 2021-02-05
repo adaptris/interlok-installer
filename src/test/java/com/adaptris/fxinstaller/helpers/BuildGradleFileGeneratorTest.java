@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,17 +32,31 @@ public class BuildGradleFileGeneratorTest {
     Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);
 
     Properties gradleProperties = new Properties();
-    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve("gradle.properties")));
+    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve(BuildGradleFileGenerator.GRADLE_PROPERTIES)));
 
-    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("build.gradle")));
-    assertFalse(Files.readString(buildGradleDirPath.resolve("build.gradle")).isBlank());
-    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("gradle.properties")));
-    assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
-    assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
-    assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
+    assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
     // never null
-    assertNotNull(gradleProperties.get("interlokBaseFilesystemUrl"));
-    assertNull(gradleProperties.get("additionalNexusBaseUrl"));
+    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    assertNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
+  }
+
+  @Test
+  public void testGenerateBetaVersion() throws Exception {
+    Path resourcesPath = Paths.get(getClass().getResource("/interlok-json.xml").toURI()).getParent();
+    Path interlokProjectPath = resourcesPath.resolve("test-project");
+
+    InterlokProject interlokProject = newProject(interlokProjectPath);
+    interlokProject.setVersion("4.0.0B1-RELEASE");
+
+    Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);
+
+    Properties gradleProperties = new Properties();
+    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve(BuildGradleFileGenerator.GRADLE_PROPERTIES)));
+
+    assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
+    // never null
+    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    assertNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 
   @Test
@@ -51,21 +65,17 @@ public class BuildGradleFileGeneratorTest {
     Path interlokProjectPath = resourcesPath.resolve("test-project");
 
     InterlokProject interlokProject = newProject(interlokProjectPath);
-    interlokProject.setVersion("3.9.3-SNAPSHOT");
+    interlokProject.setVersion("4.0-SNAPSHOT");
 
     Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);
 
     Properties gradleProperties = new Properties();
-    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve("gradle.properties")));
+    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve(BuildGradleFileGenerator.GRADLE_PROPERTIES)));
 
-    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("build.gradle")));
-    assertFalse(new String(Files.readAllBytes(buildGradleDirPath.resolve("build.gradle")), StandardCharsets.UTF_8).isEmpty());
-    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("gradle.properties")));
-    assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
-    assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
-    assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
-    assertNotNull(gradleProperties.get("interlokBaseFilesystemUrl"));
-    assertNull(gradleProperties.get("additionalNexusBaseUrl"));
+    assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
+    // never null
+    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    assertNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 
   @Test
@@ -79,17 +89,12 @@ public class BuildGradleFileGeneratorTest {
     Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);
 
     Properties gradleProperties = new Properties();
-    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve("gradle.properties")));
+    gradleProperties.load(Files.newInputStream(buildGradleDirPath.resolve(BuildGradleFileGenerator.GRADLE_PROPERTIES)));
 
-    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("build.gradle")));
-    assertFalse(Files.readString(buildGradleDirPath.resolve("build.gradle")).isBlank());
-    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("gradle.properties")));
-    assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "", gradleProperties.get("interlokDistDirectory"));
-    assertEquals(interlokProject.getVersion(), gradleProperties.get("interlokVersion"));
-    assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get("additionalNexusBaseUrl"));
+    assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
     // never null
-    assertNotNull(gradleProperties.get("interlokBaseFilesystemUrl"));
-    assertNotNull(gradleProperties.get("additionalNexusBaseUrl"));
+    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 
   @Test
@@ -103,7 +108,7 @@ public class BuildGradleFileGeneratorTest {
     // We generate the tmp file first
     Path buildGradleDirPath = buildGradleFileGenerator.generate(interlokProject);
     try {
-      assertTrue(Files.isRegularFile(buildGradleDirPath.resolve("build.gradle")));
+      assertTrue(Files.isRegularFile(buildGradleDirPath.resolve(BuildGradleFileGenerator.BUILD_GRADLE)));
 
       buildGradleFileGenerator.downloadGradleFiles(interlokProject, resourcesPath.toFile());
 
@@ -136,6 +141,16 @@ public class BuildGradleFileGeneratorTest {
     interlokProject.setDirectory(interlokProjectPath.toAbsolutePath().toString());
     interlokProject.setVersion(TestUtils.INTERLOK_VERSION);
     return interlokProject;
+  }
+
+  private void assertGradle(InterlokProject interlokProject, Path buildGradleDirPath, Properties gradleProperties) throws IOException {
+    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve(BuildGradleFileGenerator.BUILD_GRADLE)));
+    assertFalse(Files.readString(buildGradleDirPath.resolve(BuildGradleFileGenerator.BUILD_GRADLE)).isBlank());
+    assertTrue(Files.isRegularFile(buildGradleDirPath.resolve(BuildGradleFileGenerator.GRADLE_PROPERTIES)));
+    assertEquals(interlokProject.getDirectory().replaceAll("\\\\", "/") + "",
+        gradleProperties.get(BuildGradleFileGenerator.INTERLOK_DIST_DIRECTORY));
+    assertEquals(interlokProject.getVersion(), gradleProperties.get(BuildGradleFileGenerator.INTERLOK_VERSION));
+    assertEquals(interlokProject.getAdditionalNexusBaseUrl(), gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 
 }
