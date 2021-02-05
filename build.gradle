@@ -6,11 +6,11 @@ plugins {
     id "java-library"
     id "jacoco"
     id "maven-publish"
-    id "org.openjfx.javafxplugin" version "0.0.8"
+    id "org.openjfx.javafxplugin" version "0.0.9"
 }
 
 ext {
-  releaseVersion = project.findProperty("releaseVersion") ?: "3.10-SNAPSHOT"
+  releaseVersion = project.findProperty("releaseVersion") ?: "4.0-SNAPSHOT"
   nexusBaseUrl = project.findProperty("nexusBaseUrl") ?: "https://nexus.adaptris.net/nexus"
   mavenPublishUrl = project.findProperty("mavenPublishUrl") ?: nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
@@ -19,7 +19,7 @@ ext {
   componentName="Interlok Installer Java FX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
-}
+} 
 
 repositories {
   mavenCentral()
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-  implementation "org.gradle:gradle-tooling-api:6.1.1"
+  implementation "org.gradle:gradle-tooling-api:6.8.1"
 
   // Use JUnit test framework
   testImplementation "junit:junit:4.13"
@@ -67,10 +67,6 @@ javafx {
 
 mainClassName = "com.adaptris.fxinstaller.Launcher"
 
-jacoco {
-  toolVersion="0.8.3"
-}
-
 jacocoTestReport {
   reports {
     xml.enabled true
@@ -101,7 +97,7 @@ publishing {
         asNode().appendNode("name", "Interlok JavaFX Installer")
         asNode().appendNode("description", "Interlok installer built using JavaFX")
         def properties = asNode().appendNode("properties")
-        properties.appendNode("target", "3.10.0+")
+        properties.appendNode("target", "4.0.0+")
         properties.appendNode("license", "false")
         properties.appendNode("readme", "https://raw.githubusercontent.com/adaptris/interlok-fx-installer/develop/README.md")
         properties.appendNode("repository", "https://github.com/adaptris/interlok-fx-installer")

@@ -1,0 +1,38 @@
+language: java
+sudo: required
+dist: trusty
+
+before_install:
+  - sudo service haveged start
+  - export DISPLAY=:99.0
+
+script: ./gradlew --no-daemon -PverboseTests=true test jacocoTestReport
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+jdk:
+  - oraclejdk8
+
+addons:
+  apt:
+    packages:
+      - haveged
+      - bash-builtins
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  apt: true
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+notifications:
+  email: false
+
+branches:
+  only:
+    - develop

@@ -10,22 +10,35 @@ Java FX installer for Interlok. This automatically downloads the selected option
 
 ## Build
 
+### Jar only
+
 ```
 $ ./gradlew clean jar
+```
 
-BUILD SUCCESSFUL in ...s
-4 actionable tasks: 4 executed
+### Jar + Script
+
+```
+$ ./gradlew clean assemble
 ```
 
 ## Execute
+
+### Jar only
 
 ```
 java -jar ./build/libs/interlok-fx-installer.jar
 ```
 
+### Jar + Script
+
+First unzip or untar the archive file, then launch bin/interlok-fx-installer or bin/interlok-fx-installer.bat depending if you are on windows or linux/mac.
+
+
 ## Additional configuration
 
 All the base configuration is stored in `src/main/resources/installer.properties` which can be overriden either at build time; or via system properties on startup.
+
 ```
 java -Dinterlok.version=3.10.0-RELEASE ./build/libs/interlok-fx-installer.jar
 ```
