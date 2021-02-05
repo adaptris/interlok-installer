@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
-
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.OptionalComponentCell;
 import com.adaptris.fxinstaller.models.OptionalComponent;

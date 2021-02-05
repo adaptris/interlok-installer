@@ -3,7 +3,7 @@ package com.adaptris.fxinstaller.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.helpers.BuildGradleFileGenerator;
@@ -102,14 +102,8 @@ public class InstallProgressController extends CancelAwareInstallerController {
       updateProgress(0, 10);
       updateMessage("Starting Install");
 
-      Function<Double, Void> updateProgressFunction = p -> {
-        updateProgress(p, 100);
-        return null;
-      };
-      Function<String, Void> updateMessageFunction = m -> {
-        updateMessage(m);
-        return null;
-      };
+      Consumer<Double> updateProgressFunction = p -> updateProgress(p, 100);
+      Consumer<String> updateMessageFunction = m -> updateMessage(m);
 
       new InterlokInstaller().install(interlokProject, updateProgressFunction, updateMessageFunction);
 

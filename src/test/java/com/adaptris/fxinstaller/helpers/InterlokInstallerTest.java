@@ -27,12 +27,8 @@ public class InterlokInstallerTest {
     interlokProject.setVersion("3.11.1-RELEASE");
 
     new InterlokInstaller().install(interlokProject,
-        p -> {
-          return null;
-        },
-        m -> {
-          return null;
-        }
+        p -> {},
+        m -> {}
         );
 
     assertTrue(Files.isDirectory(interlokProjectPath));

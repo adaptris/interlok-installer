@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +15,8 @@ import com.adaptris.fxinstaller.utils.NumberUtils;
 public class InterlokInstaller {
   private LogHelper log = LogHelper.getInstance();
 
-  public void install(InterlokProject interlokProject, Function<Double, Void> updateProgress, Function<String, Void> updateMessage) throws URISyntaxException, IOException {
+  public void install(InterlokProject interlokProject, Consumer<Double> updateProgress, Consumer<String> updateMessage)
+      throws URISyntaxException, IOException {
     log.info("Installing Interlok in '" + interlokProject.getDirectory() + "'");
 
     Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);
@@ -27,10 +28,10 @@ public class InterlokInstaller {
   public class GradleOutputStream extends ByteArrayOutputStream {
 
     private static final String PERCENT_PATTERN = "\\<=*-*\\> (\\d{1,3})\\% ";
-    private Function<Double, Void> updateProgress;
-    private Function<String, Void> updateMessage;
+    private Consumer<Double> updateProgress;
+    private Consumer<String> updateMessage;
 
-    public GradleOutputStream(Function<Double, Void> updateProgress, Function<String, Void> updateMessage) {
+    public GradleOutputStream(Consumer<Double> updateProgress, Consumer<String> updateMessage) {
       super();
       this.updateProgress = updateProgress;
       this.updateMessage = updateMessage;
@@ -46,10 +47,10 @@ public class InterlokInstaller {
       Matcher matcher = Pattern.compile(PERCENT_PATTERN).matcher(progressString);
       if (matcher.find()) {
         String progressPercent = matcher.group(1);
-        updateProgress.apply(NumberUtils.toDouble(progressPercent));
-        updateMessage.apply(GradleConsoleUtils.clearProgressBar(progressString));
+        updateProgress.accept(NumberUtils.toDouble(progressPercent));
+        updateMessage.accept(GradleConsoleUtils.clearProgressBar(progressString));
       } else {
-        updateMessage.apply(progressString);
+        updateMessage.accept(progressString);
         log.info(progressString);
       }
     }
