@@ -13,10 +13,20 @@ public class InstallerWizard {
   private Parent optionalComponents;
   private Parent installProgress;
 
+  private FxmlLoader fxmlLoader;
+
   private static InstallerWizard INSTANCE = new InstallerWizard();
 
   public static InstallerWizard getInstance() {
     return INSTANCE;
+  }
+
+  public InstallerWizard() {
+    this(new FxmlLoader());
+  }
+
+  protected InstallerWizard(FxmlLoader fxmlLoader) {
+    this.fxmlLoader = fxmlLoader;
   }
 
   public void goToPrepareInstaller(Scene scene) {
@@ -27,7 +37,7 @@ public class InstallerWizard {
   }
 
   public Parent loadPrepareInstallerNode() {
-    return FxmlLoader.loadOrExit("/views/prepare_installer.fxml");
+    return fxmlLoader.loadOrExit("/views/prepare_installer.fxml");
   }
 
   public void goToLicenseAgreement(Scene scene) {
@@ -37,8 +47,8 @@ public class InstallerWizard {
     scene.setRoot(licenseAgreement);
   }
 
-  private Parent loadLicenseAgreementNode() {
-    return FxmlLoader.loadOrExit("/views/license_agreement.fxml");
+  public Parent loadLicenseAgreementNode() {
+    return fxmlLoader.loadOrExit("/views/license_agreement.fxml");
   }
 
   public void goToInstallDirectory(Scene scene) {
@@ -48,8 +58,8 @@ public class InstallerWizard {
     scene.setRoot(installDirectory);
   }
 
-  private Parent loadInstallDirectoryNode() {
-    return FxmlLoader.loadOrExit("/views/install_directory.fxml");
+  public Parent loadInstallDirectoryNode() {
+    return fxmlLoader.loadOrExit("/views/install_directory.fxml");
   }
 
   public void goToOptionalComponents(Scene scene) {
@@ -59,8 +69,8 @@ public class InstallerWizard {
     scene.setRoot(optionalComponents);
   }
 
-  private Parent loadOptionalComponentsNode() {
-    return FxmlLoader.loadOrExit("/views/optional_components.fxml");
+  public Parent loadOptionalComponentsNode() {
+    return fxmlLoader.loadOrExit("/views/optional_components.fxml");
   }
 
   public void goToInstallProgress(Scene scene) {
@@ -70,8 +80,8 @@ public class InstallerWizard {
     scene.setRoot(installProgress);
   }
 
-  private Parent loadInstallProgressNode() {
-    return FxmlLoader.loadOrExit("/views/install_progress.fxml");
+  public Parent loadInstallProgressNode() {
+    return fxmlLoader.loadOrExit("/views/install_progress.fxml");
   }
 
 }
