@@ -1,11 +1,12 @@
 package com.adaptris.fxinstaller.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Properties;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 import com.adaptris.fxinstaller.models.OptionalComponent;

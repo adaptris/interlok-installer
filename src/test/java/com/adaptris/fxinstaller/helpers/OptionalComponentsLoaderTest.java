@@ -1,13 +1,13 @@
 package com.adaptris.fxinstaller.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
@@ -17,14 +17,14 @@ public class OptionalComponentsLoaderTest {
   public void testLoad() throws Exception {
     List<OptionalComponent> optionalComponents = new OptionalComponentsLoader().load();
 
-    assertFalse("Should have some optional component", optionalComponents.isEmpty());
+    assertFalse(optionalComponents.isEmpty(), "Should have some optional component");
   }
 
   @Test
   public void testLoadAndCheckOptionalComponent() throws Exception {
     List<OptionalComponent> optionalComponents = new OptionalComponentsLoader(new TestInstallerProperties()).load();
 
-    assertFalse("Should have some optional component", optionalComponents.isEmpty());
+    assertFalse(optionalComponents.isEmpty(), "Should have some optional component");
     boolean found = false;
     for (OptionalComponent optionalComponent : optionalComponents) {
       if ("interlok-json".equals(optionalComponent.getId())) {
@@ -38,7 +38,7 @@ public class OptionalComponentsLoaderTest {
         found = true;
       }
     }
-    assertTrue("interlok-json should be in the loaded optional components", found);
+    assertTrue(found, "interlok-json should be in the loaded optional components");
   }
 
   @Test
@@ -47,7 +47,7 @@ public class OptionalComponentsLoaderTest {
 
     new OptionalComponentsLoader(new TestInstallerProperties()).loadArtifactAndAddToList("interlok-json", optionalComponents);
 
-    assertFalse("Should have some optional component", optionalComponents.isEmpty());
+    assertFalse(optionalComponents.isEmpty(), "Should have some optional component");
     OptionalComponent optionalComponent = optionalComponents.get(0);
     assertEquals("interlok-json", optionalComponent.getId());
     assertEquals("Interlok/JSON", optionalComponent.getName());
@@ -65,7 +65,7 @@ public class OptionalComponentsLoaderTest {
 
     new OptionalComponentsLoader(new TestInstallerProperties()).loadArtifactAndAddToList("interlok-invalid", optionalComponents);
 
-    assertTrue("Should not have some optional component", optionalComponents.isEmpty());
+    assertTrue(optionalComponents.isEmpty(), "Should not have some optional component");
   }
 
   @Test

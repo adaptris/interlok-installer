@@ -1,13 +1,13 @@
 package com.adaptris.fxinstaller.helpers;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.InterlokProject;

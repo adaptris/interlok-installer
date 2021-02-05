@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 
 import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 
-import com.adaptris.fxinstaller.FxInstallerApp;
 import com.adaptris.fxinstaller.InstallerDataHolder;
 
 import javafx.event.ActionEvent;
@@ -19,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 
-public class InstallDirectoryController extends AbstractInstallerController {
+public class InstallDirectoryController extends CancelAwareInstallerController {
 
   @FXML
   private HBox hBox;
@@ -71,12 +70,12 @@ public class InstallDirectoryController extends AbstractInstallerController {
 
   @FXML
   private void handleNext(ActionEvent event) throws IOException {
-    FxInstallerApp.goToOptionalComponents(((Button) event.getSource()).getScene());
+    installerWizard.goToOptionalComponents(((Button) event.getSource()).getScene());
   }
 
   @FXML
   private void handlePrevious(ActionEvent event) throws IOException {
-    FxInstallerApp.goToLicenseAgreement(((Button) event.getSource()).getScene());
+    installerWizard.goToLicenseAgreement(((Button) event.getSource()).getScene());
   }
 
 }

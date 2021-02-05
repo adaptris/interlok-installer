@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import com.adaptris.fxinstaller.FxInstallerApp;
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.helpers.InstallerProperties;
 import com.adaptris.fxinstaller.helpers.LogHelper;
@@ -17,7 +16,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 
-public class PrepareInstallerController {
+public class PrepareInstallerController extends AbstractInstallerController {
   private LogHelper log = LogHelper.getInstance();
 
   @FXML
@@ -79,7 +78,7 @@ public class PrepareInstallerController {
     }
 
     private void goToLicenseAgreement() {
-      FxInstallerApp.goToLicenseAgreement(progressBar.getScene());
+      installerWizard.goToLicenseAgreement(progressBar.getScene());
     }
 
   }

@@ -21,7 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 
-public class InstallProgressController extends AbstractInstallerController {
+public class InstallProgressController extends CancelAwareInstallerController {
   private LogHelper log = LogHelper.getInstance();
 
   @FXML

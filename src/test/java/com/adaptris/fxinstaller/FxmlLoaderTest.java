@@ -1,20 +1,20 @@
 package com.adaptris.fxinstaller;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javafx.scene.Parent;
 
 public class FxmlLoaderTest {
 
-// We can't really test that without starting the java fx toolkit
-//  @Test
-//  public void testLoadOrExit() {
-//    Parent root = FxmlLoader.loadOrExit("/views/prepare_installer.fxml");
-//
-//    assertNotNull(root);
-//  }
+  // We can't really test that without starting the java fx toolkit
+  //  @Test
+  //  public void testLoadOrExit() {
+  //    Parent root = FxmlLoader.loadOrExit("/views/prepare_installer.fxml");
+  //
+  //    assertNotNull(root);
+  //  }
 
   @Test
   public void testLoadOrExitInvalidFxml() {
