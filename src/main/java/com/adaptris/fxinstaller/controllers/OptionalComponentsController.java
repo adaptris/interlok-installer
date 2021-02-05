@@ -10,6 +10,7 @@ import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.OptionalComponentCell;
 import com.adaptris.fxinstaller.models.OptionalComponent;
+import com.adaptris.fxinstaller.utils.MatchUtils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -90,18 +91,7 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   }
 
   private boolean match(OptionalComponentCell occ, String str) {
-    if (StringUtils.isBlank(str)) {
-      return true;
-    }
-
-    String lowerCaseFilter = str.toLowerCase();
-
-    if (occ.getName().toLowerCase().contains(lowerCaseFilter)
-        || StringUtils.trimToEmpty(occ.getTags()).toLowerCase().contains(lowerCaseFilter)) {
-      return true;
-    }
-
-    return false;
+    return MatchUtils.match(str, occ.getName(), occ.getTags());
   }
 
   @FXML

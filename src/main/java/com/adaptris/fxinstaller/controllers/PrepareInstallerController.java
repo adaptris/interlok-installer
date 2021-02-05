@@ -19,8 +19,14 @@ import javafx.scene.control.ProgressBar;
 public class PrepareInstallerController extends AbstractInstallerController {
   private LogHelper log = LogHelper.getInstance();
 
+  private InstallerProperties installerProperties;
+
   @FXML
   private ProgressBar progressBar;
+
+  public PrepareInstallerController() {
+    installerProperties = InstallerProperties.getInstance();
+  }
 
   /**
    * Initializes the controller class. This method is automatically called after the fxml file has been loaded.
@@ -47,9 +53,9 @@ public class PrepareInstallerController extends AbstractInstallerController {
     @Override
     protected Void call() throws Exception {
       try {
-        InstallerDataHolder.getInstance().setVersion(InstallerProperties.getInstance().getVersion());
-        InstallerDataHolder.getInstance().setInstallDir(InstallerProperties.getInstance().getInstallDir());
-        InstallerDataHolder.getInstance().setAdditionalNexusBaseUrl(InstallerProperties.getInstance().getAdditionalNexusBaseUrl());
+        InstallerDataHolder.getInstance().setVersion(installerProperties.getVersion());
+        InstallerDataHolder.getInstance().setInstallDir(installerProperties.getInstallDir());
+        InstallerDataHolder.getInstance().setAdditionalNexusBaseUrl(installerProperties.getAdditionalNexusBaseUrl());
         loadOptionalComponents(InstallerDataHolder.getInstance().getOptionalComponents());
       } catch (UnknownHostException uhe) {
         log.error("Failed to prepare installer. " + uhe.getLocalizedMessage() + ". Make sure you have an internet connection");
