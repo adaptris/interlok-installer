@@ -7,6 +7,7 @@ import java.nio.file.Path;
 
 import org.gradle.tooling.BuildLauncher;
 import org.gradle.tooling.GradleConnector;
+import org.gradle.tooling.events.ProgressListener;
 
 public class GradleBuildRunner {
 
@@ -15,10 +16,12 @@ public class GradleBuildRunner {
 
   private OutputStream standardOutput;
   private OutputStream standardError;
+  private ProgressListener progressListener;
 
-  public GradleBuildRunner(OutputStream standardOutput, OutputStream standardError) {
+  public GradleBuildRunner(OutputStream standardOutput, OutputStream standardError, ProgressListener progressListener) {
     this.standardOutput = standardOutput;
     this.standardError = standardError;
+    this.progressListener = progressListener;
   }
 
   public void run(Path buildGradleDirPath) throws URISyntaxException, IOException {
@@ -27,6 +30,7 @@ public class GradleBuildRunner {
     BuildLauncher buildLauncher = connector.connect().newBuild()
         .setStandardOutput(standardOutput)
         .setStandardError(standardError)
+        .addProgressListener(progressListener)
         .setColorOutput(true);
     buildLauncher.forTasks(CLEAN_TASK, ASSEMBLE_TASK).run();
   }
