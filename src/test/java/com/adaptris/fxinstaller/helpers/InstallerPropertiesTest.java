@@ -44,7 +44,7 @@ public class InstallerPropertiesTest {
   }
 
   @Test
-  public void testInstallDirWindows() {
+  public void testInstallDir() {
     String osName = System.getProperty("os.name");
     try {
       System.setProperty("os.name", "windows");
@@ -54,53 +54,6 @@ public class InstallerPropertiesTest {
     } finally {
       System.setProperty("os.name", osName);
     }
-  }
-
-  @Test
-  public void testGetWindowsInstallDir() {
-    String installDir = InstallerProperties.getInstance().getWindowsInstallDir();
-
-    assertEquals("C:\\Adaptris\\Interlok", installDir);
-  }
-
-  @Test
-  public void testInstallDirMac() {
-    String osName = System.getProperty("os.name");
-    try {
-      System.setProperty("os.name", "mac");
-      String installDir = InstallerProperties.getInstance().getInstallDir();
-
-      assertTrue(installDir.contains("/Adaptris/Interlok"));
-    } finally {
-      System.setProperty("os.name", osName);
-    }
-  }
-
-  @Test
-  public void testGetMacInstallDir() {
-    String installDir = InstallerProperties.getInstance().getMacInstallDir();
-
-    assertTrue(installDir.contains("/Adaptris/Interlok"));
-  }
-
-  @Test
-  public void testInstallDirLinux() {
-    String osName = System.getProperty("os.name");
-    try {
-      System.setProperty("os.name", "linux");
-      String installDir = InstallerProperties.getInstance().getInstallDir();
-
-      assertEquals("/opt/Adaptris/Interlok", installDir);
-    } finally {
-      System.setProperty("os.name", osName);
-    }
-  }
-
-  @Test
-  public void testGetLinuxInstallDir() {
-    String installDir = InstallerProperties.getInstance().getLinuxInstallDir();
-
-    assertEquals("/opt/Adaptris/Interlok", installDir);
   }
 
   @Test

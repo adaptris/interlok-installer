@@ -13,9 +13,6 @@ public class InstallerProperties {
   private static final String REPOSITORY_SNAPSHOT = "repository.snapshot";
   public static final String PROPERTIES_FILE = "installer.properties";
   public static final String INTERLOK_VERSION = "interlok.version";
-  public static final String INSTALL_DIR_WINDOWS = "install.directory.windows";
-  public static final String INSTALL_DIR_MAC = "install.directory.mac";
-  public static final String INSTALL_DIR_LINUX = "install.directory.linux";
 
   public static final String ADDITIONAL_NEXUS_BASE_URL = "additionalNexusBaseUrl";
 
@@ -52,24 +49,7 @@ public class InstallerProperties {
   }
 
   private String getInstallDir(String osName) {
-    if (osName.toLowerCase().contains("win")) {
-      return getWindowsInstallDir();
-    } else if (osName.toLowerCase().contains("mac")) {
-      return getMacInstallDir();
-    }
-    return getLinuxInstallDir();
-  }
-
-  public String getWindowsInstallDir() {
-    return getProperty(INSTALL_DIR_WINDOWS);
-  }
-
-  public String getMacInstallDir() {
-    return System.getProperty("user.home") + getProperty(INSTALL_DIR_MAC);
-  }
-
-  public String getLinuxInstallDir() {
-    return getProperty(INSTALL_DIR_LINUX);
+    return InterlokInstallDir.find(osName).getDir(properties);
   }
 
   public String getAdditionalNexusBaseUrl() {

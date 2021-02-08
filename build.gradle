@@ -76,6 +76,7 @@ jacocoTestReport {
 }
 
 test {
+  useJUnitPlatform()
   include "com/adaptris/**/*Test*.class"
 }
 
