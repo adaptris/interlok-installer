@@ -13,7 +13,7 @@ Java FX installer for Interlok. This automatically downloads the selected option
 ### Jar only
 
 ```
-$ ./gradlew clean jar
+$ ./gradlew clean fatJar
 ```
 
 ### Jar + Script
@@ -27,7 +27,7 @@ $ ./gradlew clean assemble
 ### Jar only
 
 ```
-java -jar ./build/libs/interlok-fx-installer.jar
+java -jar ./build/libs/interlok-fx-installer-(version)-all.jar
 ```
 
 ### Jar + Script
@@ -40,13 +40,13 @@ First unzip or untar the archive file, then launch bin/interlok-fx-installer or 
 All the base configuration is stored in `src/main/resources/installer.properties` which can be overriden either at build time; or via system properties on startup.
 
 ```
-java -Dinterlok.version=3.10.0-RELEASE ./build/libs/interlok-fx-installer.jar
+java -Dinterlok.version=3.10.0-RELEASE ./build/libs/interlok-fx-installer-(version)-all.jar
 ```
 
 If you want to include a different maven compatible nexus instance (either you're mirroring our public repo, or private dependencies are stored there) then you can also do this either as a system property or do it when the installer window presents itself.
 
 ```
-java -DadditionalNexusBaseUrl=http://your-nexus.com/path/to/content ./build/libs/interlok-fx-installer.jar
+java -DadditionalNexusBaseUrl=http://your-nexus.com/path/to/content ./build/libs/interlok-fx-installer-(version)-all.jar
 ```
 
 ## Notes

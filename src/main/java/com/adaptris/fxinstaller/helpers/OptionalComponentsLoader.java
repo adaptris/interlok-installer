@@ -64,7 +64,9 @@ public class OptionalComponentsLoader {
   }
 
   private List<String> loadArtifactIds() throws Exception {
-    List<String> artifacts = extractArtifacts(XmlUtils.getDocument(getNexusIndexUrl()));
+    String nexusIndexUrl = getNexusIndexUrl();
+    log.info("Loading artifact ids from URL [" + nexusIndexUrl + "]");
+    List<String> artifacts = extractArtifacts(XmlUtils.getDocument(nexusIndexUrl));
     Collections.sort(artifacts);
     return artifacts;
   }
