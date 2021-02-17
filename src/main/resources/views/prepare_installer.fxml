@@ -14,7 +14,7 @@
 <VBox fx:controller="com.adaptris.fxinstaller.controllers.PrepareInstallerController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="install-progress" spacing="10">
     
-	<padding><Insets top="115" right="20" bottom="20" left="20"/></padding>
+	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
 		<Label text="Preparing Installer"></Label>
@@ -25,7 +25,7 @@
 			<children>
 				<VBox spacing="10">
 					<children>
-						<ProgressBar fx:id="progressBar" prefWidth="770"></ProgressBar>
+						<ProgressBar fx:id="progressBar" prefWidth="750"></ProgressBar>
 					</children>
 				</VBox>
 			</children>

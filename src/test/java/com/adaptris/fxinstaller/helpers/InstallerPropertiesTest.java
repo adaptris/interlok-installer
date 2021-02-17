@@ -1,11 +1,15 @@
 package com.adaptris.fxinstaller.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Properties;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
+import com.adaptris.TestUtils;
 
 public class InstallerPropertiesTest {
 
@@ -13,7 +17,8 @@ public class InstallerPropertiesTest {
   public void testGetVersion() {
     String version = InstallerProperties.getInstance().getVersion();
 
-    assertTrue(version.matches("(3)\\.(\\d{1,2})(?:.(\\d{1,2}))?(?:B(\\d{1,2}))?-(RELEASE|SNAPSHOT)"));
+    assertTrue(version.matches("(4)\\.(\\d{1,2})(?:.(\\d{1,2}))?(?:B(\\d{1,2}))?-(RELEASE|SNAPSHOT)"),
+        "Should match pattern but was " + version);
   }
 
   @Test
@@ -26,20 +31,20 @@ public class InstallerPropertiesTest {
 
   @Test
   public void testGetRepositoryRelease() {
-    String repository = InstallerProperties.getInstance().getRepository("3.10.0-RELEASE");
+    String repository = InstallerProperties.getInstance().getRepository(TestUtils.INTERLOK_VERSION);
 
     assertEquals("releases", repository);
   }
 
   @Test
   public void testGetRepositorySnapshot() {
-    String repository = InstallerProperties.getInstance().getRepository("3.10-SNAPSHOT");
+    String repository = InstallerProperties.getInstance().getRepository("4.0-SNAPSHOT");
 
     assertEquals("snapshots", repository);
   }
 
   @Test
-  public void testInstallDirWindows() {
+  public void testInstallDir() {
     String osName = System.getProperty("os.name");
     try {
       System.setProperty("os.name", "windows");
@@ -49,53 +54,6 @@ public class InstallerPropertiesTest {
     } finally {
       System.setProperty("os.name", osName);
     }
-  }
-
-  @Test
-  public void testGetWindowsInstallDir() {
-    String installDir = InstallerProperties.getInstance().getWindowsInstallDir();
-
-    assertEquals("C:\\Adaptris\\Interlok", installDir);
-  }
-
-  @Test
-  public void testInstallDirMac() {
-    String osName = System.getProperty("os.name");
-    try {
-      System.setProperty("os.name", "mac");
-      String installDir = InstallerProperties.getInstance().getInstallDir();
-
-      assertTrue(installDir.contains("/Adaptris/Interlok"));
-    } finally {
-      System.setProperty("os.name", osName);
-    }
-  }
-
-  @Test
-  public void testGetMacInstallDir() {
-    String installDir = InstallerProperties.getInstance().getMacInstallDir();
-
-    assertTrue(installDir.contains("/Adaptris/Interlok"));
-  }
-
-  @Test
-  public void testInstallDirLinux() {
-    String osName = System.getProperty("os.name");
-    try {
-      System.setProperty("os.name", "linux");
-      String installDir = InstallerProperties.getInstance().getInstallDir();
-
-      assertEquals("/opt/Adaptris/Interlok", installDir);
-    } finally {
-      System.setProperty("os.name", osName);
-    }
-  }
-
-  @Test
-  public void testGetLinuxInstallDir() {
-    String installDir = InstallerProperties.getInstance().getLinuxInstallDir();
-
-    assertEquals("/opt/Adaptris/Interlok", installDir);
   }
 
   @Test

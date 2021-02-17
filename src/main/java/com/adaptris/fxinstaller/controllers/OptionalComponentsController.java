@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
-
-import com.adaptris.fxinstaller.FxInstallerApp;
 import com.adaptris.fxinstaller.InstallerDataHolder;
 import com.adaptris.fxinstaller.OptionalComponentCell;
 import com.adaptris.fxinstaller.models.OptionalComponent;
+import com.adaptris.fxinstaller.utils.MatchUtils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -28,7 +26,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.ImageView;
 
-public class OptionalComponentsController extends AbstractInstallerController {
+public class OptionalComponentsController extends CancelAwareInstallerController {
 
   @FXML
   private TextField filterTextField;
@@ -64,7 +62,7 @@ public class OptionalComponentsController extends AbstractInstallerController {
     selectColumn.setGraphic(allCheckBox);
 
     descriptionColumn.setCellFactory(tc -> {
-      return new TableCell<OptionalComponentCell, String>() {
+      return new TableCell<>() {
         @Override
         public void updateItem(String desc, boolean empty) {
           super.updateItem(desc, empty);
@@ -91,18 +89,7 @@ public class OptionalComponentsController extends AbstractInstallerController {
   }
 
   private boolean match(OptionalComponentCell occ, String str) {
-    if (StringUtils.isBlank(str)) {
-      return true;
-    }
-
-    String lowerCaseFilter = str.toLowerCase();
-
-    if (occ.getName().toLowerCase().contains(lowerCaseFilter)
-        || StringUtils.trimToEmpty(occ.getTags()).toLowerCase().contains(lowerCaseFilter)) {
-      return true;
-    }
-
-    return false;
+    return MatchUtils.match(str, occ.getName(), occ.getTags());
   }
 
   @FXML
@@ -114,7 +101,7 @@ public class OptionalComponentsController extends AbstractInstallerController {
   }
 
   private EventHandler<ActionEvent> handleSelectAllCheckbox() {
-    return new EventHandler<ActionEvent>() {
+    return new EventHandler<>() {
       @Override
       public void handle(ActionEvent event) {
         handleSelectAllCheckbox(event);
@@ -127,12 +114,12 @@ public class OptionalComponentsController extends AbstractInstallerController {
     InstallerDataHolder.getInstance().setSelectedOptionalComponents(optionalComponentCells.stream()
         .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
 
-    FxInstallerApp.goToInstallProgress(((Button) event.getSource()).getScene());
+    installerWizard.goToInstallProgress(((Button) event.getSource()).getScene());
   }
 
   @FXML
   private void handlePrevious(ActionEvent event) throws IOException {
-    FxInstallerApp.goToInstallDirectory(((Button) event.getSource()).getScene());
+    installerWizard.goToInstallDirectory(((Button) event.getSource()).getScene());
   }
 
 }

@@ -1,13 +1,3 @@
-buildscript {
-    dependencies {
-        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
-    }
-    repositories {
-        mavenCentral()
-
-    }
-}
-
 import org.apache.tools.ant.filters.*
 
 plugins {
@@ -16,12 +6,11 @@ plugins {
   id "java-library"
   id "jacoco"
   id "maven-publish"
+  id "org.openjfx.javafxplugin" version "0.0.9"
 }
 
-apply plugin: "javafx-gradle-plugin"
-
 ext {
-  releaseVersion = project.findProperty("releaseVersion") ?: "3.12.0-RELEASE"
+  releaseVersion = project.findProperty("releaseVersion") ?: "4.0-SNAPSHOT"
   nexusBaseUrl = project.findProperty("nexusBaseUrl") ?: "https://nexus.adaptris.net/nexus"
   mavenPublishUrl = project.findProperty("mavenPublishUrl") ?: nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
@@ -30,7 +19,7 @@ ext {
   componentName="Interlok Installer Java FX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
-}
+} 
 
 repositories {
   mavenCentral()
@@ -40,43 +29,54 @@ repositories {
 }
 
 dependencies {
-  implementation "org.gradle:gradle-tooling-api:6.1.1"
-
+  implementation "org.gradle:gradle-tooling-api:6.8.1"
+  
   // Use JUnit test framework
-  testImplementation "junit:junit:4.13"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
 }
 
-group   = 'com.adaptris'
+group   = "com.adaptris"
 version = releaseVersion
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
 }
 
 processResources {
-     filesMatching("**/*.properties") {
-	    filter ReplaceTokens, tokens: [
-	        "release.version": project.property("releaseVersion")
-	    ]
-     }
-}
-
-jar {
-  manifest {
-    attributes "Main-Class": "com.adaptris.fxinstaller.Launcher"
+  filesMatching("**/*.properties") {
+    filter ReplaceTokens, tokens: [
+	    "release.version": project.property("releaseVersion")
+	  ]
   }
-  from {
-    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-  }
-}
-
-jfx {
-    mainClass = "com.adaptris.fxinstaller.Launcher"
-    vendor = "Adaptris"
 }
 
 mainClassName = "com.adaptris.fxinstaller.Launcher"
+
+jar {
+  manifest {
+    attributes "Main-Class": mainClassName
+  }
+}
+
+task fatJar(type: Jar) {
+  manifest {
+    attributes "Main-Class": mainClassName
+  }
+  // Build a fat jar
+  classifier = "all"
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+  with jar
+}
+
+javafx {
+  version = "11.0.2"
+  modules = [ "javafx.controls", "javafx.fxml" ]
+  //configuration = "compileOnly"
+}
 
 jacocoTestReport {
   reports {
@@ -86,12 +86,13 @@ jacocoTestReport {
 }
 
 test {
+  useJUnitPlatform()
   include "com/adaptris/**/*Test*.class"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+  classifier = "sources"
+  from sourceSets.main.allSource
 }
 
 artifacts {
@@ -108,10 +109,10 @@ publishing {
         asNode().appendNode("name", "Interlok JavaFX Installer")
         asNode().appendNode("description", "Interlok installer built using JavaFX")
         def properties = asNode().appendNode("properties")
-        properties.appendNode("target", "3.10.0+")
+        properties.appendNode("target", "4.0.0+")
         properties.appendNode("license", "false")
-        properties.appendNode("readme", "https://raw.githubusercontent.com/adaptris/interlok-fx-installer/develop/README.md")
-        properties.appendNode("repository", "https://github.com/adaptris/interlok-fx-installer")
+        properties.appendNode("readme", "https://raw.githubusercontent.com/adaptris/interlok-installer/develop/README.md")
+        properties.appendNode("repository", "https://github.com/adaptris/interlok-installer")
       }
     }
   }

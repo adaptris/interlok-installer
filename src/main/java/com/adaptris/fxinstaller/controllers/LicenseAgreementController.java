@@ -2,7 +2,6 @@ package com.adaptris.fxinstaller.controllers;
 
 import java.io.IOException;
 
-import com.adaptris.fxinstaller.FxInstallerApp;
 import com.adaptris.fxinstaller.helpers.LicenseLoader;
 
 import javafx.event.ActionEvent;
@@ -11,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 
-public class LicenseAgreementController extends AbstractInstallerController {
+public class LicenseAgreementController extends CancelAwareInstallerController {
 
   @FXML
   private TextArea textArea;
@@ -33,7 +32,7 @@ public class LicenseAgreementController extends AbstractInstallerController {
 
   @FXML
   private void handleNext(ActionEvent event) throws IOException {
-    FxInstallerApp.goToInstallDirectory(((Button) event.getSource()).getScene());
+    installerWizard.goToInstallDirectory(((Button) event.getSource()).getScene());
   }
 
 }

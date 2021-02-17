@@ -1,14 +1,13 @@
 package com.adaptris.fxinstaller.controllers;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import com.adaptris.fxinstaller.InstallerWizard;
 
 public abstract class AbstractInstallerController {
 
-  @FXML
-  protected void handleCancel(ActionEvent event) {
-    Platform.exit();
+  protected final InstallerWizard installerWizard;
+
+  public AbstractInstallerController() {
+    installerWizard = InstallerWizard.getInstance();
   }
 
 }

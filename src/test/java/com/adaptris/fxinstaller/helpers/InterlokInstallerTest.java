@@ -1,13 +1,13 @@
 package com.adaptris.fxinstaller.helpers;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.InterlokProject;
@@ -22,15 +22,13 @@ public class InterlokInstallerTest {
     InterlokProject interlokProject = new InterlokProject();
     interlokProject.setOptionalComponents(Collections.singletonList(TestUtils.buildOptionalComponent()));
     interlokProject.setDirectory(interlokProjectPath.toAbsolutePath().toString());
-    interlokProject.setVersion("3.10.2-RELEASE");
+    // We can use this line when we get a 4.0.0-RELEASE version
+    // interlokProject.setVersion(TestUtils.INTERLOK_VERSION);
+    interlokProject.setVersion("3.11.1-RELEASE");
 
     new InterlokInstaller().install(interlokProject,
-        p -> {
-          return null;
-        },
-        m -> {
-          return null;
-        }
+        p -> {},
+        m -> {}
         );
 
     assertTrue(Files.isDirectory(interlokProjectPath));

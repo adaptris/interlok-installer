@@ -1,7 +1,9 @@
 package com.adaptris.fxinstaller.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,9 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.zip.ZipException;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public class ZipUtilsTest {
 
@@ -25,7 +26,7 @@ public class ZipUtilsTest {
     resource = getClass().getClassLoader().getResource("zip-test");
   }
 
-  @After
+  @AfterEach
   public void afterTest() throws Exception {
     File testFileZip = Paths.get(resource.toURI()).resolve("zip-test-file.txt" + ZipUtils.ZIP).toFile();
     Files.deleteIfExists(testFileZip.toPath());
@@ -37,10 +38,10 @@ public class ZipUtilsTest {
     try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       ZipUtils.zipFileList(Collections.<File>singletonList(testFile), baos);
       // TODO better assert for baos
-      Assert.assertNotNull(baos);
-      Assert.assertEquals(161, baos.size());
+      assertNotNull(baos);
+      assertEquals(161, baos.size());
       String baosString = new String(baos.toByteArray());
-      Assert.assertTrue(baosString.contains("zip-test-file.txt"));
+      assertTrue(baosString.contains("zip-test-file.txt"));
     }
   }
 

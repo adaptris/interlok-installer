@@ -1,31 +1,31 @@
 package com.adaptris.fxinstaller;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javafx.scene.Parent;
 
 public class FxmlLoaderTest {
 
-// We can't really test that without starting the java fx toolkit
-//  @Test
-//  public void testLoadOrExit() {
-//    Parent root = FxmlLoader.loadOrExit("/views/prepare_installer.fxml");
-//
-//    assertNotNull(root);
-//  }
+  // We can't really test that without starting the java fx toolkit
+  //  @Test
+  //  public void testLoadOrExit() {
+  // Parent root = new FxmlLoader().loadOrExit("/views/prepare_installer.fxml");
+  //
+  //    assertNotNull(root);
+  //  }
 
   @Test
   public void testLoadOrExitInvalidFxml() {
-    Parent root = FxmlLoader.loadOrExit("/interlok-json.xml");
+    Parent root = new FxmlLoader().loadOrExit("/interlok-json.xml");
 
     assertNull(root);
   }
 
   @Test
   public void testLoadOrExitDoesntExist() {
-    Parent root = FxmlLoader.loadOrExit("doesntexist");
+    Parent root = new FxmlLoader().loadOrExit("doesntexist");
 
     assertNull(root);
   }

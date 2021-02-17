@@ -1,14 +1,14 @@
 package com.adaptris.fxinstaller.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import com.adaptris.TestUtils;
 import com.adaptris.fxinstaller.models.OptionalComponent;
 
 public class OptionalComponentsLoaderTest {
@@ -17,18 +17,17 @@ public class OptionalComponentsLoaderTest {
   public void testLoad() throws Exception {
     List<OptionalComponent> optionalComponents = new OptionalComponentsLoader().load();
 
-    assertFalse(optionalComponents.isEmpty());
+    assertFalse(optionalComponents.isEmpty(), "Should have some optional component");
   }
 
   @Test
   public void testLoadAndCheckOptionalComponent() throws Exception {
     List<OptionalComponent> optionalComponents = new OptionalComponentsLoader(new TestInstallerProperties()).load();
 
-    assertFalse(optionalComponents.isEmpty());
+    assertFalse(optionalComponents.isEmpty(), "Should have some optional component");
     boolean found = false;
     for (OptionalComponent optionalComponent : optionalComponents) {
       if ("interlok-json".equals(optionalComponent.getId())) {
-        assertFalse(optionalComponents.isEmpty());
         assertEquals("Interlok/JSON", optionalComponent.getName());
         assertEquals("Everything JSON related; transformations, schemas, json-path (xpath-alike), splitting",
             optionalComponent.getDescription());
@@ -39,7 +38,34 @@ public class OptionalComponentsLoaderTest {
         found = true;
       }
     }
-    assertTrue("interlok-json should be in the loaded optional components", found);
+    assertTrue(found, "interlok-json should be in the loaded optional components");
+  }
+
+  @Test
+  public void testLoadArtifactAndAddToList() throws Exception {
+    List<OptionalComponent> optionalComponents = new ArrayList<>();
+
+    new OptionalComponentsLoader(new TestInstallerProperties()).loadArtifactAndAddToList("interlok-json", optionalComponents);
+
+    assertFalse(optionalComponents.isEmpty(), "Should have some optional component");
+    OptionalComponent optionalComponent = optionalComponents.get(0);
+    assertEquals("interlok-json", optionalComponent.getId());
+    assertEquals("Interlok/JSON", optionalComponent.getName());
+    assertEquals("Everything JSON related; transformations, schemas, json-path (xpath-alike), splitting",
+        optionalComponent.getDescription());
+    assertEquals("https://interlok.adaptris.net/interlok-docs/cookbook-json-transform.html", optionalComponent.getUrl());
+    assertEquals("json,transform,jdbc", optionalComponent.getTags());
+    assertEquals("interlok-json.png", optionalComponent.getIcon());
+    assertEquals("false", optionalComponent.getLicense());
+  }
+
+  @Test
+  public void testLoadArtifactAndAddToListInvalidArtifactId() throws Exception {
+    List<OptionalComponent> optionalComponents = new ArrayList<>();
+
+    new OptionalComponentsLoader(new TestInstallerProperties()).loadArtifactAndAddToList("interlok-invalid", optionalComponents);
+
+    assertTrue(optionalComponents.isEmpty(), "Should not have some optional component");
   }
 
   @Test
@@ -52,7 +78,9 @@ public class OptionalComponentsLoaderTest {
   public static class TestInstallerProperties extends InstallerProperties {
 
     public TestInstallerProperties() {
-      properties.setProperty(INTERLOK_VERSION, TestUtils.INTERLOK_VERSION);
+      // We can use this line when we get a 4.0.0-RELEASE version
+      // properties.setProperty(INTERLOK_VERSION, TestUtils.INTERLOK_VERSION);
+      properties.setProperty(INTERLOK_VERSION, "3.11.1-RELEASE");
     }
 
   }
@@ -61,7 +89,7 @@ public class OptionalComponentsLoaderTest {
   public static class InvalidVersionInstallerProperties extends InstallerProperties {
 
     public InvalidVersionInstallerProperties() {
-      properties.setProperty(INTERLOK_VERSION, "333");
+      properties.setProperty(INTERLOK_VERSION, "444");
     }
 
   }

@@ -14,18 +14,18 @@
 <VBox fx:controller="com.adaptris.fxinstaller.controllers.LicenseAgreementController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="license-agreement" spacing="10">
     
-	<padding><Insets top="115" right="20" bottom="20" left="20"/></padding>
+	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
 		<Label text="Installation and Use of Adaptris Interlok Requires Acceptance of the Following License Agreement:"></Label>
-		<VBox prefHeight="409" spacing="10">
+		<VBox prefHeight="430" spacing="10">
 		
 			<padding><Insets top="0" bottom="0" /></padding>
 			
 			<children>
 				<VBox spacing="10">
 					<children>
-						<TextArea fx:id="textArea" editable="false" prefHeight="360"></TextArea>
+						<TextArea fx:id="textArea" editable="false" prefHeight="410"></TextArea>
 						<HBox spacing="10" alignment="center_right">
 							<children>
 								<CheckBox fx:id="checkBox" text="I accept the terms of the license Agreement" onAction="#handleAgree"></CheckBox>
