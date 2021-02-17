@@ -33,7 +33,7 @@ public class BuildGradleFileGenerator {
   protected static final String INTERLOK_BASE_FILESYSTEM_URL = "interlokBaseFilesystemUrl";
   protected static final String ADDITIONAL_NEXUS_BASE_URL = "additionalNexusBaseUrl";
 
-  private static final String INTERLOK_FX_INSTALLER_TMP_DIR = "interlok-fx-installer-tmp-";
+  private static final String INTERLOK_INSTALLER_TMP_DIR = "interlok-installer-tmp-";
   private static final String BUILD_GRADLE_TEMPLATE = "/templates/build.gradle.template";
   private static final String INTERLOK_GRADLE_FILES = "interlok-gradle-files-";
   private static final String ZIP = ".zip";
@@ -89,7 +89,7 @@ public class BuildGradleFileGenerator {
   }
 
   protected static String installerTmpDirName(InterlokProject interlokProject) {
-    return INTERLOK_FX_INSTALLER_TMP_DIR + interlokProject.getVersion();
+    return INTERLOK_INSTALLER_TMP_DIR + interlokProject.getVersion();
   }
 
   private void createBuildGradleFile(List<OptionalComponent> optionalComponents, String buildGradleTemplateName, Path destDirPath)
