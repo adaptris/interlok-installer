@@ -14,7 +14,7 @@
 <VBox fx:controller="com.adaptris.fxinstaller.controllers.InstallDirectoryController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="install-directory" spacing="10">
     
-	<padding><Insets top="115" right="20" bottom="20" left="20"/></padding>
+	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
 		<Label text="Where would you like to install Interlok:"></Label>
