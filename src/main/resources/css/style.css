@@ -2,7 +2,7 @@
 	-fx-background-image: url("../img/background.png");
 	-fx-background-repeat: no-repeat;
   	-fx-background-size: auto;
-  	-fx-background-position: 0 -20px;
+  	-fx-background-position: 0 -8px;
 }
 
 .button {

@@ -13,14 +13,21 @@ public class PropertiesUtilsTest {
   public void testLoadFromStreamQuietly() {
     Properties properties = PropertiesUtils.loadFromStreamQuietly(getClass().getClassLoader(), "installer.properties");
 
-    assertEquals("3.9.2-RELEASE", properties.getProperty("interlok.version"));
+    assertEquals("com.adaptris", properties.getProperty("group.id"));
   }
 
   @Test
   public void testLoadFromStreamQuietlyInvalid() {
     Properties properties = PropertiesUtils.loadFromStreamQuietly(getClass().getClassLoader(), "invalid.properties");
 
-    assertNull(properties.getProperty("interlok.version"));
+    assertNull(properties.getProperty("group.id"));
+  }
+
+  @Test
+  public void testLoadFromStreamQuietlyNullName() {
+    Properties properties = PropertiesUtils.loadFromStreamQuietly(getClass().getClassLoader(), null);
+
+    assertNull(properties.getProperty("group.id"));
   }
 
 }

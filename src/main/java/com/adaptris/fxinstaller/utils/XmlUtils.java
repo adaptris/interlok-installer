@@ -10,6 +10,9 @@ import org.w3c.dom.Document;
 
 public class XmlUtils {
 
+  private XmlUtils() {
+  }
+
   public static Document getDocument(String url) throws Exception {
     return newDocumentBuilder().parse(new URL(url).openStream());
   }

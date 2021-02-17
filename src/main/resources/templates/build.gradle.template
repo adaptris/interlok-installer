@@ -1,23 +1,26 @@
 plugins {
-  id 'de.undercouch.download' version '4.0.2'
+  id "de.undercouch.download" version "4.0.2"
 }
 
 ext {
-  interlokVersion = '3.9.2-RELEASE'
+  interlokVersion = project.hasProperty("interlokVersion") ? project.getProperty("interlokVersion") : "NEED interlokVersion PROPERTY"
   interlokUiVersion = interlokVersion
-  interlokUrlVersion = interlokVersion.replace('-RELEASE', '')
-  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokVersion + "/build.gradle" // from 3.9.3
-  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokVersion + "/parent.gradle"
+   
+  interlokBuildParentVersion = interlokVersion.endsWith("-SNAPSHOT") ? "master" : interlokVersion
+  // interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/" + interlokBuildParentVersion + "/build.gradle"
   interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/master/build.gradle"
-  interlokBaseFilesystemUrl = 'https://development.adaptris.net/installers/interlok/' + interlokUrlVersion + '/base-filesystem.zip'
-  additionalNexusBaseUrl = project.hasProperty('additionalNexusBaseUrl') ? project.getProperty('additionalNexusBaseUrl') :  ''
+
+  latestBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/latest-stable/base-filesystem.zip"
+  interlokBaseFilesystemUrl = project.hasProperty("interlokBaseFilesystemUrl") ? project.getProperty("interlokBaseFilesystemUrl") : latestBaseFilesystemUrl  
+
+  additionalNexusBaseUrl = project.hasProperty("additionalNexusBaseUrl") ? project.getProperty("additionalNexusBaseUrl") :  ""
+  srcInterlokDir = "src/main/interlok/"
 }
 
 repositories {
-	if (project.hasProperty('additionalNexusBaseUrl')) {
-    	maven { url "${additionalNexusBaseUrl}/nexus/content/groups/public" }
-    	maven { url "${additionalNexusBaseUrl}/nexus/content/groups/interlok" }
-    }
+  if (project.hasProperty("additionalNexusBaseUrl")) {
+    maven { url "${additionalNexusBaseUrl}" }
+  }
 }
 
 configurations {
@@ -27,9 +30,9 @@ configurations {
 }
 
 dependencies {
-  #{interlokRuntime}
+#{interlokRuntime}
 
-  #{interlokJavadocs}
+#{interlokJavadocs}
 }
 
 allprojects {
@@ -41,19 +44,20 @@ allprojects {
  * contents to the build directory
  */
 task downloadBaseFilesystemZip(type: Download) {
-    src interlokBaseFilesystemUrl
-    dest new File(buildDir, 'base-filesystem.zip')
+  src interlokBaseFilesystemUrl
+  dest new File(buildDir, "base-filesystem.zip")
 }
 
 // This will override the war file
 task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
-    from zipTree(downloadBaseFilesystemZip.dest)
-    into new File('/src/main/interlok/')
+  from zipTree(downloadBaseFilesystemZip.dest)
+  into file(srcInterlokDir)
 }
+
 // Do we need that or the previous step is enough?
 task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
-    from '/src/main/interlok/config'
-    into interlokTmpConfigDirectory
+  from file(srcInterlokDir + "config/")
+  into interlokTmpConfigDirectory
 }
 
 assemble.dependsOn downloadAndUnzipFileAndCopyConfigDir
