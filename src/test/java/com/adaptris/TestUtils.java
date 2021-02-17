@@ -1,6 +1,6 @@
 package com.adaptris;
 
-import com.adaptris.fxinstaller.models.OptionalComponent;
+import com.adaptris.installer.models.OptionalComponent;
 
 public class TestUtils {
 

@@ -52,7 +52,7 @@ processResources {
   }
 }
 
-mainClassName = "com.adaptris.fxinstaller.Launcher"
+mainClassName = "com.adaptris.installer.Launcher"
 
 jar {
   manifest {
@@ -106,7 +106,7 @@ publishing {
       artifact sourcesJar { classifier "sources" }
 
       pom.withXml {
-        asNode().appendNode("name", "Interlok JavaFX Installer")
+        asNode().appendNode("name", "Interlok Installer")
         asNode().appendNode("description", "Interlok installer built using JavaFX")
         def properties = asNode().appendNode("properties")
         properties.appendNode("target", "4.0.0+")
