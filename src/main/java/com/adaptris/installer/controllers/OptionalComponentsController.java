@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.adaptris.installer.InstallerDataHolder;
 import com.adaptris.installer.OptionalComponentCell;
-import com.adaptris.installer.models.OptionalComponent;
+import com.adaptris.installer.utils.FxUtils;
 import com.adaptris.installer.utils.MatchUtils;
 
 import javafx.collections.FXCollections;
@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -61,6 +62,17 @@ public class OptionalComponentsController extends CancelAwareInstallerController
     allCheckBox.setOnAction(handleSelectAllCheckbox());
     selectColumn.setGraphic(allCheckBox);
 
+    nameColumn.setCellFactory(tc -> {
+      return new TableCell<>() {
+        @Override
+        public void updateItem(String name, boolean empty) {
+          super.updateItem(name, empty);
+          setText(name);
+          setTooltip(new Tooltip(getIdOrNameForTooltip(getTableRow(), name)));
+        }
+      };
+    });
+
     descriptionColumn.setCellFactory(tc -> {
       return new TableCell<>() {
         @Override
@@ -72,7 +84,7 @@ public class OptionalComponentsController extends CancelAwareInstallerController
       };
     });
 
-    optionalComponentCells.addAll(convertToCells(InstallerDataHolder.getInstance().getOptionalComponents()));
+    optionalComponentCells.addAll(FxUtils.convertToCells(InstallerDataHolder.getInstance().getOptionalComponents()));
 
     FilteredList<OptionalComponentCell> filteredOptionalComponentCells = new FilteredList<>(
         FXCollections.observableList(optionalComponentCells));
@@ -84,8 +96,8 @@ public class OptionalComponentsController extends CancelAwareInstallerController
     });
   }
 
-  private List<OptionalComponentCell> convertToCells(List<OptionalComponent> optionalComponents) {
-    return optionalComponents.stream().map(oc -> new OptionalComponentCell(oc)).collect(Collectors.toList());
+  private String getIdOrNameForTooltip(TableRow<OptionalComponentCell> tableRow, String name) {
+    return tableRow != null ? FxUtils.getIdOrName(tableRow.getItem(), name) : name;
   }
 
   private boolean match(OptionalComponentCell occ, String str) {
