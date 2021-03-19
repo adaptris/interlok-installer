@@ -47,7 +47,6 @@
 		<HBox spacing="10" alignment="center_right">
 			<children>
 				<Button text="Cancel" onAction="#handleCancel"></Button>
-				<Button text="Previous" onAction="#handlePrevious"></Button>
 				<Button fx:id="nextButton" text="Next" disable="true" onAction="#handleNext"></Button>
 			</children>
 		</HBox>

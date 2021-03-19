@@ -15,9 +15,11 @@ public class MatchUtils {
     String lowerCaseFilter = str.toLowerCase();
 
     for (String matcher : matchers) {
-      boolean match = matcher.toLowerCase().contains(lowerCaseFilter);
-      if (match) {
-        return true;
+      if (StringUtils.isNotBlank(matcher)) {
+        boolean match = matcher.toLowerCase().contains(lowerCaseFilter);
+        if (match) {
+          return true;
+        }
       }
     }
 

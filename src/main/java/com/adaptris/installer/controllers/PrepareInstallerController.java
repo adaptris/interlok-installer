@@ -84,7 +84,7 @@ public class PrepareInstallerController extends AbstractInstallerController {
     }
 
     private void goToLicenseAgreement() {
-      installerWizard.goToLicenseAgreement(progressBar.getScene());
+      installerWizard.goToInstallDirectory(progressBar.getScene());
     }
 
   }

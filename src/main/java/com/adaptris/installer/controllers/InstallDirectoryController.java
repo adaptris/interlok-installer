@@ -73,9 +73,4 @@ public class InstallDirectoryController extends CancelAwareInstallerController {
     installerWizard.goToOptionalComponents(((Button) event.getSource()).getScene());
   }
 
-  @FXML
-  private void handlePrevious(ActionEvent event) throws IOException {
-    installerWizard.goToLicenseAgreement(((Button) event.getSource()).getScene());
-  }
-
 }
