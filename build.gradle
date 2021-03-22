@@ -16,7 +16,8 @@ ext {
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
   repoUsername = project.findProperty("repoUsername") ?: "set in gradle.properties"
   repoPassword = project.findProperty("repoPassword") ?: "set in gradle.properties"
-  componentName="Interlok Installer Java FX"
+  componentName = "Interlok Installer"
+  componentDesc = "Interlok installer built using JavaFX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
 } 
@@ -25,7 +26,7 @@ repositories {
   mavenCentral()
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
-  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx dependencies
+  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx and Gradle Tooling API dependencies
 }
 
 dependencies {
@@ -106,8 +107,8 @@ publishing {
       artifact sourcesJar { classifier "sources" }
 
       pom.withXml {
-        asNode().appendNode("name", "Interlok Installer")
-        asNode().appendNode("description", "Interlok installer built using JavaFX")
+        asNode().appendNode("name", componentName)
+        asNode().appendNode("description", componentDesc)
         def properties = asNode().appendNode("properties")
         properties.appendNode("target", "4.0.0+")
         properties.appendNode("license", "false")

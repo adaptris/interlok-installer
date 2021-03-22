@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 public class InstallerWizard {
 
   private Parent prepareInstaller;
-  private Parent licenseAgreement;
   private Parent installDirectory;
   private Parent optionalComponents;
   private Parent installProgress;
@@ -38,17 +37,6 @@ public class InstallerWizard {
 
   public Parent loadPrepareInstallerNode() {
     return fxmlLoader.loadOrExit("/views/prepare_installer.fxml");
-  }
-
-  public void goToLicenseAgreement(Scene scene) {
-    if (Objects.isNull(licenseAgreement)) {
-      licenseAgreement = loadLicenseAgreementNode();
-    }
-    scene.setRoot(licenseAgreement);
-  }
-
-  public Parent loadLicenseAgreementNode() {
-    return fxmlLoader.loadOrExit("/views/license_agreement.fxml");
   }
 
   public void goToInstallDirectory(Scene scene) {

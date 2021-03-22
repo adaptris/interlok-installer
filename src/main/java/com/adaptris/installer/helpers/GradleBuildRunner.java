@@ -1,8 +1,6 @@
 package com.adaptris.installer.helpers;
 
-import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import org.gradle.tooling.BuildLauncher;
@@ -24,7 +22,7 @@ public class GradleBuildRunner {
     this.progressListener = progressListener;
   }
 
-  public void run(Path buildGradleDirPath) throws URISyntaxException, IOException {
+  public void run(Path buildGradleDirPath) {
     GradleConnector connector = GradleConnector.newConnector().forProjectDirectory(buildGradleDirPath.toFile());
 
     BuildLauncher buildLauncher = connector.connect().newBuild()

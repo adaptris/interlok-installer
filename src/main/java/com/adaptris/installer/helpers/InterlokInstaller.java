@@ -2,7 +2,6 @@ package com.adaptris.installer.helpers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -18,8 +17,7 @@ import com.adaptris.installer.utils.NumberUtils;
 public class InterlokInstaller {
   private LogHelper log = LogHelper.getInstance();
 
-  public void install(InterlokProject interlokProject, Consumer<Double> updateProgress, Consumer<String> updateMessage)
-      throws URISyntaxException, IOException {
+  public void install(InterlokProject interlokProject, Consumer<Double> updateProgress, Consumer<String> updateMessage) throws IOException {
     log.info("Installing Interlok in '" + interlokProject.getDirectory() + "'");
 
     Path buildGradleDirPath = new BuildGradleFileGenerator().generate(interlokProject);

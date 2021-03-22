@@ -14,11 +14,11 @@ public class ResourceUtilsTest {
 
   @Test
   public void testToString() throws IOException, URISyntaxException {
-    String licenseText = ResourceUtils.toString("/LICENSE.txt");
+    String fileContent = ResourceUtils.toString("/installer.properties");
 
     // Just the first few chars to not deal with the end of line characters
-    assertEquals(Files.readString(Paths.get(getClass().getResource("/LICENSE.txt").toURI())).substring(0, 10),
-        licenseText.substring(0, 10));
+    assertEquals(Files.readString(Paths.get(getClass().getResource("/installer.properties").toURI())).substring(0, 10),
+        fileContent.substring(0, 10));
   }
 
   @Test

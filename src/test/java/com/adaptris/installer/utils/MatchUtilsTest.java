@@ -23,6 +23,16 @@ public class MatchUtilsTest {
   }
 
   @Test
+  public void testMatchWithNullMatcher() {
+    assertTrue(MatchUtils.match("val", null, "value"));
+  }
+
+  @Test
+  public void testMatchDoesntMatchOnlyNullMatcher() {
+    assertFalse(MatchUtils.match("different", null, null));
+  }
+
+  @Test
   public void testMatchDoesntMatch() {
     assertFalse(MatchUtils.match("different", "value"));
   }
