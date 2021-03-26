@@ -16,10 +16,19 @@ ext {
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
   repoUsername = project.findProperty("repoUsername") ?: "set in gradle.properties"
   repoPassword = project.findProperty("repoPassword") ?: "set in gradle.properties"
+  targetPlatform = project.findProperty("targetPlatform") ?: "win"
+  
+  platforms = ["win", "linux", "mac"]
+  // Validate Target Platform
+  if (!platforms.contains(targetPlatform)) {
+    throw new GradleException("The value of 'targetPlatform' should be 'win', 'linux' or 'mac'. '$targetPlatform' is invalid.")
+  }
+  
   componentName = "Interlok Installer"
   componentDesc = "Interlok installer built using JavaFX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
+  javafxVersion = "11.0.2"
 } 
 
 repositories {
@@ -31,6 +40,11 @@ repositories {
 
 dependencies {
   implementation "org.gradle:gradle-tooling-api:6.8.1"
+  
+  runtimeOnly "org.openjfx:javafx-base:$javafxVersion:$targetPlatform"
+  runtimeOnly "org.openjfx:javafx-graphics:$javafxVersion:$targetPlatform"
+  runtimeOnly "org.openjfx:javafx-controls:$javafxVersion:$targetPlatform"
+  runtimeOnly "org.openjfx:javafx-fxml:$javafxVersion:$targetPlatform"
   
   // Use JUnit test framework
   testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
@@ -66,17 +80,26 @@ task fatJar(type: Jar) {
     attributes "Main-Class": mainClassName
   }
   // Build a fat jar
-  classifier = "all"
+  classifier = targetPlatform
   from {
     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
   with jar
 }
 
+distributions {
+  installer {
+    baseName = "$project.name-$targetPlatform"
+    contents {
+      with distributions.main.contents
+    }
+  }
+}
+
 javafx {
-  version = "11.0.2"
-  modules = [ "javafx.controls", "javafx.fxml" ]
-  //configuration = "compileOnly"
+  version = javafxVersion
+  modules = [ "javafx.graphics", "javafx.controls", "javafx.fxml" ]
+  configuration = "compileOnly"
 }
 
 jacocoTestReport {
@@ -105,6 +128,13 @@ publishing {
     mavenJava(MavenPublication) {
       from components.java
       artifact sourcesJar { classifier "sources" }
+      // artifact distZip { classifier targetPlatform }
+      
+      if ("win" == targetPlatform) {
+        artifact distZip { classifier targetPlatform }
+      } else {
+        artifact distTar { classifier targetPlatform }
+      }
 
       pom.withXml {
         asNode().appendNode("name", componentName)

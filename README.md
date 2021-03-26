@@ -10,48 +10,69 @@ Java FX installer for Interlok. This automatically downloads the selected option
 
 ## Build
 
-### Jar only
+### Simple Jar
 
 ```
-$ ./gradlew clean fatJar
+$ ./gradlew clean jar
 ```
 
-### Jar + Script
+### Fat Jar
 
 ```
-$ ./gradlew clean assemble
+$ ./gradlew clean fatJar -PtargetPlatform=(win|linux|mac)
+```
+
+### Zip or Tar (Jar + Script)
+
+```
+$ ./gradlew clean assemble -PtargetPlatform=(win|linux|mac)
 ```
 
 ## Execute
 
-### Jar only
+### Simple Jar
+
+It requires to have a JDK with JavaFx installed.
 
 ```
-java -jar ./build/libs/interlok-installer-(version)-all.jar
+java -jar ./build/libs/interlok-installer-(version).jar
 ```
 
-### Jar + Script
+### Fat Jar
 
-First unzip or untar the archive file, then launch bin/interlok-installer or bin/interlok-installer.bat depending if you are on windows or linux/mac.
+```
+java -jar ./build/libs/interlok-installer-(version)-(win|linux|mac).jar
+```
 
+### Zip or Tar (Jar + Script)
+
+First unzip or untar the archive file, then launch bin/interlok-installer.bat or bin/interlok-installer depending if you are on windows or linux/mac.
+
+## Publish
+
+The simple jar and the targeted platform archive will be published (zip file on windows, tar file on linux or mac).
+
+```
+$ ./gradlew clean publish -PtargetPlatform=(win|linux|mac)
+```
 
 ## Additional configuration
 
 All the base configuration is stored in `src/main/resources/installer.properties` which can be overriden either at build time; or via system properties on startup.
 
 ```
-java -Dinterlok.version=3.10.0-RELEASE ./build/libs/interlok-installer-(version)-all.jar
+java -Dinterlok.version=3.12.0-RELEASE ./build/libs/interlok-installer-(version)-(win|linux|mac).jar
 ```
 
 If you want to include a different maven compatible nexus instance (either you're mirroring our public repo, or private dependencies are stored there) then you can also do this either as a system property or do it when the installer window presents itself.
 
 ```
-java -DadditionalNexusBaseUrl=http://your-nexus.com/path/to/content ./build/libs/interlok-installer-(version)-all.jar
+java -DadditionalNexusBaseUrl=http://your-nexus.com/path/to/content ./build/libs/interlok-installer-(version)-(win|linux|mac).jar
 ```
 
 ## Notes
 
-* There are no executables bundled in this installer; you need to execute `java -jar lib/interlok-boot.jar`
+* To start the installed Interlok you can either executable the bat or bash file in the bin directory or run `java -jar lib/interlok-boot.jar`. Please note that on linux and mac you may need to make the bash file executable `chmod +x ./start-interlok`
 * If you want to "run as Windows services" then we suggest using something like [https://github.com/winsw/winsw](https://github.com/winsw/winsw) to wrap the java process.
 * You will have to explicitly choose all the optional components you want
 * You will need internet access
