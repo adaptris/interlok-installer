@@ -30,14 +30,6 @@ $ ./gradlew clean assemble -PtargetPlatform=(win|linux|mac)
 
 ## Execute
 
-### Simple Jar
-
-It requires to have a JDK with JavaFx installed.
-
-```
-java -jar ./build/libs/interlok-installer-(version).jar
-```
-
 ### Fat Jar
 
 ```
@@ -50,7 +42,7 @@ First unzip or untar the archive file, then launch bin/interlok-installer.bat or
 
 ## Publish
 
-The simple jar and the targeted platform archive will be published (zip file on windows, tar file on linux or mac).
+The simple jar, the fat jar and the targeted platform archive will be published (zip file on windows, tar file on linux or mac).
 
 ```
 $ ./gradlew clean publish -PtargetPlatform=(win|linux|mac)
