@@ -30,7 +30,7 @@ $ ./gradlew clean assemble -PtargetPlatform=(win|linux|mac)
 
 ## Execute
 
-### Fat Jar
+### Uber Jar
 
 ```
 java -jar ./build/libs/interlok-installer-(version)-(win|linux|mac).jar
