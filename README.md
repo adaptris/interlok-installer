@@ -16,10 +16,10 @@ Java FX installer for Interlok. This automatically downloads the selected option
 $ ./gradlew clean jar
 ```
 
-### Fat Jar
+### Uber Jar
 
 ```
-$ ./gradlew clean fatJar -PtargetPlatform=(win|linux|mac)
+$ ./gradlew clean uberJar -PtargetPlatform=(win|linux|mac)
 ```
 
 ### Zip or Tar (Jar + Script)
@@ -42,7 +42,7 @@ First unzip or untar the archive file, then launch bin/interlok-installer.bat or
 
 ## Publish
 
-The simple jar, the fat jar and the targeted platform archive will be published (zip file on windows, tar file on linux or mac).
+The simple jar, the uber jar and the targeted platform archive will be published (zip file on windows, tar file on linux or mac).
 
 ```
 $ ./gradlew clean publish -PtargetPlatform=(win|linux|mac)

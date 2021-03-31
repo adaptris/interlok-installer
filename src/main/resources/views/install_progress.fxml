@@ -17,7 +17,7 @@
 	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
-		<Label text="Installing Interloks"></Label>
+		<Label text="Installing Interlok"></Label>
 		<VBox prefHeight="430" spacing="10">
 		
 			<padding><Insets top="0" bottom="0" /></padding>

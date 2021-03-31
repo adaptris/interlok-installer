@@ -75,11 +75,11 @@ jar {
   }
 }
 
-task fatJar(type: Jar) {
+task uberJar(type: Jar) {
   manifest {
     attributes "Main-Class": mainClassName
   }
-  // Build a fat jar
+  // Build a uber jar
   classifier = targetPlatform
   from {
     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
@@ -128,7 +128,7 @@ publishing {
     mavenJava(MavenPublication) {
       from components.java
       artifact sourcesJar { classifier "sources" }
-      artifact fatJar
+      artifact uberJar
       
       if ("win" == targetPlatform) {
         artifact distZip { classifier targetPlatform }
