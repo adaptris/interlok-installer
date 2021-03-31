@@ -2,7 +2,7 @@
 }
 
 .install-directory .directory-picker .text-field {
-	-fx-min-width: 650px;
+	-fx-min-width: 600px;
 }
 
 .install-directory .url-picker .text-field {
