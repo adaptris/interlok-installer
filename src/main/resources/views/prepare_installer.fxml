@@ -14,9 +14,12 @@
 <VBox fx:controller="com.adaptris.installer.controllers.PrepareInstallerController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="install-progress" spacing="10">
     
-	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
+	<padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
+    <HBox styleClass="page-logo">
+      <padding><Insets top="50" bottom="10" /></padding>
+    </HBox>
 		<Label text="Preparing Installer"></Label>
 		<VBox prefHeight="425" spacing="10">
 		

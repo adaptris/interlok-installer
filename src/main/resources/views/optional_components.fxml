@@ -14,10 +14,13 @@
 <VBox fx:controller="com.adaptris.installer.controllers.OptionalComponentsController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="optional-components" spacing="10">
     
-	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
+	<padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
-		<Label text="Select Optional Component"></Label>
+    <HBox styleClass="page-logo">
+      <padding><Insets top="50" bottom="10" /></padding>
+    </HBox>
+		<Label text="Optional Components Selection"></Label>
 		<VBox prefHeight="425" spacing="10" alignment="center" >
 		
 			<padding><Insets top="0" bottom="0" /></padding>

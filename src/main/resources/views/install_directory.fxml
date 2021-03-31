@@ -14,50 +14,53 @@
 <VBox fx:controller="com.adaptris.installer.controllers.InstallDirectoryController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="install-directory" spacing="10">
     
-	<padding><Insets top="100" right="20" bottom="20" left="20"/></padding>
-	
-	<children>
-		<Label text="Where would you like to install Interlok:"></Label>
-		<VBox prefHeight="60" spacing="10">
-		
-			<padding><Insets top="0" bottom="30" /></padding>
-			
-			<children>
-				<HBox spacing="5" styleClass="directory-picker">
-					<children>
-						<Button fx:id="chooseDirButton" text="Select Install Dir" onAction="#handleChooseDirectory"></Button>
-						<TextField fx:id="chooseDirTextField" text=""></TextField>
-					</children>
-				</HBox>
-			</children>
-		</VBox>
-		<Label text="Additional Nexus URL:"></Label>
-		<VBox prefHeight="361" spacing="10">
-		
-			<padding><Insets top="0" bottom="0" /></padding>
-			
-			<children>
-				<HBox spacing="5" styleClass="url-picker">
-					<children>
-						<TextField fx:id="nexusBaseUrlTextField" text="" promptText="Optional"></TextField>
-					</children>
-				</HBox>
-				<HBox spacing="5">
-					<children>
-						<Text text="You can add an addictional Nexus URL to download private jar files not available to the Nexus servers used by this installer."></Text>
-					</children>
-				</HBox>
-			</children>
-		</VBox>
-		<HBox spacing="10" alignment="center_right">
-			<children>
-				<Button text="Cancel" onAction="#handleCancel"></Button>
-				<Button fx:id="nextButton" text="Next" disable="true" onAction="#handleNext"></Button>
-			</children>
-		</HBox>
-	</children>
-	<stylesheets>
-		<URL value="@/css/install_directory.css" />
-	</stylesheets>
+  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+  
+  <children>
+    <HBox styleClass="page-logo">
+      <padding><Insets top="50" bottom="10" /></padding>
+    </HBox>
+    <Label text="Where would you like to install Interlok:"></Label>
+    <VBox prefHeight="60" spacing="10">
+    
+      <padding><Insets top="0" bottom="30" /></padding>
+      
+      <children>
+        <HBox spacing="5" styleClass="directory-picker">
+          <children>
+            <Button fx:id="chooseDirButton" text="Select Install Dir" onAction="#handleChooseDirectory"></Button>
+            <TextField fx:id="chooseDirTextField" text=""></TextField>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+    <Label text="Additional Nexus URL:"></Label>
+    <VBox prefHeight="361" spacing="10">
+    
+      <padding><Insets top="0" bottom="0" /></padding>
+      
+      <children>
+        <HBox spacing="5" styleClass="url-picker">
+          <children>
+            <TextField fx:id="nexusBaseUrlTextField" text="" promptText="Optional"></TextField>
+          </children>
+        </HBox>
+        <HBox spacing="5">
+          <children>
+            <Text styleClass="description" text="You can add an addictional Nexus URL to download private jar files not available to the Nexus servers used by this installer."></Text>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+    <HBox spacing="10" alignment="center_right">
+      <children>
+        <Button text="Cancel" onAction="#handleCancel"></Button>
+        <Button fx:id="nextButton" text="Next" disable="true" onAction="#handleNext"></Button>
+      </children>
+    </HBox>
+  </children>
+  <stylesheets>
+    <URL value="@/css/install_directory.css" />
+  </stylesheets>
 </VBox>
 
