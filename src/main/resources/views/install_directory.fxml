@@ -42,9 +42,9 @@
 						<TextField fx:id="nexusBaseUrlTextField" text="" promptText="Optional"></TextField>
 					</children>
 				</HBox>
-				<HBox spacing="5" styleClass="url-picker">
+				<HBox spacing="5">
 					<children>
-						<Text text="You can add an addictional Nexus URL to download private jar files not available Nexus servers used by this installer."></Text>
+						<Text text="You can add an addictional Nexus URL to download private jar files not available to the Nexus servers used by this installer."></Text>
 					</children>
 				</HBox>
 			</children>
