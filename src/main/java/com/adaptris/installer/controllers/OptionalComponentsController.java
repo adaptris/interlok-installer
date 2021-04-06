@@ -42,6 +42,8 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   @FXML
   private TableColumn<OptionalComponentCell, String> tagsColumn;
   @FXML
+  private TableColumn<OptionalComponentCell, Boolean> licensedColumn;
+  @FXML
   private TableColumn<OptionalComponentCell, Boolean> selectColumn;
 
   private final List<OptionalComponentCell> optionalComponentCells = new ArrayList<>();
@@ -51,6 +53,13 @@ public class OptionalComponentsController extends CancelAwareInstallerController
    */
   @FXML
   private void initialize() {
+    licensedColumn.setCellFactory(tc -> {
+      CheckBoxTableCell<OptionalComponentCell, Boolean> cell = new CheckBoxTableCell<>();
+      cell.setAlignment(Pos.CENTER);
+      cell.setDisable(true);
+      cell.getStyleClass().add("licensed-cell");
+      return cell;
+    });
     selectColumn.setCellFactory(tc -> {
       CheckBoxTableCell<OptionalComponentCell, Boolean> cell = new CheckBoxTableCell<>();
       cell.setAlignment(Pos.CENTER);
