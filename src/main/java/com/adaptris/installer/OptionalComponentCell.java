@@ -3,6 +3,8 @@ package com.adaptris.installer;
 import java.io.InputStream;
 import java.util.Objects;
 
+import org.gradle.internal.impldep.org.apache.commons.lang.BooleanUtils;
+
 import com.adaptris.installer.models.OptionalComponent;
 
 import javafx.beans.property.SimpleBooleanProperty;
@@ -17,17 +19,21 @@ public class OptionalComponentCell {
   public static final String ARTIFACT_LOGO_DEFAULT = "default.png";
 
   private OptionalComponent optionalComponent;
+  private StringProperty id;
   private StringProperty name;
   private StringProperty description;
   private StringProperty tags;
+  private SimpleBooleanProperty licensed;
   private SimpleBooleanProperty selected;
   private ImageView icon;
 
   public OptionalComponentCell(OptionalComponent optionalComponent) {
     this.optionalComponent = optionalComponent;
+    id = new SimpleStringProperty(optionalComponent, "id", optionalComponent.getId());
     name = new SimpleStringProperty(optionalComponent, "name", optionalComponent.getName());
     description = new SimpleStringProperty(optionalComponent, "description", optionalComponent.getDescription());
     tags = new SimpleStringProperty(optionalComponent, "tags", optionalComponent.getTags());
+    licensed = new SimpleBooleanProperty(BooleanUtils.toBoolean(optionalComponent.getLicense()));
     selected = new SimpleBooleanProperty(false);
     icon = new ImageView(getImage(optionalComponent));
   }
@@ -38,6 +44,18 @@ public class OptionalComponentCell {
       iconStream = getClass().getResourceAsStream(ARTIFACT_LOGO_BASE + ARTIFACT_LOGO_DEFAULT);
     }
     return new Image(iconStream, 30, 30, true, true);
+  }
+
+  public String getId() {
+    return idProperty().get();
+  }
+
+  public void setId(String id) {
+    idProperty().set(id);
+  }
+
+  public StringProperty idProperty() {
+    return id;
   }
 
   public String getName() {
@@ -74,6 +92,18 @@ public class OptionalComponentCell {
 
   public StringProperty tagsProperty() {
     return tags;
+  }
+
+  public Boolean getLicensed() {
+    return licensedProperty().get();
+  }
+
+  public void setLicensed(Boolean licensed) {
+    licensedProperty().set(licensed);
+  }
+
+  public SimpleBooleanProperty licensedProperty() {
+    return licensed;
   }
 
   public Boolean getSelected() {

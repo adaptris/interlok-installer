@@ -17,10 +17,12 @@ public class OptionalComponentCellTest {
     OptionalComponent optionalComponent = TestUtils.buildOptionalComponent();
     OptionalComponentCell optionalComponentCell = new OptionalComponentCell(optionalComponent);
 
+    assertEquals(optionalComponent.getId(), optionalComponentCell.getId());
     assertEquals(optionalComponent.getName(), optionalComponentCell.getName());
     assertEquals(optionalComponent.getDescription(), optionalComponentCell.getDescription());
     assertEquals(optionalComponent.getTags(), optionalComponentCell.getTags());
     assertNotNull(optionalComponentCell.getIcon());
+    assertFalse(optionalComponentCell.getLicensed());
     assertEquals(optionalComponent, optionalComponentCell.getOptionalComponent());
   }
 
@@ -31,6 +33,15 @@ public class OptionalComponentCellTest {
     OptionalComponentCell optionalComponentCell = new OptionalComponentCell(optionalComponent);
 
     assertNotNull(optionalComponentCell.getIcon());
+  }
+
+  @Test
+  public void testSetId() {
+    OptionalComponent optionalComponent = TestUtils.buildOptionalComponent();
+    OptionalComponentCell optionalComponentCell = new OptionalComponentCell(optionalComponent);
+    optionalComponentCell.setId("new-id");
+
+    assertEquals("new-id", optionalComponentCell.getId());
   }
 
   @Test
@@ -58,6 +69,23 @@ public class OptionalComponentCellTest {
     optionalComponentCell.setTags("New Tags");
 
     assertEquals("New Tags", optionalComponentCell.getTags());
+  }
+
+  @Test
+  public void testLicensed() {
+    OptionalComponent optionalComponent = TestUtils.buildOptionalComponent();
+    OptionalComponentCell optionalComponentCell = new OptionalComponentCell(optionalComponent);
+
+    assertFalse(optionalComponentCell.getLicensed());
+
+    optionalComponentCell.setLicensed(true);
+
+    assertTrue(optionalComponentCell.getLicensed());
+
+    optionalComponent.setLicense("true");
+    optionalComponentCell = new OptionalComponentCell(optionalComponent);
+
+    assertTrue(optionalComponentCell.getLicensed());
   }
 
   @Test

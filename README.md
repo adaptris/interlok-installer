@@ -48,6 +48,12 @@ The simple jar, the uber jar and the targeted platform archive will be published
 $ ./gradlew clean publish -PtargetPlatform=(win|linux|mac)
 ```
 
+## Test
+
+```
+$ ./gradlew clean check
+```
+
 ## Additional configuration
 
 All the base configuration is stored in `src/main/resources/installer.properties` which can be overriden either at build time; or via system properties on startup.

@@ -21,7 +21,7 @@ public class FxUtils {
 
   public static String getIdOrName(OptionalComponentCell occ, String name) {
     if (occ != null) {
-      return occ.getOptionalComponent().getId();
+      return occ.getId();
     }
     return name;
   }
