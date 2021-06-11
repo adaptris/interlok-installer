@@ -11,12 +11,15 @@
 <?import java.lang.Object?> 
 
 
-<VBox fx:controller="com.adaptris.fxinstaller.controllers.PrepareInstallerController" 
+<VBox fx:controller="com.adaptris.installer.controllers.PrepareInstallerController" 
     xmlns:fx="http://javafx.com/fxml" styleClass="install-progress" spacing="10">
     
-	<padding><Insets top="115" right="20" bottom="20" left="20"/></padding>
+	<padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 	
 	<children>
+    <HBox styleClass="page-logo">
+      <padding><Insets top="50" bottom="10" /></padding>
+    </HBox>
 		<Label text="Preparing Installer"></Label>
 		<VBox prefHeight="425" spacing="10">
 		
@@ -25,7 +28,7 @@
 			<children>
 				<VBox spacing="10">
 					<children>
-						<ProgressBar fx:id="progressBar" prefWidth="770"></ProgressBar>
+						<ProgressBar fx:id="progressBar" prefWidth="750"></ProgressBar>
 					</children>
 				</VBox>
 			</children>

@@ -1,13 +1,3 @@
-buildscript {
-    dependencies {
-        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
-    }
-    repositories {
-        mavenCentral()
-
-    }
-}
-
 import org.apache.tools.ant.filters.*
 
 plugins {
@@ -16,67 +6,101 @@ plugins {
   id "java-library"
   id "jacoco"
   id "maven-publish"
+  id "org.openjfx.javafxplugin" version "0.0.9"
 }
 
-apply plugin: "javafx-gradle-plugin"
-
 ext {
-  releaseVersion = project.findProperty("releaseVersion") ?: "3.12.0-RELEASE"
+  releaseVersion = project.findProperty("releaseVersion") ?: "4.0.0-RELEASE"
   nexusBaseUrl = project.findProperty("nexusBaseUrl") ?: "https://nexus.adaptris.net/nexus"
   mavenPublishUrl = project.findProperty("mavenPublishUrl") ?: nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
   repoUsername = project.findProperty("repoUsername") ?: "set in gradle.properties"
   repoPassword = project.findProperty("repoPassword") ?: "set in gradle.properties"
-  componentName="Interlok Installer Java FX"
+  targetPlatform = project.findProperty("targetPlatform") ?: "win"
+  
+  platforms = ["win", "linux", "mac"]
+  // Validate Target Platform
+  if (!platforms.contains(targetPlatform)) {
+    throw new GradleException("The value of 'targetPlatform' should be 'win', 'linux' or 'mac'. '$targetPlatform' is invalid.")
+  }
+  
+  componentName = "Interlok Installer"
+  componentDesc = "Interlok installer built using JavaFX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
-}
+  javafxVersion = "11.0.2"
+} 
 
 repositories {
   mavenCentral()
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
-  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx dependencies
+  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx and Gradle Tooling API dependencies
 }
 
 dependencies {
-  implementation "org.gradle:gradle-tooling-api:6.1.1"
-
+  implementation "org.gradle:gradle-tooling-api:5.6.4"
+  
+  runtimeOnly "org.openjfx:javafx-base:$javafxVersion:$targetPlatform"
+  runtimeOnly "org.openjfx:javafx-graphics:$javafxVersion:$targetPlatform"
+  runtimeOnly "org.openjfx:javafx-controls:$javafxVersion:$targetPlatform"
+  runtimeOnly "org.openjfx:javafx-fxml:$javafxVersion:$targetPlatform"
+  
   // Use JUnit test framework
-  testImplementation "junit:junit:4.13"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
 }
 
-group   = 'com.adaptris'
+group   = "com.adaptris"
 version = releaseVersion
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
 }
 
 processResources {
-     filesMatching("**/*.properties") {
-	    filter ReplaceTokens, tokens: [
-	        "release.version": project.property("releaseVersion")
-	    ]
-     }
+  filesMatching("**/*.properties") {
+    filter ReplaceTokens, tokens: [
+	    "release.version": project.property("releaseVersion")
+	  ]
+  }
 }
+
+mainClassName = "com.adaptris.installer.Launcher"
 
 jar {
   manifest {
-    attributes "Main-Class": "com.adaptris.fxinstaller.Launcher"
+    attributes "Main-Class": mainClassName
   }
+}
+
+task uberJar(type: Jar) {
+  manifest {
+    attributes "Main-Class": mainClassName
+  }
+  // Build a uber jar
+  classifier = targetPlatform
   from {
     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
+  with jar
 }
 
-jfx {
-    mainClass = "com.adaptris.fxinstaller.Launcher"
-    vendor = "Adaptris"
+distributions {
+  installer {
+    baseName = "$project.name-$targetPlatform"
+    contents {
+      with distributions.main.contents
+    }
+  }
 }
 
-mainClassName = "com.adaptris.fxinstaller.Launcher"
+javafx {
+  version = javafxVersion
+  modules = [ "javafx.graphics", "javafx.controls", "javafx.fxml" ]
+  configuration = "compileOnly"
+}
 
 jacocoTestReport {
   reports {
@@ -86,12 +110,13 @@ jacocoTestReport {
 }
 
 test {
+  useJUnitPlatform()
   include "com/adaptris/**/*Test*.class"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+  classifier = "sources"
+  from sourceSets.main.allSource
 }
 
 artifacts {
@@ -103,15 +128,22 @@ publishing {
     mavenJava(MavenPublication) {
       from components.java
       artifact sourcesJar { classifier "sources" }
+      artifact uberJar
+      
+      if ("win" == targetPlatform) {
+        artifact distZip { classifier targetPlatform }
+      } else {
+        artifact distTar { classifier targetPlatform }
+      }
 
       pom.withXml {
-        asNode().appendNode("name", "Interlok JavaFX Installer")
-        asNode().appendNode("description", "Interlok installer built using JavaFX")
+        asNode().appendNode("name", componentName)
+        asNode().appendNode("description", componentDesc)
         def properties = asNode().appendNode("properties")
-        properties.appendNode("target", "3.10.0+")
+        properties.appendNode("target", "4.0.0+")
         properties.appendNode("license", "false")
-        properties.appendNode("readme", "https://raw.githubusercontent.com/adaptris/interlok-fx-installer/develop/README.md")
-        properties.appendNode("repository", "https://github.com/adaptris/interlok-fx-installer")
+        properties.appendNode("readme", "https://raw.githubusercontent.com/adaptris/interlok-installer/develop/README.md")
+        properties.appendNode("repository", "https://github.com/adaptris/interlok-installer")
       }
     }
   }
@@ -126,4 +158,12 @@ publishing {
   }
 }
 
+task initCompileOnlyConfiguration {
+  doLast {
+    javafx.configuration = "compile"
+  }
+}
+
+
+check.dependsOn initCompileOnlyConfiguration
 check.dependsOn jacocoTestReport

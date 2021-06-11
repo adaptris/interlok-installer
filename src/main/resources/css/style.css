@@ -1,8 +1,15 @@
 .root {
-	-fx-background-image: url("../img/background.png");
-	-fx-background-repeat: no-repeat;
-  	-fx-background-size: auto;
-  	-fx-background-position: 0 -8px;
+    -fx-background-image: url("../img/background.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 103%;
+    -fx-background-position: 0;
+}
+
+.page-logo {
+    -fx-background-image: url("../img/logo-with-name.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 40%;
+    -fx-background-position: 0;
 }
 
 .button {
@@ -15,9 +22,13 @@
  */
 }
 
+.description {
+    -fx-fill: #EEEEEE;
+}
+
 .label {
-    -fx-font-size: 12px;
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+    -fx-text-fill: #EEEEEE;
+    /* -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 ); */
 }
