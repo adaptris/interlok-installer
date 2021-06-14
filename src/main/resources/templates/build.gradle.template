@@ -1,3 +1,5 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
 plugins {
   id "de.undercouch.download" version "4.0.2"
 }
@@ -46,10 +48,26 @@ task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
   into file(srcInterlokDir)
 }
 
+def chmodExec(path) {
+  project.exec {
+    commandLine("chmod", "+x", path)
+  }
+}
+
 // Do we need that or the previous step is enough?
 task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
   from file(srcInterlokDir + "config/")
   into interlokTmpConfigDirectory
+  
+  doLast {
+    if (!DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) {
+      from fileTree(srcInterlokDir) {
+        include "bin/start-interlok"
+      }.each {
+        chmodExec(it.path)
+      }
+    }
+  }
 }
 
 assemble.dependsOn downloadAndUnzipFileAndCopyConfigDir
