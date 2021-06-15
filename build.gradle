@@ -30,6 +30,7 @@ ext {
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
   javafxVersion = "11.0.2"
+  junitJupiterVersion = '5.7.2'
 }
 
 repositories {
@@ -48,8 +49,8 @@ dependencies {
   runtimeOnly "org.openjfx:javafx-fxml:$javafxVersion:$targetPlatform"
 
   // Use JUnit test framework
-  testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
 }
 
 group   = "com.adaptris"
