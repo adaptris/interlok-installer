@@ -5,7 +5,7 @@ plugins {
 ext {
   interlokVersion = project.hasProperty("interlokVersion") ? project.getProperty("interlokVersion") : "NEED interlokVersion PROPERTY"
   interlokUiVersion = interlokVersion
-   
+
   interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/1.6.0/build.gradle"
 
   latestBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/latest-stable/base-filesystem.zip"
@@ -50,6 +50,10 @@ task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
 task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
   from file(srcInterlokDir + "config/")
   into interlokTmpConfigDirectory
+
+  doLast {
+    ant.chmod(file: "$srcInterlokDir/bin/start-interlok", perm: "+x")
+  }
 }
 
 assemble.dependsOn downloadAndUnzipFileAndCopyConfigDir
