@@ -1,5 +1,3 @@
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
-
 plugins {
   id "de.undercouch.download" version "4.0.2"
 }
@@ -7,8 +5,8 @@ plugins {
 ext {
   interlokVersion = project.hasProperty("interlokVersion") ? project.getProperty("interlokVersion") : "NEED interlokVersion PROPERTY"
   interlokUiVersion = interlokVersion
-   
-  interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/1.6.0/build.gradle"
+
+  interlokParentGradle = "https://raw.githubusercontent.com/adaptris/interlok-build-parent/main/v4/build.gradle"
 
   latestBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/latest-stable/base-filesystem.zip"
   interlokBaseFilesystemUrl = project.findProperty("interlokBaseFilesystemUrl") ?: latestBaseFilesystemUrl
@@ -48,25 +46,13 @@ task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
   into file(srcInterlokDir)
 }
 
-def chmodExec(path) {
-  project.exec {
-    commandLine("chmod", "+x", path)
-  }
-}
-
 // Do we need that or the previous step is enough?
 task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
   from file(srcInterlokDir + "config/")
   into interlokTmpConfigDirectory
-  
+
   doLast {
-    if (!DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) {
-      from fileTree(srcInterlokDir) {
-        include "bin/start-interlok"
-      }.each {
-        chmodExec(it.path)
-      }
-    }
+    ant.chmod(file: "$srcInterlokDir/bin/start-interlok", perm: "+x")
   }
 }
 
