@@ -7,29 +7,31 @@ plugins {
   id "jacoco"
   id "maven-publish"
   id "org.openjfx.javafxplugin" version "0.0.9"
+  id 'org.owasp.dependencycheck' version '6.2.2'
 }
 
 ext {
-  releaseVersion = project.findProperty("releaseVersion") ?: "4.0.0-RELEASE"
+  releaseVersion = project.findProperty("releaseVersion") ?: "4.1.0-RELEASE"
   nexusBaseUrl = project.findProperty("nexusBaseUrl") ?: "https://nexus.adaptris.net/nexus"
   mavenPublishUrl = project.findProperty("mavenPublishUrl") ?: nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
   repoUsername = project.findProperty("repoUsername") ?: "set in gradle.properties"
   repoPassword = project.findProperty("repoPassword") ?: "set in gradle.properties"
   targetPlatform = project.findProperty("targetPlatform") ?: "win"
-  
+
   platforms = ["win", "linux", "mac"]
   // Validate Target Platform
   if (!platforms.contains(targetPlatform)) {
     throw new GradleException("The value of 'targetPlatform' should be 'win', 'linux' or 'mac'. '$targetPlatform' is invalid.")
   }
-  
+
   componentName = "Interlok Installer"
   componentDesc = "Interlok installer built using JavaFX"
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
   javafxVersion = "11.0.2"
-} 
+  junitJupiterVersion = '5.7.2'
+}
 
 repositories {
   mavenCentral()
@@ -40,15 +42,15 @@ repositories {
 
 dependencies {
   implementation "org.gradle:gradle-tooling-api:5.6.4"
-  
+
   runtimeOnly "org.openjfx:javafx-base:$javafxVersion:$targetPlatform"
   runtimeOnly "org.openjfx:javafx-graphics:$javafxVersion:$targetPlatform"
   runtimeOnly "org.openjfx:javafx-controls:$javafxVersion:$targetPlatform"
   runtimeOnly "org.openjfx:javafx-fxml:$javafxVersion:$targetPlatform"
-  
+
   // Use JUnit test framework
-  testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
 }
 
 group   = "com.adaptris"
@@ -129,7 +131,7 @@ publishing {
       from components.java
       artifact sourcesJar { classifier "sources" }
       artifact uberJar
-      
+
       if ("win" == targetPlatform) {
         artifact distZip { classifier targetPlatform }
       } else {
@@ -164,6 +166,16 @@ task initCompileOnlyConfiguration {
   }
 }
 
+dependencyCheck  {
+  suppressionFiles= [ "https://raw.githubusercontent.com/adaptris/interlok/develop/gradle/owasp-exclude.xml" ]
+  skipConfigurations = [ "antSql", "spotbugs", "umlDoclet", "offlineJavadocPackages", "javadoc", "jacocoAnt", "jacocoAgent", "spotbugsPlugins", "spotbugsSlf4j" ]
+  formats = [ "HTML", "JUNIT" ]
+  junitFailOnCVSS = 7.0
+  failBuildOnCVSS = 7.0
+  analyzers {
+    assemblyEnabled=false
+  }
+}
 
 check.dependsOn initCompileOnlyConfiguration
 check.dependsOn jacocoTestReport
