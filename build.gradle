@@ -160,9 +160,9 @@ publishing {
   }
 }
 
-task initCompileOnlyConfiguration {
+task useImplementationConfiguration {
   doLast {
-    javafx.configuration = "compile"
+    javafx.configuration = "implementation"
   }
 }
 
@@ -177,5 +177,5 @@ dependencyCheck  {
   }
 }
 
-check.dependsOn initCompileOnlyConfiguration
+check.dependsOn useImplementationConfiguration
 check.dependsOn jacocoTestReport
