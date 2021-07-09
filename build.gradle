@@ -160,7 +160,7 @@ publishing {
   }
 }
 
-task useImplementationConfiguration {
+task initImplementationConfiguration {
   doLast {
     javafx.configuration = "implementation"
   }
@@ -177,5 +177,5 @@ dependencyCheck  {
   }
 }
 
-check.dependsOn useImplementationConfiguration
+check.dependsOn initImplementationConfiguration
 check.dependsOn jacocoTestReport
