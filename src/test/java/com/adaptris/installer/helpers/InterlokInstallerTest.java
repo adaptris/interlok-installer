@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import com.adaptris.TestUtils;
@@ -14,6 +15,7 @@ import com.adaptris.installer.models.InterlokProject;
 
 public class InterlokInstallerTest {
 
+  @Disabled("Jenkins uses some proxy that make this test fails because of insecure http protocol")
   @Test
   public void testGenerateAndRun() throws Exception {
     Path resourcesPath = Paths.get(getClass().getResource("/interlok-json.xml").toURI()).getParent();
