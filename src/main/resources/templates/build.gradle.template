@@ -3,7 +3,7 @@ plugins {
 }
 
 ext {
-  interlokVersion = project.hasProperty("interlokVersion") ? project.getProperty("interlokVersion") : "NEED interlokVersion PROPERTY"
+  interlokVersion = project.findProperty("interlokVersion") ?: "NEED interlokVersion PROPERTY"
   interlokUiVersion = interlokVersion
 
   interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/1.6.0/build.gradle"

@@ -7,7 +7,7 @@ plugins {
   id "jacoco"
   id "maven-publish"
   id "org.openjfx.javafxplugin" version "0.0.10"
-  id 'org.owasp.dependencycheck' version '6.2.2'
+  id 'org.owasp.dependencycheck' version "6.2.2"
 }
 
 ext {
@@ -30,7 +30,7 @@ ext {
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
   javafxVersion = "11.0.2"
-  junitJupiterVersion = '5.7.2'
+  junitJupiterVersion = "5.7.2"
 }
 
 repositories {
@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-  implementation "org.gradle:gradle-tooling-api:5.6.4"
+  implementation "org.gradle:gradle-tooling-api:7.1.1"
 
   runtimeOnly "org.openjfx:javafx-base:$javafxVersion:$targetPlatform"
   runtimeOnly "org.openjfx:javafx-graphics:$javafxVersion:$targetPlatform"
@@ -82,7 +82,7 @@ task uberJar(type: Jar) {
     attributes "Main-Class": mainClassName
   }
   // Build a uber jar
-  classifier = targetPlatform
+  archiveClassifier = targetPlatform
   from {
     configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
@@ -91,7 +91,7 @@ task uberJar(type: Jar) {
 
 distributions {
   installer {
-    baseName = "$project.name-$targetPlatform"
+    distributionBaseName = "$project.name-$targetPlatform"
     contents {
       with distributions.main.contents
     }
@@ -160,9 +160,9 @@ publishing {
   }
 }
 
-task initCompileOnlyConfiguration {
+task initImplementationConfiguration {
   doLast {
-    javafx.configuration = "compile"
+    javafx.configuration = "implementation"
   }
 }
 
@@ -177,5 +177,5 @@ dependencyCheck  {
   }
 }
 
-check.dependsOn initCompileOnlyConfiguration
+check.dependsOn initImplementationConfiguration
 check.dependsOn jacocoTestReport
