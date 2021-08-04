@@ -32,6 +32,7 @@ public class BuildGradleFileGenerator {
   protected static final String INTERLOK_DIST_DIRECTORY = "interlokDistDirectory";
   protected static final String INTERLOK_BASE_FILESYSTEM_URL = "interlokBaseFilesystemUrl";
   protected static final String ADDITIONAL_NEXUS_BASE_URL = "additionalNexusBaseUrl";
+  protected static final String INCLUDE_WAR = "includeWar";
 
   private static final String INTERLOK_INSTALLER_TMP_DIR = "interlok-installer-tmp-";
   private static final String BUILD_GRADLE_TEMPLATE = "/templates/build.gradle.template";
@@ -123,6 +124,7 @@ public class BuildGradleFileGenerator {
     if (StringUtils.isNotBlank(additionalNexusBaseUrl)) {
       properties.put(ADDITIONAL_NEXUS_BASE_URL, additionalNexusBaseUrl);
     }
+    properties.put(INCLUDE_WAR, "true");
     Optional<String> baseUrl =
         BASE_URL_PARSERS.stream().map((p) -> p.build(interlokVersion)).filter((o) -> o.isPresent()).findFirst()
         .orElse(Optional.empty());
