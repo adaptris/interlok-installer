@@ -69,7 +69,8 @@ public class BuildGradleFileGenerator {
 
     // TODO Use better template engine
     createBuildGradleFile(interlokProject.getOptionalComponents(), BUILD_GRADLE_TEMPLATE, destDir);
-    createGradlePropertiesFile(interlokProject.getVersion(), interlokProject.getDirectory(), interlokProject.getAdditionalNexusBaseUrl(), destDir);
+    createGradlePropertiesFile(interlokProject.getVersion(), interlokProject.getDirectory(), interlokProject.includeWar(),
+        interlokProject.getAdditionalNexusBaseUrl(), destDir);
 
     return destDir;
   }
@@ -113,7 +114,8 @@ public class BuildGradleFileGenerator {
     Files.writeString(buildGradlePath, buildGradleContent);
   }
 
-  private void createGradlePropertiesFile(String interlokVersion, String interlokDistDirectory, String additionalNexusBaseUrl,
+  private void createGradlePropertiesFile(String interlokVersion, String interlokDistDirectory, String includeWar,
+      String additionalNexusBaseUrl,
       Path destDirPath)
           throws IOException {
     Path gradlePropertiesPath = destDirPath.resolve(GRADLE_PROPERTIES);
@@ -124,7 +126,7 @@ public class BuildGradleFileGenerator {
     if (StringUtils.isNotBlank(additionalNexusBaseUrl)) {
       properties.put(ADDITIONAL_NEXUS_BASE_URL, additionalNexusBaseUrl);
     }
-    properties.put(INCLUDE_WAR, "true");
+    properties.put(INCLUDE_WAR, includeWar);
     Optional<String> baseUrl =
         BASE_URL_PARSERS.stream().map((p) -> p.build(interlokVersion)).filter((o) -> o.isPresent()).findFirst()
         .orElse(Optional.empty());
