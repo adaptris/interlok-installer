@@ -8,7 +8,7 @@ ext {
 
   interlokParentGradle = "https://raw.githubusercontent.com/adaptris/interlok-build-parent/main/v4/build.gradle"
 
-  latestBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/latest-stable/base-filesystem.zip"
+  latestBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/latest-stable/base-filesystem-no-ui.zip"
   interlokBaseFilesystemUrl = project.findProperty("interlokBaseFilesystemUrl") ?: latestBaseFilesystemUrl
 
   additionalNexusBaseUrl = project.findProperty("additionalNexusBaseUrl") ?: ""
