@@ -6,9 +6,9 @@ ext {
   interlokVersion = project.findProperty("interlokVersion") ?: "NEED interlokVersion PROPERTY"
   interlokUiVersion = interlokVersion
 
-  interlokParentGradle = "https://raw.githubusercontent.com/adaptris-labs/interlok-build-parent/1.6.0/build.gradle"
+  interlokParentGradle = "https://raw.githubusercontent.com/adaptris/interlok-build-parent/1.8.0/v4/build.gradle"
 
-  latestBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/latest-stable/base-filesystem.zip"
+  latestBaseFilesystemUrl = "https://development.adaptris.net/installers/interlok/latest-stable/base-filesystem-no-ui.zip"
   interlokBaseFilesystemUrl = project.findProperty("interlokBaseFilesystemUrl") ?: latestBaseFilesystemUrl
 
   additionalNexusBaseUrl = project.findProperty("additionalNexusBaseUrl") ?: ""
@@ -40,17 +40,18 @@ task downloadBaseFilesystemZip(type: Download) {
   dest new File(buildDir, "base-filesystem.zip")
 }
 
-// This will override the war file
+// This will copy the config, bin, ui-resoures and webapps dirs
 task downloadAndUnzipFile(dependsOn: downloadBaseFilesystemZip, type: Copy) {
   from zipTree(downloadBaseFilesystemZip.dest)
   into file(srcInterlokDir)
 }
 
-// Do we need that or the previous step is enough?
 task downloadAndUnzipFileAndCopyConfigDir(dependsOn: downloadAndUnzipFile, type: Copy) {
+  // Do we need that or the previous step is enough?
   from file(srcInterlokDir + "config/")
   into interlokTmpConfigDirectory
-
+  
+  // Add execute permission to start-interlok bash file
   doLast {
     ant.chmod(file: "$srcInterlokDir/bin/start-interlok", perm: "+x")
   }

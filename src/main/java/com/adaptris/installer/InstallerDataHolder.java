@@ -69,6 +69,7 @@ public class InstallerDataHolder {
     InterlokProject interlokProject = new InterlokProject();
     interlokProject.setVersion(getVersion());
     interlokProject.setDirectory(getInstallDir());
+    interlokProject.setIncludeWar(true);
     interlokProject.setAdditionalNexusBaseUrl(getAdditionalNexusBaseUrl());
     interlokProject.setOptionalComponents(getSelectedOptionalComponents());
     return interlokProject;

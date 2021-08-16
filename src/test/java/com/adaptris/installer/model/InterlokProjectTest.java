@@ -1,6 +1,7 @@
 package com.adaptris.installer.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
@@ -28,6 +29,13 @@ public class InterlokProjectTest {
     assertEquals("/path/to/interlok", interlokProjectTest.getDirectory());
   }
 
+  @Test
+  public void testIncludeWar() {
+    interlokProjectTest.setIncludeWar(true);
+
+    assertTrue(interlokProjectTest.getIncludeWar());
+    assertEquals("true", interlokProjectTest.includeWar());
+  }
   @Test
   public void testAdditionalNexusBaseUrl() {
     interlokProjectTest.setAdditionalNexusBaseUrl("https://nexus.adaptris.net");
