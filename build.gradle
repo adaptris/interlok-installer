@@ -89,6 +89,11 @@ task uberJar(type: Jar) {
   with jar
 }
 
+// https://github.com/gradle/gradle/issues/17236
+rootProject.tasks.named("uberJar") {
+  duplicatesStrategy = "include"
+}
+
 distributions {
   installer {
     distributionBaseName = "$project.name-$targetPlatform"
