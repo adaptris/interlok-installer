@@ -10,11 +10,24 @@ updates:
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
+    reviewers:
+      - quotidian-ennui
+      - mcwarman
+      - aaron-mcgrath-adp
+      - sebastien-belin-adp
+      - higgyfella
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
       interval: "weekly"
     allow:
       - dependency-type: "all"
     reviewers:
       - quotidian-ennui
+      - mcwarman
       - aaron-mcgrath-adp
       - sebastien-belin-adp
       - higgyfella
