@@ -134,14 +134,14 @@ publishing {
   publications {
     mavenJava(MavenPublication) {
       from components.java
-      artifact sourcesJar { classifier "sources" }
-      artifact uberJar
 
       if ("win" == targetPlatform) {
         artifact distZip { classifier targetPlatform }
       } else {
         artifact distTar { classifier targetPlatform }
       }
+      artifact sourcesJar { classifier "sources" }
+      artifact uberJar
 
       pom.withXml {
         asNode().appendNode("name", componentName)
