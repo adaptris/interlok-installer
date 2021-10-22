@@ -77,6 +77,11 @@ jar {
   }
 }
 
+distTar {
+    compression = Compression.GZIP
+    archiveExtension = "tar.gz"
+}
+
 task uberJar(type: Jar) {
   manifest {
     attributes "Main-Class": mainClassName
