@@ -135,11 +135,11 @@ publishing {
     mavenJava(MavenPublication) {
       from components.java
 
-      if ("win" == targetPlatform) {
+      //if ("win" == targetPlatform) {
         artifact distZip { classifier targetPlatform }
-      } else {
-        artifact distTar { classifier targetPlatform }
-      }
+      //} else {
+      //  artifact distTar { classifier targetPlatform }
+      //}
       artifact sourcesJar { classifier "sources" }
       artifact uberJar
 
