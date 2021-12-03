@@ -30,7 +30,7 @@ ext {
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
   javafxVersion = "11.0.2"
-  junitJupiterVersion = "5.8.1"
+  junitJupiterVersion = "5.8.2"
 }
 
 repositories {
