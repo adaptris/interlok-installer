@@ -7,7 +7,7 @@ plugins {
   id "jacoco"
   id "maven-publish"
   id "org.openjfx.javafxplugin" version "0.0.10"
-  id 'org.owasp.dependencycheck' version "6.5.1"
+  id 'org.owasp.dependencycheck' version "6.5.2.1"
 }
 
 ext {
