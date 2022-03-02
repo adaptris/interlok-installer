@@ -37,11 +37,11 @@ repositories {
   mavenCentral()
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
-  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx and Gradle Tooling API dependencies
+  maven { url "https://repo.gradle.org/gradle/libs/" } // Required for JavaFx and Gradle Tooling API dependencies
 }
 
 dependencies {
-  implementation "org.gradle:gradle-tooling-api:7.1.1"
+  implementation "org.gradle:gradle-tooling-api:7.2"
 
   runtimeOnly "org.openjfx:javafx-base:$javafxVersion:$targetPlatform"
   runtimeOnly "org.openjfx:javafx-graphics:$javafxVersion:$targetPlatform"
