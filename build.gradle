@@ -6,12 +6,12 @@ plugins {
   id "java-library"
   id "jacoco"
   id "maven-publish"
-  id "org.openjfx.javafxplugin" version "0.0.10"
-  id 'org.owasp.dependencycheck' version "6.3.1"
+  id "org.openjfx.javafxplugin" version "0.0.11"
+  id 'org.owasp.dependencycheck' version "6.5.3"
 }
 
 ext {
-  releaseVersion = project.findProperty("releaseVersion") ?: "4.2.0-RELEASE"
+  releaseVersion = project.findProperty("releaseVersion") ?: "4.4.0-RELEASE"
   nexusBaseUrl = project.findProperty("nexusBaseUrl") ?: "https://nexus.adaptris.net/nexus"
   mavenPublishUrl = project.findProperty("mavenPublishUrl") ?: nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
@@ -30,18 +30,18 @@ ext {
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
   javafxVersion = "11.0.2"
-  junitJupiterVersion = "5.7.2"
+  junitJupiterVersion = "5.8.2"
 }
 
 repositories {
   mavenCentral()
   maven { url "$nexusBaseUrl/content/groups/public" }
   maven { url "$nexusBaseUrl/content/groups/interlok" }
-  maven { url "https://repo.gradle.org/gradle/libs-releases-local/" } // Required for JavaFx and Gradle Tooling API dependencies
+  maven { url "https://repo.gradle.org/gradle/libs/" } // Required for JavaFx and Gradle Tooling API dependencies
 }
 
 dependencies {
-  implementation "org.gradle:gradle-tooling-api:7.1.1"
+  implementation "org.gradle:gradle-tooling-api:7.2"
 
   runtimeOnly "org.openjfx:javafx-base:$javafxVersion:$targetPlatform"
   runtimeOnly "org.openjfx:javafx-graphics:$javafxVersion:$targetPlatform"
@@ -75,6 +75,11 @@ jar {
   manifest {
     attributes "Main-Class": mainClassName
   }
+}
+
+distTar {
+  compression = Compression.GZIP
+  archiveExtension = "tar.gz"
 }
 
 task uberJar(type: Jar) {
