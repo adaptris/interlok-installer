@@ -4,7 +4,7 @@ extraction:
       java_version: 11
       gradle:
         version: 7.1
-        build_command:
+      build_command:
         - ./gradlew --no-daemon -S lgtmCompile
 
 path_classifiers:
@@ -20,3 +20,5 @@ path_classifiers:
     - ".dependabot"
     - ".github"
     - ".lgtm.yml"
+  generated:
+    exclude: "**/*.java"
