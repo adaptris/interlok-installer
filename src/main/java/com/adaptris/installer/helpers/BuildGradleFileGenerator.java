@@ -122,7 +122,7 @@ public class BuildGradleFileGenerator {
   }
 
   private Optional<String> baseUrl() {
-    return Optional.of(installerProperties.getProperty(INSTALLER_PROPERTY_FILESYSTEM_URL));
+    return Optional.ofNullable(installerProperties.getProperty(INSTALLER_PROPERTY_FILESYSTEM_URL));
   }
 
   private String toLinesString(List<OptionalComponent> optionalComponents, Function<OptionalComponent, String> func) {
