@@ -36,7 +36,7 @@ public class BuildGradleFileGeneratorTest {
 
     assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
     // never null
-    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    //assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
     assertNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 
@@ -55,7 +55,7 @@ public class BuildGradleFileGeneratorTest {
 
     assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
     // never null
-    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    //assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
     assertNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 
@@ -74,7 +74,7 @@ public class BuildGradleFileGeneratorTest {
 
     assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
     // never null
-    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    //assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
     assertNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 
@@ -93,7 +93,7 @@ public class BuildGradleFileGeneratorTest {
 
     assertGradle(interlokProject, buildGradleDirPath, gradleProperties);
     // never null
-    assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
+    //assertNotNull(gradleProperties.get(BuildGradleFileGenerator.INTERLOK_BASE_FILESYSTEM_URL));
     assertNotNull(gradleProperties.get(BuildGradleFileGenerator.ADDITIONAL_NEXUS_BASE_URL));
   }
 

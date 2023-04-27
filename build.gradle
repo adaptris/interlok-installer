@@ -7,11 +7,11 @@ plugins {
   id "jacoco"
   id "maven-publish"
   id "org.openjfx.javafxplugin" version "0.0.13"
-  id 'org.owasp.dependencycheck' version "7.1.0.1"
+  id 'org.owasp.dependencycheck' version "8.2.1"
 }
 
 ext {
-  releaseVersion = project.findProperty("releaseVersion") ?: "4.5.0-RELEASE"
+  releaseVersion = project.findProperty("releaseVersion") ?: "4.6-SNAPSHOT"
   nexusBaseUrl = project.findProperty("nexusBaseUrl") ?: "https://nexus.adaptris.net/nexus"
   mavenPublishUrl = project.findProperty("mavenPublishUrl") ?: nexusBaseUrl + "/content/repositories/snapshots"
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
@@ -30,7 +30,7 @@ ext {
   organizationName = "Adaptris Ltd"
   organizationUrl = "http://interlok.adaptris.net"
   javafxVersion = "11.0.2"
-  junitJupiterVersion = "5.8.2"
+  junitJupiterVersion = "5.9.1"
 }
 
 repositories {
