@@ -1,6 +1,12 @@
 # interlok-installer
 
-[![GitHub tag](https://img.shields.io/github/tag/adaptris/interlok-installer.svg)](https://github.com/adaptris/interlok-installer/tags) [![license](https://img.shields.io/github/license/adaptris/interlok-installer.svg)](https://github.com/adaptris/interlok-installer/blob/develop/LICENSE) [![Build Status](https://travis-ci.org/adaptris/interlok-installer.svg?branch=develop)](https://travis-ci.org/adaptris/interlok-installer) [![codecov](https://codecov.io/gh/adaptris/interlok-installer/branch/develop/graph/badge.svg)](https://codecov.io/gh/adaptris/interlok-installer) [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/adaptris/interlok-installer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-installer/context:java) [![Total alerts](https://img.shields.io/lgtm/alerts/g/adaptris/interlok-installer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-installer/alerts/)
+[![GitHub tag](https://img.shields.io/github/tag/adaptris/interlok-installer.svg)](https://github.com/adaptris/interlok-installer/tags)
+[![license](https://img.shields.io/github/license/adaptris/interlok-installer.svg)](https://github.com/adaptris/interlok-installer/blob/develop/LICENSE)
+[![Actions Status](https://github.com/adaptris/interlok-installer/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/adaptris/interlok-installer/actions)
+[![codecov](https://codecov.io/gh/adaptris/interlok-installer/branch/develop/graph/badge.svg)](https://codecov.io/gh/adaptris/interlok-installer)
+[![CodeQL](https://github.com/adaptris/interlok-installer/workflows/CodeQL/badge.svg)](https://github.com/adaptris/interlok-installer/security/code-scanning)
+[![Known Vulnerabilities](https://snyk.io/test/github/adaptris/interlok-installer/badge.svg?targetFile=build.gradle)](https://snyk.io/test/github/adaptris/interlok-installer?targetFile=build.gradle)
+[![Closed PRs](https://img.shields.io/github/issues-pr-closed/adaptris/interlok-installer)](https://github.com/adaptris/interlok-installer/pulls?q=is%3Apr+is%3Aclosed)
 
 Java FX installer for Interlok. This automatically downloads the selected optional components along with the base system to build an Interlok installation in your preferred location.
 
