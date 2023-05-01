@@ -17,7 +17,7 @@ on:
       - 'dependabot/**'
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "develop" ]
+    branches: [ develop ]
   schedule:
     - cron: '26 23 * * 0'
 
@@ -35,7 +35,7 @@ jobs:
       matrix:
         language: [ 'java' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+        # Learn more about CodeQL language support at https://git.io/codeql-language-support
 
     steps:
     - name: Checkout repository
@@ -45,7 +45,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: 'adopt'
+        distribution: 'temurin'
         java-package: jdk+fx
 
     # Initializes the CodeQL tools for scanning.
