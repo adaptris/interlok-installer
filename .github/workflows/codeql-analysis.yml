@@ -45,7 +45,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11
-        distribution: 'temurin'
+        distribution: 'zulu'
         java-package: jdk+fx
 
     # Initializes the CodeQL tools for scanning.
