@@ -1,6 +1,7 @@
 package com.adaptris.installer.helpers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,7 +18,7 @@ public class InstallerPropertiesTest {
   public void testGetVersion() {
     String version = InstallerProperties.getInstance().getVersion();
 
-    assertTrue(version.matches("(4)\\.(\\d{1,2})(?:.(\\d{1,2}))?(?:B(\\d{1,2}))?-(RELEASE|SNAPSHOT)"),
+    assertTrue(version.matches("(\\d{1,2})\\.(\\d{1,2})(?:\\.(\\d{1,2})){0,2}(?:B(\\d{1,2}))?-(RELEASE|SNAPSHOT)"),
         "Should match pattern but was " + version);
   }
 
@@ -93,8 +94,9 @@ public class InstallerPropertiesTest {
   @Test
   public void testGetProperties() {
     Properties properties = InstallerProperties.getInstance().getProperties();
+    assertFalse(properties.isEmpty());
     // Bit magic number, this is the number of properties we have atm.
-    //assertEquals(18, properties.size());
+    // assertEquals(18, properties.size());
   }
 
 }

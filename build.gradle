@@ -7,6 +7,7 @@ plugins {
   id "jacoco"
   id "maven-publish"
   id "org.openjfx.javafxplugin" version "0.0.14"
+  id 'com.github.spotbugs' version "5.0.14"
   id 'org.owasp.dependencycheck' version "8.2.1"
 }
 
@@ -121,11 +122,6 @@ jacocoTestReport {
   }
 }
 
-test {
-  useJUnitPlatform()
-  include "com/adaptris/**/*Test*.class"
-}
-
 task sourcesJar(type: Jar, dependsOn: classes) {
   classifier = "sources"
   from sourceSets.main.allSource
@@ -176,6 +172,21 @@ task initImplementationConfiguration {
   }
 }
 
+spotbugsMain {
+  effort = "max"
+  reportLevel = "high"
+  reports {
+    xml {
+      required.set(false)
+    }
+    html {
+      required.set(true)
+      stylesheet = 'default.xsl'
+    }
+  }
+  includeFilter = new File("$rootDir/gradle/spotbugs-filter.xml")
+}
+
 dependencyCheck  {
   suppressionFiles= [ "https://raw.githubusercontent.com/adaptris/interlok/develop/gradle/owasp-exclude.xml" ]
   skipConfigurations = [ "antSql", "spotbugs", "umlDoclet", "offlineJavadocPackages", "javadoc", "jacocoAnt", "jacocoAgent", "spotbugsPlugins", "spotbugsSlf4j" ]
@@ -186,6 +197,14 @@ dependencyCheck  {
     assemblyEnabled=false
   }
 }
+
+test {
+  useJUnitPlatform()
+  //include "com/adaptris/**/*Test*.class"
+}
+
+// disable spotbugsTests which checks our test code..
+spotbugsTest.enabled = false
 
 check.dependsOn initImplementationConfiguration
 check.dependsOn jacocoTestReport
