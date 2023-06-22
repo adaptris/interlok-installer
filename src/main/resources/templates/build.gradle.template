@@ -5,9 +5,9 @@ plugins {
 ext {
   interlokVersion = project.findProperty("interlokVersion") ?: "NEED interlokVersion PROPERTY"
 
-  interlokParentGradle = project.findProperty("interlokParentGradle") ?: "https://raw.githubusercontent.com/adaptris/interlok-build-parent/1.9.2/v4/build.gradle"
+  interlokParentGradle = project.findProperty("interlokParentGradle") ?: "https://raw.githubusercontent.com/adaptris/interlok-build-parent/develop/v5/build.gradle"
 
-  latestBaseFilesystemUrl = "https://nexus.adaptris.net/nexus/content/groups/interlok/com/adaptris/interlok-base-filesystem/1.1.0/interlok-base-filesystem-1.1.0-with-templates.zip"
+  latestBaseFilesystemUrl = "https://nexus.adaptris.net/nexus/content/groups/interlok/com/adaptris/interlok-base-filesystem/1.1.0/interlok-base-filesystem-1.2.0-with-templates.zip"
   interlokBaseFilesystemUrl = project.findProperty("interlokBaseFilesystemUrl") ?: latestBaseFilesystemUrl
 
   additionalNexusBaseUrl = project.findProperty("additionalNexusBaseUrl") ?: ""
