@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-  implementation "org.gradle:gradle-tooling-api:7.6.1"
+  implementation "org.gradle:gradle-tooling-api:8.3"
 
   runtimeOnly "org.openjfx:javafx-base:$javafxVersion:$targetPlatform"
   runtimeOnly "org.openjfx:javafx-graphics:$javafxVersion:$targetPlatform"
