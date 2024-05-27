@@ -7,7 +7,7 @@ plugins {
   id "jacoco"
   id "maven-publish"
   id "org.openjfx.javafxplugin" version "0.0.14"
-  id 'com.github.spotbugs' version "5.0.14"
+  id 'com.github.spotbugs' version "6.0.15"
   id 'org.owasp.dependencycheck' version "8.2.1"
 }
 
