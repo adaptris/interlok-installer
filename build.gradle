@@ -166,7 +166,7 @@ publishing {
   }
 }
 
-task initImplementationConfiguration {
+tasks.register('initImplementationConfiguration') {
   doLast {
     javafx.configuration = "implementation"
   }
