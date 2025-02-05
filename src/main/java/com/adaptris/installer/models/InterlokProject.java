@@ -10,6 +10,7 @@ public class InterlokProject {
   private String version;
   private boolean includeWar;
   private String additionalNexusBaseUrl;
+  private List<String> optionalDependencies = new ArrayList<>();
 
   public List<OptionalComponent> getOptionalComponents() {
     return optionalComponents;
@@ -56,4 +57,11 @@ public class InterlokProject {
     this.additionalNexusBaseUrl = additionalNexusBaseUrl;
   }
 
+  public List<String> getOptionalDependencies() {
+    return optionalDependencies;
+  }
+
+  public void setOptionalDependencies(List<String> optionalDependencies) {
+    this.optionalDependencies = optionalDependencies;
+  }
 }

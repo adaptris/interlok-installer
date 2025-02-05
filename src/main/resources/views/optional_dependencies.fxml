@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import fxmltableview.*?>
+<?import java.lang.Object?>
+
+
+<VBox fx:controller="com.adaptris.installer.controllers.OptionalDependenciesController"
+      xmlns:fx="http://javafx.com/fxml" styleClass="optional-components" spacing="10">
+
+  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+  <children>
+    <HBox styleClass="page-logo">
+      <padding><Insets top="50" bottom="10" /></padding>
+    </HBox>
+    <Label text="Optional Dependencies"></Label>
+    <VBox prefHeight="425" spacing="10" alignment="center" >
+
+      <children>
+
+        <VBox spacing="10" styleClass="">
+          <children>
+            <HBox spacing="5" prefWidth="750" styleClass="filter-text">
+              <children>
+                <Label text="Dependencies:"></Label>
+                <TextArea fx:id="depTextarea"></TextArea>
+              </children>
+            </HBox>
+            <Label fx:id="errorFormat" text="Incorrect Format entered" styleClass="error"></Label>
+          </children>
+        </VBox>
+      </children>
+    </VBox>
+    <HBox spacing="10" alignment="center_right">
+      <children>
+        <Button text="Cancel" onAction="#handleCancel"></Button>
+        <Button text="Previous" onAction="#handlePrevious"></Button>
+        <Button text="Install" onAction="#handleInstallInterlok"></Button>
+      </children>
+    </HBox>
+  </children>
+  <stylesheets>
+    <URL value="@/css/optional_components.css" />
+  </stylesheets>
+</VBox>
+

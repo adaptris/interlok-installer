@@ -166,6 +166,12 @@ publishing {
   }
 }
 
+task initImplementationConfiguration {
+  doLast {
+    javafx.configuration = "implementation"
+  }
+}
+
 spotbugsMain {
   effort = "max"
   reportLevel = "high"
@@ -200,4 +206,5 @@ test {
 // disable spotbugsTests which checks our test code..
 spotbugsTest.enabled = false
 
+check.dependsOn initImplementationConfiguration
 check.dependsOn jacocoTestReport

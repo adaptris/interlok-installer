@@ -27,6 +27,8 @@ allprojects {
 dependencies {
 #{interlokRuntime}
 
+#{optionalDependencies}
+
 #{interlokJavadocs}
 }
 

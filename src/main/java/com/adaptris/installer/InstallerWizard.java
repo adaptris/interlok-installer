@@ -11,6 +11,7 @@ public class InstallerWizard {
   private Parent installDirectory;
   private Parent optionalComponents;
   private Parent installProgress;
+  private Parent optionalDependencies;
 
   private FxmlLoader fxmlLoader;
 
@@ -70,6 +71,17 @@ public class InstallerWizard {
 
   public Parent loadInstallProgressNode() {
     return fxmlLoader.loadOrExit("/views/install_progress.fxml");
+  }
+
+  public void goToOptionalDependencies(Scene scene) {
+    if (Objects.isNull(optionalDependencies)) {
+      optionalDependencies = loadOptionalDependenciesNode();
+    }
+    scene.setRoot(optionalDependencies);
+  }
+
+  public Parent loadOptionalDependenciesNode() {
+    return fxmlLoader.loadOrExit("/views/optional_dependencies.fxml");
   }
 
 }

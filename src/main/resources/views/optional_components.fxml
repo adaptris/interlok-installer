@@ -77,7 +77,7 @@
                 <Label text="No Interlok optional components could be loaded"></Label>
               </placeholder>
             </TableView>
-        
+            <CheckBox fx:id="checkBox1" text="Include Optional Dependencies" onAction="#handleTextChange"/>
           </children>
         </VBox>
       </children>
@@ -86,7 +86,7 @@
       <children>
         <Button text="Cancel" onAction="#handleCancel"></Button>
         <Button text="Previous" onAction="#handlePrevious"></Button>
-        <Button text="Install" onAction="#handleInstallInterlok"></Button>
+        <Button fx:id="nextButton" onAction="#handleInstallInterlok"></Button>
       </children>
     </HBox>
   </children>
