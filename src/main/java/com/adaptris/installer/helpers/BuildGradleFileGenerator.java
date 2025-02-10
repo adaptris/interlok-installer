@@ -42,8 +42,6 @@ public class BuildGradleFileGenerator {
   private final Path tmpDirPath;
   private final InstallerProperties installerProperties;
 
-  private LogHelper log = LogHelper.getInstance();
-
   public BuildGradleFileGenerator() {
     this(Paths.get(System.getProperty("java.io.tmpdir")));
   }
@@ -58,12 +56,8 @@ public class BuildGradleFileGenerator {
 
     // TODO Use better template engine
     createBuildGradleFile(interlokProject.getOptionalDependencies(),interlokProject.getOptionalComponents(), BUILD_GRADLE_TEMPLATE, destDir);
-//    if(!interlokProject.getOptionalDependencies().isEmpty())
-//      createBuildGradleDependencies(interlokProject.getOptionalDependencies(), BUILD_GRADLE_TEMPLATE, destDir);
-    log.info("Reaching here111333");
     createGradlePropertiesFile(interlokProject.getVersion(), interlokProject.getDirectory(), interlokProject.includeWar(),
         interlokProject.getAdditionalNexusBaseUrl(), destDir);
-    log.info("2- Reaching here111333");
     return destDir;
   }
 
@@ -103,22 +97,14 @@ public class BuildGradleFileGenerator {
     String buildGradleContent = buildGradleTemplate.replace("#{interlokRuntime}", interlokRuntime);
     buildGradleContent = buildGradleContent.replace("#{interlokJavadocs}", interlokJavadocs);
 
-    log.info("options 11 size - " + optionalDependencies.size() + " , val - " + optionalDependencies.toString() + "len - " + optionalDependencies.toString().length());
-
-    log.info("t/f blank - " + StringUtils.isBlank(optionalDependencies.toString()));
-    log.info("t/f not blank - " + StringUtils.isNotBlank(optionalDependencies.toString()));
-
     if(StringUtils.isNotBlank(String.join("", optionalDependencies))) {
       optionalDependencies = optionalDependencies.stream().map(s -> "interlokRuntime (\"" + s + "\") { changing=true }").collect(Collectors.toList());
 
       String interlokOptionalDeps = optionalDependencies.stream().collect(Collectors.joining(System.lineSeparator()));
 
-//      log.info("options 1 size - " + optionalDependencies.size() + " , val len - " + optionalDependencies.toString().length());
-
       buildGradleContent = buildGradleContent.replace("#{optionalDependencies}", interlokOptionalDeps);
     } else {
       buildGradleContent = buildGradleContent.replace("#{optionalDependencies}", "");
-      log.info("options 2 - list is empty");
     }
 
     Files.writeString(buildGradlePath, buildGradleContent);

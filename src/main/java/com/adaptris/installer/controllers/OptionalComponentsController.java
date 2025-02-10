@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import com.adaptris.installer.InstallerDataHolder;
 import com.adaptris.installer.OptionalComponentCell;
-import com.adaptris.installer.helpers.LogHelper;
 import com.adaptris.installer.utils.FxUtils;
 import com.adaptris.installer.utils.MatchUtils;
 
@@ -27,11 +26,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.ImageView;
-import com.adaptris.installer.helpers.LogHelper;
 
 public class OptionalComponentsController extends CancelAwareInstallerController {
-
-  private LogHelper log = LogHelper.getInstance();
 
   @FXML
   private TextField filterTextField;
@@ -150,17 +146,12 @@ public class OptionalComponentsController extends CancelAwareInstallerController
 
   @FXML
   private void handleInstallInterlok(ActionEvent event) throws IOException {
-//    log.info(" oming here 12 - " + checkBox1.isSelected());
     if(!checkBox1.isSelected()) {
-//      log.info(" oming here 23 - " + checkBox1.isSelected());
       InstallerDataHolder.getInstance().setSelectedOptionalComponents(optionalComponentCells.stream()
               .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
 
       installerWizard.goToInstallProgress(((Button) event.getSource()).getScene());
     } else {
-//      InstallerDataHolder.getInstance().setSelectedOptionalComponents(optionalComponentCells.stream()
-//              .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
-      log.info(" oming here 34 - " + checkBox1.isSelected());
       installerWizard.goToOptionalDependencies(((Button) event.getSource()).getScene());
     }
   }
