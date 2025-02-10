@@ -1,8 +1,0 @@
-cd ~/interlok-installer/
-./gradlew clean assemble -PtargetPlatform=mac
-cp build/distributions/interlok-installer-5.0-SNAPSHOT.zip ~/temp22
-cd ~/temp22
-unzip interlok-installer-5.0-SNAPSHOT.zip
-cd interlok-installer-5.0-SNAPSHOT
-bin/interlok-installer
-
