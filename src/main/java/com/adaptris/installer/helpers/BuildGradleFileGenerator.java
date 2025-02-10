@@ -55,7 +55,7 @@ public class BuildGradleFileGenerator {
     Path destDir = Files.createDirectories(tmpDirPath.resolve(installerTmpDirName(interlokProject)));
 
     // TODO Use better template engine
-    createBuildGradleFile(interlokProject.getOptionalDependencies(),interlokProject.getOptionalComponents(), BUILD_GRADLE_TEMPLATE, destDir);
+    createBuildGradleFile(interlokProject.getOptionalDependencies(), interlokProject.getOptionalComponents(), BUILD_GRADLE_TEMPLATE, destDir);
     createGradlePropertiesFile(interlokProject.getVersion(), interlokProject.getDirectory(), interlokProject.includeWar(),
         interlokProject.getAdditionalNexusBaseUrl(), destDir);
     return destDir;
