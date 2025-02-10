@@ -150,9 +150,9 @@ public class OptionalComponentsController extends CancelAwareInstallerController
 
   @FXML
   private void handleInstallInterlok(ActionEvent event) throws IOException {
-    log.info(" oming here 12 - " + checkBox1.isSelected());
+//    log.info(" oming here 12 - " + checkBox1.isSelected());
     if(!checkBox1.isSelected()) {
-      log.info(" oming here 23 - " + checkBox1.isSelected());
+//      log.info(" oming here 23 - " + checkBox1.isSelected());
       InstallerDataHolder.getInstance().setSelectedOptionalComponents(optionalComponentCells.stream()
               .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
 

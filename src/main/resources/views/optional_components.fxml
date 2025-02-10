@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.collections.*?> 
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.*?> 
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import fxmltableview.*?>
-<?import java.lang.Object?> 
-
-
-<VBox fx:controller="com.adaptris.installer.controllers.OptionalComponentsController" 
-    xmlns:fx="http://javafx.com/fxml" styleClass="optional-components" spacing="10">
+<?import java.net.URL?>
+<VBox fx:controller="com.adaptris.installer.controllers.OptionalComponentsController"
+      xmlns:fx="http://javafx.com/fxml" styleClass="optional-components" spacing="10">
     
   <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
   

@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.collections.*?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import fxmltableview.*?>
-<?import java.lang.Object?>
-
-
+<?import java.net.URL?>
 <VBox fx:controller="com.adaptris.installer.controllers.OptionalDependenciesController"
       xmlns:fx="http://javafx.com/fxml" styleClass="optional-components" spacing="10">
 
@@ -20,19 +14,19 @@
     <HBox styleClass="page-logo">
       <padding><Insets top="50" bottom="10" /></padding>
     </HBox>
-    <Label text="Optional Dependencies"></Label>
+    <Label text="Optional Dependencies :"></Label>
     <VBox prefHeight="425" spacing="10" alignment="center" >
+
+      <padding><Insets top="0" bottom="0" /></padding>
 
       <children>
 
         <VBox spacing="10" styleClass="">
           <children>
-            <HBox spacing="5" prefWidth="750" styleClass="filter-text">
-              <children>
-                <Label text="Dependencies:"></Label>
-                <TextArea fx:id="depTextarea"></TextArea>
-              </children>
+            <HBox spacing="5" prefWidth="750" prefHeight="150">
             </HBox>
+            <TextArea fx:id="depTextarea" prefWidth="750" prefHeight="390" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            </TextArea>
             <Label fx:id="errorFormat" text="Incorrect Format entered" styleClass="error"></Label>
           </children>
         </VBox>
