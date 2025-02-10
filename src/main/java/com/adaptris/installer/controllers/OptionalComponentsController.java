@@ -46,7 +46,7 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   @FXML
   private TableColumn<OptionalComponentCell, Boolean> selectColumn;
   @FXML
-  private CheckBox checkBox1 ;
+  private CheckBox dependenciesCheckBox ;
   @FXML
   private Button nextButton;
 
@@ -146,7 +146,7 @@ public class OptionalComponentsController extends CancelAwareInstallerController
 
   @FXML
   private void handleInstallInterlok(ActionEvent event) throws IOException {
-    if(!checkBox1.isSelected()) {
+    if(!dependenciesCheckBox.isSelected()) {
       InstallerDataHolder.getInstance().setSelectedOptionalComponents(optionalComponentCells.stream()
               .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
 

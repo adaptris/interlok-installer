@@ -73,7 +73,7 @@
                 <Label text="No Interlok optional components could be loaded"></Label>
               </placeholder>
             </TableView>
-            <CheckBox fx:id="checkBox1" text="Include Optional Dependencies" onAction="#handleTextChange"/>
+            <CheckBox fx:id="dependenciesCheckBox" text="Include Optional Dependencies" onAction="#handleTextChange"/>
           </children>
         </VBox>
       </children>
