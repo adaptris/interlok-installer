@@ -50,4 +50,10 @@ public class InterlokProjectTest {
     assertEquals(1, interlokProjectTest.getOptionalComponents().size());
   }
 
+  @Test
+  public void testOptionalDependencies() {
+    interlokProjectTest.setOptionalDependencies(Collections.singletonList("com.mysql:mysql-connector-j:9.1.0"));
+
+    assertEquals(1, interlokProjectTest.getOptionalDependencies().size());
+  }
 }
