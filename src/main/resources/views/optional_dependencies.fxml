@@ -14,7 +14,7 @@
     <HBox styleClass="page-logo">
       <padding><Insets top="50" bottom="10" /></padding>
     </HBox>
-    <Label text="Optional Dependencies :"></Label>
+    <Label text="Optional Dependencies"></Label>
     <VBox prefHeight="425" spacing="10" alignment="center" >
 
       <padding><Insets top="0" bottom="0" /></padding>
@@ -24,6 +24,7 @@
         <VBox spacing="10" styleClass="">
           <children>
             <HBox spacing="5" prefWidth="750" prefHeight="150">
+              <Label text="Specified Format - groupId:artifactId:version"/>
             </HBox>
             <TextArea fx:id="depTextarea" prefWidth="750" prefHeight="390" GridPane.columnIndex="0" GridPane.rowIndex="1">
             </TextArea>
