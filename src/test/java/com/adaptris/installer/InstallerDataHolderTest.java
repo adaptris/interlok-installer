@@ -44,6 +44,13 @@ public class InstallerDataHolderTest {
   }
 
   @Test
+  public void testOptionalDependencies() {
+    installerDataHolder.setOptionalDependencies(Collections.singletonList("com.mysql:mysql-connector-j:9.1.0"));
+
+    assertEquals(1, installerDataHolder.getOptionalDependencies().size());
+  }
+
+  @Test
   public void testSelectedOptionalComponents() {
     installerDataHolder.setSelectedOptionalComponents(Collections.singletonList(new OptionalComponent("interlok-json")));
 
@@ -56,6 +63,7 @@ public class InstallerDataHolderTest {
     installerDataHolder.setInstallDir("/path/to/interlok");
     installerDataHolder.setAdditionalNexusBaseUrl("https://nexus.adaptris.net");
     installerDataHolder.setSelectedOptionalComponents(Collections.singletonList(new OptionalComponent("interlok-json")));
+    installerDataHolder.setOptionalDependencies(Collections.singletonList("com.mysql:mysql-connector-j:9.1.0"));
 
     InterlokProject interlokProject = installerDataHolder.buildProject();
 
@@ -64,6 +72,7 @@ public class InstallerDataHolderTest {
     assertEquals(installerDataHolder.getInstallDir(),interlokProject.getDirectory());
     assertEquals(installerDataHolder.getAdditionalNexusBaseUrl(),interlokProject.getAdditionalNexusBaseUrl());
     assertEquals(installerDataHolder.getSelectedOptionalComponents(), interlokProject.getOptionalComponents());
+    assertEquals(installerDataHolder.getOptionalDependencies(), interlokProject.getOptionalDependencies());
   }
 
 }
