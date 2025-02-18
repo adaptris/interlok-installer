@@ -15,6 +15,7 @@ public class InstallerDataHolder {
   private String additionalNexusBaseUrl;
   private List<OptionalComponent> optionalComponents = new ArrayList<>();
   private List<OptionalComponent> selectedOptionalComponents = new ArrayList<>();
+  private List<String> optionalDependencies = new ArrayList<>();
 
   private InstallerDataHolder() {
   }
@@ -56,6 +57,15 @@ public class InstallerDataHolder {
     this.optionalComponents.addAll(optionalComponents);
   }
 
+  public List<String> getOptionalDependencies() {
+    return optionalDependencies;
+  }
+
+  public void setOptionalDependencies(List<String> optionalDependencies) {
+    this.optionalDependencies.clear();
+    this.optionalDependencies.addAll(optionalDependencies);
+  }
+
   public List<OptionalComponent> getSelectedOptionalComponents() {
     return selectedOptionalComponents;
   }
@@ -72,6 +82,7 @@ public class InstallerDataHolder {
     interlokProject.setIncludeWar(true);
     interlokProject.setAdditionalNexusBaseUrl(getAdditionalNexusBaseUrl());
     interlokProject.setOptionalComponents(getSelectedOptionalComponents());
+    interlokProject.setOptionalDependencies(getOptionalDependencies());
     return interlokProject;
   }
 

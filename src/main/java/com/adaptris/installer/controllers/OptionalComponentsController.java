@@ -45,6 +45,10 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   private TableColumn<OptionalComponentCell, Boolean> licensedColumn;
   @FXML
   private TableColumn<OptionalComponentCell, Boolean> selectColumn;
+  @FXML
+  private CheckBox dependenciesCheckBox ;
+  @FXML
+  private Button nextButton;
 
   private final List<OptionalComponentCell> optionalComponentCells = new ArrayList<>();
 
@@ -103,6 +107,8 @@ public class OptionalComponentsController extends CancelAwareInstallerController
     filterTextField.textProperty().addListener((observable, oldText, newText) -> {
       filteredOptionalComponentCells.setPredicate(oc -> match(oc, newText));
     });
+
+    nextButton.setText("Install");
   }
 
   private String getIdOrNameForTooltip(TableRow<OptionalComponentCell> tableRow, String name) {
@@ -131,11 +137,23 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   }
 
   @FXML
+  private void handleTextChange(ActionEvent event) {
+    if(((CheckBox) event.getSource()).isSelected())
+      nextButton.setText("Next");
+    else
+      nextButton.setText("Install");
+  }
+
+  @FXML
   private void handleInstallInterlok(ActionEvent event) throws IOException {
     InstallerDataHolder.getInstance().setSelectedOptionalComponents(optionalComponentCells.stream()
-        .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
+            .filter(OptionalComponentCell::getSelected).map(OptionalComponentCell::getOptionalComponent).collect(Collectors.toList()));
 
-    installerWizard.goToInstallProgress(((Button) event.getSource()).getScene());
+    if(!dependenciesCheckBox.isSelected()) {
+      installerWizard.goToInstallProgress(((Button) event.getSource()).getScene());
+    } else {
+      installerWizard.goToOptionalDependencies(((Button) event.getSource()).getScene());
+    }
   }
 
   @FXML

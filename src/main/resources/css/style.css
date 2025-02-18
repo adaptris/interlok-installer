@@ -27,9 +27,14 @@
     -fx-fill: #EEEEEE;
 }
 
-.label {
+.label, .check-box {
     -fx-font-size: 13px;
     -fx-font-weight: bold;
     -fx-text-fill: #EEEEEE;
     /* -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 ); */
 }
+
+.error {
+    -fx-text-fill: #FF0000;
+}
+

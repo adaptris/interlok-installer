@@ -55,10 +55,9 @@ public class BuildGradleFileGenerator {
     Path destDir = Files.createDirectories(tmpDirPath.resolve(installerTmpDirName(interlokProject)));
 
     // TODO Use better template engine
-    createBuildGradleFile(interlokProject.getOptionalComponents(), BUILD_GRADLE_TEMPLATE, destDir);
+    createBuildGradleFile(interlokProject.getOptionalDependencies(), interlokProject.getOptionalComponents(), BUILD_GRADLE_TEMPLATE, destDir);
     createGradlePropertiesFile(interlokProject.getVersion(), interlokProject.getDirectory(), interlokProject.includeWar(),
         interlokProject.getAdditionalNexusBaseUrl(), destDir);
-
     return destDir;
   }
 
@@ -81,7 +80,7 @@ public class BuildGradleFileGenerator {
     return INTERLOK_INSTALLER_TMP_DIR + interlokProject.getVersion();
   }
 
-  private void createBuildGradleFile(List<OptionalComponent> optionalComponents, String buildGradleTemplateName, Path destDirPath)
+  private void createBuildGradleFile(List<String> optionalDependencies, List<OptionalComponent> optionalComponents, String buildGradleTemplateName, Path destDirPath)
       throws IOException {
     Path buildGradlePath = destDirPath.resolve(BUILD_GRADLE);
 
@@ -97,6 +96,18 @@ public class BuildGradleFileGenerator {
 
     String buildGradleContent = buildGradleTemplate.replace("#{interlokRuntime}", interlokRuntime);
     buildGradleContent = buildGradleContent.replace("#{interlokJavadocs}", interlokJavadocs);
+
+    if (StringUtils.isNotBlank(String.join("", optionalDependencies))) {
+      optionalDependencies = optionalDependencies.stream().map(s -> {
+        return INDENT + "interlokRuntime (\"" + s + "\") { changing=true }";
+      }).collect(Collectors.toList());
+
+      String interlokOptionalDeps = optionalDependencies.stream().collect(Collectors.joining(System.lineSeparator()));
+
+      buildGradleContent = buildGradleContent.replace("#{optionalDependencies}", interlokOptionalDeps);
+    } else {
+      buildGradleContent = buildGradleContent.replace("#{optionalDependencies}", "");
+    }
 
     Files.writeString(buildGradlePath, buildGradleContent);
   }
