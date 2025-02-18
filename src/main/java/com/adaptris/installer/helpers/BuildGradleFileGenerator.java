@@ -97,8 +97,10 @@ public class BuildGradleFileGenerator {
     String buildGradleContent = buildGradleTemplate.replace("#{interlokRuntime}", interlokRuntime);
     buildGradleContent = buildGradleContent.replace("#{interlokJavadocs}", interlokJavadocs);
 
-    if(StringUtils.isNotBlank(String.join("", optionalDependencies))) {
-      optionalDependencies = optionalDependencies.stream().map(s -> "interlokRuntime (\"" + s + "\") { changing=true }").collect(Collectors.toList());
+    if (StringUtils.isNotBlank(String.join("", optionalDependencies))) {
+      optionalDependencies = optionalDependencies.stream().map(s -> {
+        return INDENT + "interlokRuntime (\"" + s + "\") { changing=true }";
+      }).collect(Collectors.toList());
 
       String interlokOptionalDeps = optionalDependencies.stream().collect(Collectors.joining(System.lineSeparator()));
 
