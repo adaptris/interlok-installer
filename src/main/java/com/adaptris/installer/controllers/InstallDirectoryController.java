@@ -6,14 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.adaptris.installer.InstallerWizard;
-import com.adaptris.installer.helpers.LogHelper;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 
 import com.adaptris.installer.InstallerDataHolder;
@@ -91,6 +84,7 @@ public class InstallDirectoryController extends CancelAwareInstallerController {
 
   private DirectoryChooser buildInstallDirDirectoryChooser() {
     DirectoryChooser directoryChooser = new DirectoryChooser();
+    directoryChooser.setTitle("Select Install Dir");
     Path path = Paths.get(chooseDirTextField.getText());
     if (StringUtils.isNotBlank(chooseDirTextField.getText()) && Files.isDirectory(path)) {
       directoryChooser.setInitialDirectory(path.toFile());
