@@ -1,12 +1,16 @@
 package com.adaptris.installer.controllers;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 import com.adaptris.installer.InstallerDataHolder;
 import com.adaptris.installer.OptionalComponentCell;
+import com.adaptris.installer.helpers.LogHelper;
 import com.adaptris.installer.utils.FxUtils;
 import com.adaptris.installer.utils.MatchUtils;
 
@@ -50,6 +54,8 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   @FXML
   private Button nextButton;
 
+  private LogHelper log = LogHelper.getInstance();
+
   private final List<OptionalComponentCell> optionalComponentCells = new ArrayList<>();
 
   /**
@@ -57,6 +63,9 @@ public class OptionalComponentsController extends CancelAwareInstallerController
    */
   @FXML
   private void initialize() {
+    log.info("inside initialize");
+
+
     licensedColumn.setCellFactory(tc -> {
       CheckBoxTableCell<OptionalComponentCell, Boolean> cell = new CheckBoxTableCell<>();
       cell.setAlignment(Pos.CENTER);
@@ -107,8 +116,50 @@ public class OptionalComponentsController extends CancelAwareInstallerController
     filterTextField.textProperty().addListener((observable, oldText, newText) -> {
       filteredOptionalComponentCells.setPredicate(oc -> match(oc, newText));
     });
+  }
+
+  public void renderInstall() {
+    selectColumn.getTableView().getItems().forEach(
+            cell -> cell.setSelected(false)
+    );
 
     nextButton.setText("Install");
+  }
+
+  public void renderUpgrade() {
+    List<String> artifactIds = new ArrayList<>();
+
+    if(installerWizard.getInstallDirectoryPath() != null){
+      String installDirectoryPath = installerWizard.getInstallDirectoryPath();
+
+      String searchPattern = "META-INF/adaptris-version";
+
+      List<File> jarFiles = getJarFilesFromDirectory(installDirectoryPath+File.separator+"lib");
+
+      List<File> filteredJars = filterJarsByContainedFile(jarFiles, searchPattern);
+
+      for (File jar : filteredJars) {
+        try {
+          // For text files
+          String artifactId = readFileFromJar(jar.getAbsolutePath(), searchPattern);
+          if (artifactId != null) {
+            artifactIds.add(artifactId);
+          }
+        } catch (IOException e) {
+          log.info("Error reading file from JAR:");
+        }
+      }
+
+    }
+
+    selectColumn.getTableView().getItems().forEach(
+            cell -> {
+              if(artifactIds.contains(cell.getId()))
+                cell.setSelected(true);
+            }
+    );
+
+    nextButton.setText("Upgrade");
   }
 
   private String getIdOrNameForTooltip(TableRow<OptionalComponentCell> tableRow, String name) {
@@ -158,7 +209,77 @@ public class OptionalComponentsController extends CancelAwareInstallerController
 
   @FXML
   private void handlePrevious(ActionEvent event) throws IOException {
+    selectColumn.getTableView().getItems().forEach(
+            cell -> cell.setSelected(false)
+    );
     installerWizard.goToInstallDirectory(((Button) event.getSource()).getScene());
   }
 
+  private String readFileFromJar(String jarFilePath, String filePathInJar) throws IOException {
+    try (JarFile jarFile = new JarFile(jarFilePath)) {
+      // Get the JAR entry for the specified file
+      JarEntry entry = jarFile.getJarEntry(filePathInJar);
+
+      if (entry == null) {
+        return null; // File not found in the JAR
+      }
+
+      // Open an input stream to read the file
+      try (InputStream inputStream = jarFile.getInputStream(entry);
+           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+
+        StringBuilder content = new StringBuilder();
+        String line;
+
+        // Read the file line by line
+        while ((line = reader.readLine()) != null) {
+          if(line.startsWith("artifactId="))
+            content.append(line.replace("artifactId=", "").trim());
+        }
+
+        return content.toString();
+      }
+    }
+  }
+
+  public static List<File> filterJarsByContainedFile(List<File> jarFiles, String fileNamePattern) {
+    List<File> filteredJars = new ArrayList<>();
+
+    for (File jarFile : jarFiles) {
+      try (JarFile jar = new JarFile(jarFile)) {
+        Enumeration<JarEntry> entries = jar.entries();
+
+        while (entries.hasMoreElements()) {
+          JarEntry entry = entries.nextElement();
+          String entryName = entry.getName();
+
+          if (!entry.isDirectory() && entryName.contains(fileNamePattern)) {
+            filteredJars.add(jarFile);
+            break; // Found a match, no need to check other entries
+          }
+        }
+      } catch (IOException e) {
+        System.err.println("Error processing JAR file: " + jarFile.getName());
+        e.printStackTrace();
+      }
+    }
+
+    return filteredJars;
+  }
+
+  private static List<File> getJarFilesFromDirectory(String directoryPath) {
+    List<File> jarFiles = new ArrayList<>();
+    File directory = new File(directoryPath);
+
+    if (directory.exists() && directory.isDirectory()) {
+      File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
+      if (files != null) {
+        for (File file : files) {
+          jarFiles.add(file);
+        }
+      }
+    }
+
+    return jarFiles;
+  }
 }
