@@ -58,7 +58,7 @@ public class InstallerWizard {
 
   public void goToOptionalComponents(Scene scene) throws IOException {
     OptionalComponentsController controller = loadAndGetOptionalComponentsController();
-    if(isUpgrade) {
+    if(!isUpgrade) {
       controller.renderInstall();
     } else {
       controller.renderUpgrade();
