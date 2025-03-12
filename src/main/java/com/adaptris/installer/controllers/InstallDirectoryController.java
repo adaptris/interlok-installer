@@ -47,7 +47,11 @@ public class InstallDirectoryController extends CancelAwareInstallerController {
   @FXML
   private Button nextButton;
 
-  private LogHelper log = LogHelper.getInstance();
+  private static final String TEXT_UPGRADE_WARNING = "* This process only upgrades jars, and not configurations. Custom configurations may not work with upgraded version";
+
+  private static final String TEXT_ERROR_INTERLOK_INSTALLED = "Interlok is found installed in the selected location";
+
+  private static final String TEXT_ERROR_INTERLOK_NOT_INSTALLED = "Interlok is not found installed in the selected location";
 
   /**
    * Initializes the controller class. This method is automatically called after the fxml file has been loaded.
@@ -70,19 +74,17 @@ public class InstallDirectoryController extends CancelAwareInstallerController {
       nextButton.setDisable(StringUtils.isBlank(newText.toString()));
     });
 
-    upgradeWarningText.setText("* This process only upgrades jars, and not configurations. Custom configurations may not work with upgraded version");
+    upgradeWarningText.setText(TEXT_UPGRADE_WARNING);
   }
 
   @FXML
   private void handleInstallSelected(ActionEvent event) {
-    log.info("install Selected");
     installerWizard.setIsUpgrade(false);
     upgradeWarningText.setVisible(false);
   }
 
   @FXML
   private void handleUpgradeSelected(ActionEvent event) {
-    log.info("upgrade Selected");
     installerWizard.setIsUpgrade(true);
     upgradeWarningText.setVisible(true);
   }
@@ -109,19 +111,23 @@ public class InstallDirectoryController extends CancelAwareInstallerController {
 
   @FXML
   private void handleNext(ActionEvent event) throws IOException {
-    File directory = new File(chooseDirTextField.getText());
-
     if(radioButtonInstall.isSelected()) {
       installerWizard.setIsUpgrade(false);
     } else if(radioButtonUpgrade.isSelected()) {
       installerWizard.setIsUpgrade(true);
     }
 
+    validateAndGoToOptionalComponents(event);
+  }
+
+  private void validateAndGoToOptionalComponents(ActionEvent event) throws IOException {
+    File directory = new File(chooseDirTextField.getText());
+
     if (!installerWizard.isUpgrade() && directory.exists()) {
-      installErrorText.setText("Interlok is found installed in the selected location");
+      installErrorText.setText(TEXT_ERROR_INTERLOK_INSTALLED);
       installErrorText.setVisible(true);
     } else if (installerWizard.isUpgrade() && !directory.exists()) {
-      installErrorText.setText("Interlok is not found installed in the selected location");
+      installErrorText.setText(TEXT_ERROR_INTERLOK_NOT_INSTALLED);
       installErrorText.setVisible(true);
     } else {
       installerWizard.setInstallDirectoryPath(chooseDirTextField.getText());

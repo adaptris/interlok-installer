@@ -57,22 +57,13 @@ public class InstallerWizard {
   }
 
   public void goToOptionalComponents(Scene scene) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/optional_components.fxml"));
-
-    optionalComponents = fxmlLoader.load();
-
-    OptionalComponentsController controller = fxmlLoader.<OptionalComponentsController>getController();
-
-    if(!isUpgrade()) {
+    OptionalComponentsController controller = loadAndGetOptionalComponentsController();
+    if(isUpgrade) {
       controller.renderInstall();
     } else {
       controller.renderUpgrade();
     }
     scene.setRoot(optionalComponents);
-  }
-
-  public Parent loadOptionalComponentsNode() {
-    return fxmlLoader.loadOrExit("/views/optional_components.fxml");
   }
 
   public void goToInstallProgress(Scene scene) {
@@ -110,5 +101,12 @@ public class InstallerWizard {
 
   public void setInstallDirectoryPath(String installDirectoryPath) {
     this.installDirectoryPath = installDirectoryPath;
+  }
+
+  public OptionalComponentsController loadAndGetOptionalComponentsController() throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/optional_components.fxml"));
+    optionalComponents = fxmlLoader.load();
+    OptionalComponentsController controller = fxmlLoader.<OptionalComponentsController>getController();
+    return controller;
   }
 }
