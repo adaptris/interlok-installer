@@ -2,6 +2,7 @@ package com.adaptris.installer.controllers;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import com.adaptris.installer.InstallerDataHolder;
 import com.adaptris.installer.OptionalComponentCell;
 import com.adaptris.installer.helpers.LogHelper;
+import com.adaptris.installer.utils.FileUtils;
 import com.adaptris.installer.utils.FxUtils;
 import com.adaptris.installer.utils.MatchUtils;
 
@@ -30,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.ImageView;
+import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 
 public class OptionalComponentsController extends CancelAwareInstallerController {
 
@@ -53,6 +56,15 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   private CheckBox dependenciesCheckBox ;
   @FXML
   private Button nextButton;
+
+  private static final String LABEL_BTN_NEXT = "Next";
+  private static final String LABEL_BTN_INSTALL = "Install";
+  private static final String LABEL_BTN_UPGRADE = "Upgrade";
+
+  private static final String PATH_INTERLOK_VERSION = "META-INF/adaptris-version";
+
+  private static final String PARAMS_KEY_ARTIFACT = "artifactId=";
+  private static final String PARAMS_EXTENSION = ".jar";
 
   private LogHelper log = LogHelper.getInstance();
 
@@ -118,50 +130,6 @@ public class OptionalComponentsController extends CancelAwareInstallerController
     });
   }
 
-  public void renderInstall() {
-    selectColumn.getTableView().getItems().forEach(
-            cell -> cell.setSelected(false)
-    );
-
-    nextButton.setText("Install");
-  }
-
-  public void renderUpgrade() {
-    List<String> artifactIds = new ArrayList<>();
-
-    if(installerWizard.getInstallDirectoryPath() != null){
-      String installDirectoryPath = installerWizard.getInstallDirectoryPath();
-
-      String searchPattern = "META-INF/adaptris-version";
-
-      List<File> jarFiles = getJarFilesFromDirectory(installDirectoryPath+File.separator+"lib");
-
-      List<File> filteredJars = filterJarsByContainedFile(jarFiles, searchPattern);
-
-      for (File jar : filteredJars) {
-        try {
-          // For text files
-          String artifactId = readFileFromJar(jar.getAbsolutePath(), searchPattern);
-          if (artifactId != null) {
-            artifactIds.add(artifactId);
-          }
-        } catch (IOException e) {
-          log.info("Error reading file from JAR:");
-        }
-      }
-
-    }
-
-    selectColumn.getTableView().getItems().forEach(
-            cell -> {
-              if(artifactIds.contains(cell.getId()))
-                cell.setSelected(true);
-            }
-    );
-
-    nextButton.setText("Upgrade");
-  }
-
   private String getIdOrNameForTooltip(TableRow<OptionalComponentCell> tableRow, String name) {
     return tableRow != null ? FxUtils.getIdOrName(tableRow.getItem(), name) : name;
   }
@@ -190,9 +158,9 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   @FXML
   private void handleTextChange(ActionEvent event) {
     if(((CheckBox) event.getSource()).isSelected())
-      nextButton.setText("Next");
+      nextButton.setText(LABEL_BTN_NEXT);
     else
-      nextButton.setText("Install");
+      nextButton.setText(LABEL_BTN_INSTALL);
   }
 
   @FXML
@@ -215,71 +183,55 @@ public class OptionalComponentsController extends CancelAwareInstallerController
     installerWizard.goToInstallDirectory(((Button) event.getSource()).getScene());
   }
 
-  private String readFileFromJar(String jarFilePath, String filePathInJar) throws IOException {
-    try (JarFile jarFile = new JarFile(jarFilePath)) {
-      // Get the JAR entry for the specified file
-      JarEntry entry = jarFile.getJarEntry(filePathInJar);
+  /**
+   *  Logic to handle rendering changes for install operation. It does the following -
+   *
+   *  1. Sets all optional components to false
+   *  2. Sets the Next Button display to Install
+   */
+  public void renderInstall() {
+    //Remove all selected values
+    selectColumn.getTableView().getItems().forEach(
+            cell -> cell.setSelected(false)
+    );
 
-      if (entry == null) {
-        return null; // File not found in the JAR
-      }
-
-      // Open an input stream to read the file
-      try (InputStream inputStream = jarFile.getInputStream(entry);
-           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-
-        StringBuilder content = new StringBuilder();
-        String line;
-
-        // Read the file line by line
-        while ((line = reader.readLine()) != null) {
-          if(line.startsWith("artifactId="))
-            content.append(line.replace("artifactId=", "").trim());
-        }
-
-        return content.toString();
-      }
-    }
+    nextButton.setText(LABEL_BTN_INSTALL);
   }
 
-  public static List<File> filterJarsByContainedFile(List<File> jarFiles, String fileNamePattern) {
-    List<File> filteredJars = new ArrayList<>();
+  /**
+   * Logic to handle rendering changes for update operation. It does the following -
+   *
+   *  1. Select only relevant optional components matching the existing optional components
+   *  2. Sets the Next Button display to Upgrade
+   */
+  public void renderUpgrade() {
+    List<String> artifactIds = new ArrayList<>();
 
-    for (File jarFile : jarFiles) {
-      try (JarFile jar = new JarFile(jarFile)) {
-        Enumeration<JarEntry> entries = jar.entries();
+    if(installerWizard.getInstallDirectoryPath() != null){
+      String installDirectoryPath = installerWizard.getInstallDirectoryPath();
+      List<File> jarFiles = FileUtils.getFilesListFromDirectory(installDirectoryPath+File.separator+"lib", PARAMS_EXTENSION);
+      List<File> filteredJars = FileUtils.filterJarsByContainedFile(jarFiles, PATH_INTERLOK_VERSION);
 
-        while (entries.hasMoreElements()) {
-          JarEntry entry = entries.nextElement();
-          String entryName = entry.getName();
-
-          if (!entry.isDirectory() && entryName.contains(fileNamePattern)) {
-            filteredJars.add(jarFile);
-            break; // Found a match, no need to check other entries
+      for (File jar : filteredJars) {
+        try {
+          String artifactId = FileUtils.readFileFromJar(jar.getAbsolutePath(), PATH_INTERLOK_VERSION, PARAMS_KEY_ARTIFACT);
+          if (StringUtils.isNotEmpty(artifactId)) {
+            log.info("Found artifact: " + artifactId);
+            artifactIds.add(artifactId);
           }
-        }
-      } catch (IOException e) {
-        System.err.println("Error processing JAR file: " + jarFile.getName());
-        e.printStackTrace();
-      }
-    }
-
-    return filteredJars;
-  }
-
-  private static List<File> getJarFilesFromDirectory(String directoryPath) {
-    List<File> jarFiles = new ArrayList<>();
-    File directory = new File(directoryPath);
-
-    if (directory.exists() && directory.isDirectory()) {
-      File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
-      if (files != null) {
-        for (File file : files) {
-          jarFiles.add(file);
+        } catch (IOException e) {
+          log.info("Error reading file from JAR:");
         }
       }
     }
 
-    return jarFiles;
+    selectColumn.getTableView().getItems().forEach(
+            cell -> {
+              if(artifactIds.contains(cell.getId()))
+                cell.setSelected(true);
+            }
+    );
+
+    nextButton.setText(LABEL_BTN_UPGRADE);
   }
 }
