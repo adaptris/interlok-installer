@@ -2,11 +2,7 @@ package com.adaptris.installer.controllers;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 import com.adaptris.installer.InstallerDataHolder;
@@ -64,6 +60,7 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   private static final String PATH_INTERLOK_VERSION = "META-INF/adaptris-version";
 
   private static final String PARAMS_KEY_ARTIFACT = "artifactId=";
+  private static final String PARAMS_KEY_NAME = "component.name=";
   private static final String PARAMS_EXTENSION = ".jar";
 
   private LogHelper log = LogHelper.getInstance();
@@ -205,33 +202,52 @@ public class OptionalComponentsController extends CancelAwareInstallerController
    *  2. Sets the Next Button display to Upgrade
    */
   public void renderUpgrade() {
-    List<String> artifactIds = new ArrayList<>();
+    if(installerWizard.getInstallDirectoryPath() != null) {
+      //Read existing optional components from the installed directory
+      List<String> matchingEntries = readMatchingOptionalComponents();
 
-    if(installerWizard.getInstallDirectoryPath() != null){
-      String installDirectoryPath = installerWizard.getInstallDirectoryPath();
-      List<File> jarFiles = FileUtils.getFilesListFromDirectory(installDirectoryPath+File.separator+"lib", PARAMS_EXTENSION);
-      List<File> filteredJars = FileUtils.filterJarsByContainedFile(jarFiles, PATH_INTERLOK_VERSION);
-
-      for (File jar : filteredJars) {
-        try {
-          String artifactId = FileUtils.readFileFromJar(jar.getAbsolutePath(), PATH_INTERLOK_VERSION, PARAMS_KEY_ARTIFACT);
-          if (StringUtils.isNotEmpty(artifactId)) {
-            log.info("Found artifact: " + artifactId);
-            artifactIds.add(artifactId);
-          }
-        } catch (IOException e) {
-          log.info("Error reading file from JAR:");
-        }
-      }
+      selectColumn.getTableView().getItems().forEach(
+              cell -> {
+                for (String entry : matchingEntries) {
+                  String componentName = null;
+                  String artifactId = null;
+                  for (String token : StringUtils.split(entry, ",")) {
+                    if (token.startsWith(PARAMS_KEY_NAME)) {
+                      componentName = token.replace(PARAMS_KEY_NAME, "");
+                    }
+                    if (token.startsWith(PARAMS_KEY_ARTIFACT)) {
+                      artifactId = token.replace(PARAMS_KEY_ARTIFACT, "");
+                    }
+                  }
+                  if (StringUtils.isNotEmpty(componentName) && StringUtils.isNotEmpty(artifactId)
+                          && cell.getName().equals(componentName) && cell.getId().equals(artifactId))
+                    cell.setSelected(true);
+                }
+              }
+      );
     }
 
-    selectColumn.getTableView().getItems().forEach(
-            cell -> {
-              if(artifactIds.contains(cell.getId()))
-                cell.setSelected(true);
-            }
-    );
-
     nextButton.setText(LABEL_BTN_UPGRADE);
+  }
+
+  private List<String> readMatchingOptionalComponents() {
+    List<String> matchingEntries = new ArrayList<>();
+
+    String installDirectoryPath = installerWizard.getInstallDirectoryPath();
+    List<File> jarFiles = FileUtils.getFilesListFromDirectory(installDirectoryPath+File.separator+"lib", PARAMS_EXTENSION);
+    List<File> filteredJars = FileUtils.filterJarsByContainedFile(jarFiles, PATH_INTERLOK_VERSION);
+
+    for (File jar : filteredJars) {
+      try {
+        String matchingLine = FileUtils.readFileFromJar(jar.getAbsolutePath(), PATH_INTERLOK_VERSION, PARAMS_KEY_ARTIFACT, PARAMS_KEY_NAME);
+        if (StringUtils.isNotEmpty(matchingLine)) {
+          log.info("Found matching line: " + matchingLine);
+          matchingEntries.add(matchingLine);
+        }
+      } catch (IOException e) {
+        log.info("Error reading file from JAR:");
+      }
+    }
+    return matchingEntries;
   }
 }

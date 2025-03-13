@@ -21,16 +21,16 @@ public class FileUtils {
     private FileUtils() {}
 
     /**
-     * Reads content from files embedded in Jar file matching with the search key passed into the method.
+     * Reads content from files embedded in Jar file matching with the search keys passed into the method.
      *
      * @param jarFilePath
      * @param filePathInJar
-     * @param searchKey
+     * @param searchKeys
      *
      * @return
      * @throws IOException
      */
-    public static String readFileFromJar(String jarFilePath, String filePathInJar, String searchKey) throws IOException {
+    public static String readFileFromJar(String jarFilePath, String filePathInJar, String... searchKeys) throws IOException {
         String line;
         StringBuilder content = new StringBuilder();
         try (JarFile jarFile = new JarFile(jarFilePath)) {
@@ -43,8 +43,11 @@ public class FileUtils {
                     // Read the file line by line
                     while ((line = reader.readLine()) != null) {
                         //If found starting with searchKey then append the value in the line
-                        if (line.startsWith(searchKey))
-                            content.append(line.replace(searchKey, StringUtils.EMPTY).trim());
+                        for(String searchKey : searchKeys)
+                            if (line.startsWith(searchKey)) {
+                                content.append(line.trim());
+                                content.append(",");
+                            }
                     }
                 }
             }
