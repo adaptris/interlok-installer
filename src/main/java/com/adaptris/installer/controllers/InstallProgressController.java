@@ -105,7 +105,7 @@ public class InstallProgressController extends CancelAwareInstallerController {
       Consumer<Double> updateProgressFunction = p -> updateProgress(p, 100);
       Consumer<String> updateMessageFunction = m -> updateMessage(m);
 
-      new InterlokInstaller().install(interlokProject, updateProgressFunction, updateMessageFunction);
+      new InterlokInstaller().install(interlokProject, updateProgressFunction, updateMessageFunction, installerWizard.isUpgrade());
 
       updateProgress(10, 10);
 

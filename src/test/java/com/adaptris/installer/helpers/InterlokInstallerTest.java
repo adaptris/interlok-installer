@@ -28,7 +28,8 @@ public class InterlokInstallerTest {
 
     new InterlokInstaller().install(interlokProject,
         p -> {},
-        m -> {}
+        m -> {},
+            false
         );
 
     assertTrue(Files.isDirectory(interlokProjectPath));
