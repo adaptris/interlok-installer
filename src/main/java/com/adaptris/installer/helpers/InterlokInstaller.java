@@ -20,14 +20,16 @@ public class InterlokInstaller {
 
   private LogHelper log = LogHelper.getInstance();
 
-  public static final String FILE_ADAPTER_XML = "adapter.xml";
-  public static final String FILE_ADAPTER_XML_BACKUP = "adapter-backup.xml";
-  public static final String FOLDER_CONFIG = "config";
-  public static final String FOLDER_CONFIG_BACKUP = "config.old";
-  public static final String FOLDER_UI_RESOURCES = "ui-resources";
-  public static final String FOLDER_UI_RESOURCES_BACKUP = "ui-resources.old";
-  public static final String FOLDER_ADAPTER_GUI_DB = "adapter_gui_db";
-  public static final String FOLDER_CONFIG_PROJECT_STORE = "config-project-store";
+  private final InstallerProperties installerProperties = InstallerProperties.getInstance();
+
+  public static final String FILE_ADAPTER_XML = "install.file.adapter";
+  public static final String FILE_ADAPTER_BACKUP_XML = "install.file.adapter.backup";
+  public static final String FOLDER_CONFIG = "install.directory.config";
+  public static final String FOLDER_CONFIG_BACKUP = "install.directory.config.backup";
+  public static final String FOLDER_UI_RESOURCES = "install.directory.ui.resources";
+  public static final String FOLDER_UI_RESOURCES_BACKUP = "install.directory.ui.resources.backup";
+  public static final String FOLDER_ADAPTER_GUI_DB = "install.directory.adapter.gui.db";
+  public static final String FOLDER_CONFIG_PROJECT_STORE = "install.directory.config.project.store";
 
 
   public void install(InterlokProject interlokProject, Consumer<Double> updateProgress, Consumer<String> updateMessage, Boolean isUpgrade) throws IOException {
@@ -95,9 +97,9 @@ public class InterlokInstaller {
     log.info("Preprocessing Installing Interlok in '" + interlokProject.getDirectory() + "'");
     if(isUpgrade) {
       //back up config directory
-      backupFiles(interlokProject, buildGradleDirPath, FOLDER_CONFIG, FOLDER_CONFIG_BACKUP);
+      backupFiles(interlokProject, buildGradleDirPath, getProperty(FOLDER_CONFIG), getProperty(FOLDER_CONFIG_BACKUP));
       //back up ui-resource file
-      backupFiles(interlokProject,  buildGradleDirPath, FOLDER_UI_RESOURCES, FOLDER_UI_RESOURCES_BACKUP);
+      backupFiles(interlokProject,  buildGradleDirPath, getProperty(FOLDER_UI_RESOURCES), getProperty(FOLDER_UI_RESOURCES_BACKUP));
     }
   }
 
@@ -130,13 +132,13 @@ public class InterlokInstaller {
    * Update Configurations folder from backed-up in build generated files
    */
   private void updateConfigurations(InterlokProject interlokProject, Path buildGradleDirPath) throws IOException {
-    File backupConfigTempFile = new File(buildGradleDirPath.toFile(), FOLDER_CONFIG_BACKUP);
-    File configFile = new File(interlokProject.getDirectory(), FOLDER_CONFIG);
+    File backupConfigTempFile = new File(buildGradleDirPath.toFile(), getProperty(FOLDER_CONFIG_BACKUP));
+    File configFile = new File(interlokProject.getDirectory(), getProperty(FOLDER_CONFIG));
     File backupConfigTargetFile = new File(interlokProject.getDirectory(), FOLDER_CONFIG_BACKUP);
 
-    File adapterXmlFile = new File(configFile, FILE_ADAPTER_XML);
-    File adapterBackupXmlFile = new File(configFile, FILE_ADAPTER_XML_BACKUP);
-    File oldAdapterXmlFile = new File(backupConfigTargetFile, FILE_ADAPTER_XML);
+    File adapterXmlFile = new File(configFile, getProperty(FILE_ADAPTER_XML));
+    File adapterBackupXmlFile = new File(configFile, getProperty(FILE_ADAPTER_BACKUP_XML));
+    File oldAdapterXmlFile = new File(backupConfigTargetFile, getProperty(FILE_ADAPTER_XML));
 
     if(backupConfigTempFile.exists()) {
       log.info("Updating configurations in '" + interlokProject.getDirectory() + "'");
@@ -145,7 +147,9 @@ public class InterlokInstaller {
       //Move current adapter.xml file to adapter-backup.xml file
       adapterXmlFile.renameTo(adapterBackupXmlFile);
       //Copy adapter.xml from backed-up config directory to config directory
-      Files.copy(oldAdapterXmlFile.toPath(), adapterXmlFile.toPath());
+      if(oldAdapterXmlFile.exists()) {
+        Files.copy(oldAdapterXmlFile.toPath(), adapterXmlFile.toPath());
+      }
     }
   }
 
@@ -153,24 +157,32 @@ public class InterlokInstaller {
    * Update Ui-Resources folder from backed-up in build generated files
    */
   private void updateUiResources(InterlokProject interlokProject, Path buildGradleDirPath) throws IOException {
-    File backupUiResourcesTempFile = new File(buildGradleDirPath.toFile(), FOLDER_UI_RESOURCES_BACKUP);
-    File uiResourcesFile = new File(interlokProject.getDirectory(), FOLDER_UI_RESOURCES);
-    File backupUiResourcesTargetFile = new File(interlokProject.getDirectory(), FOLDER_UI_RESOURCES_BACKUP);
+    File backupUiResourcesTempFile = new File(buildGradleDirPath.toFile(), getProperty(FOLDER_UI_RESOURCES_BACKUP));
+    File uiResourcesFile = new File(interlokProject.getDirectory(), getProperty(FOLDER_UI_RESOURCES));
+    File backupUiResourcesTargetFile = new File(interlokProject.getDirectory(), getProperty(FOLDER_UI_RESOURCES_BACKUP));
 
-    File oldAdapterGuiDbFile = new File(backupUiResourcesTargetFile, FOLDER_ADAPTER_GUI_DB);
-    File adapterGuiDbFile = new File(uiResourcesFile, FOLDER_ADAPTER_GUI_DB);
+    File oldAdapterGuiDbFile = new File(backupUiResourcesTargetFile, getProperty(FOLDER_ADAPTER_GUI_DB));
+    File adapterGuiDbFile = new File(uiResourcesFile, getProperty(FOLDER_ADAPTER_GUI_DB));
 
-    File oldConfigProjectStoreFile = new File(backupUiResourcesTargetFile, FOLDER_CONFIG_PROJECT_STORE);
-    File configProjectStoreFile = new File(uiResourcesFile, FOLDER_CONFIG_PROJECT_STORE);
+    File oldConfigProjectStoreFile = new File(backupUiResourcesTargetFile, getProperty(FOLDER_CONFIG_PROJECT_STORE));
+    File configProjectStoreFile = new File(uiResourcesFile, getProperty(FOLDER_CONFIG_PROJECT_STORE));
 
     if(backupUiResourcesTempFile.exists()) {
       log.info("Updating UI Resources in '" + interlokProject.getDirectory() + "'");
       //Move backed-up ui-resources directory from build directory to current Interlok folder
       backupUiResourcesTempFile.renameTo(backupUiResourcesTargetFile);
       //Copy adapter_gui_db files from backed-up ui-resources directory to current ui-resources directory
-      Files.copy(oldAdapterGuiDbFile.toPath(), adapterGuiDbFile.toPath());
+      if(oldAdapterGuiDbFile.exists()) {
+        Files.copy(oldAdapterGuiDbFile.toPath(), adapterGuiDbFile.toPath());
+      }
       //Copy config-project-store files from backed-up ui-resources directory to current ui-resources directory
-      Files.copy(oldConfigProjectStoreFile.toPath(), configProjectStoreFile.toPath());
+      if(oldConfigProjectStoreFile.exists()) {
+        Files.copy(oldConfigProjectStoreFile.toPath(), configProjectStoreFile.toPath());
+      }
     }
+  }
+
+  private String getProperty(String key) {
+    return installerProperties.getProperty(key);
   }
 }
