@@ -57,6 +57,20 @@ public class InterlokInstallerTest {
 
     InterlokProject interlokProject = new InterlokProject();
     interlokProject.setOptionalComponents(Collections.singletonList(TestUtils.buildOptionalComponent()));
+    interlokProject.setDirectory(interlokProjectPath.toAbsolutePath().toString());
+    interlokProject.setVersion(TestUtils.INTERLOK_VERSION);
+
+    new InterlokInstaller().install(interlokProject,
+        p -> {},
+        m -> {},
+            false
+        );
+
+    assertTrue(Files.isDirectory(interlokProjectPath));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("config")));
+    assertFalse(Files.isDirectory(interlokProjectPath.resolve("install.directory.config.backup")));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("ui-resources")));
+    assertFalse(Files.isDirectory(interlokProjectPath.resolve("ui-resources.old")));
     assertTrue(Files.isRegularFile(interlokProjectPath.resolve("config/adapter.xml")));
     assertFalse(Files.isRegularFile(interlokProjectPath.resolve("config/adapter-backup.xml")));
 
