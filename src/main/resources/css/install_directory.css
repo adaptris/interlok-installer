@@ -8,3 +8,15 @@
 .install-directory .url-picker .text-field {
 	-fx-min-width: 710px;
 }
+
+.radio-button {
+	-fx-font-size: 13px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #EEEEEE;
+	-fx-padding: 0px 0px 0px 15px;
+}
+
+.warning {
+	-fx-text-fill: #FFFFE0;
+	-fx-padding: 0px 0px 0px 10px;
+}

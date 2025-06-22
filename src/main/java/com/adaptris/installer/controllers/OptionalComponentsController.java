@@ -1,12 +1,14 @@
 package com.adaptris.installer.controllers;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.adaptris.installer.InstallerDataHolder;
 import com.adaptris.installer.OptionalComponentCell;
+import com.adaptris.installer.helpers.LogHelper;
+import com.adaptris.installer.utils.FileUtils;
 import com.adaptris.installer.utils.FxUtils;
 import com.adaptris.installer.utils.MatchUtils;
 
@@ -26,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.ImageView;
+import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 
 public class OptionalComponentsController extends CancelAwareInstallerController {
 
@@ -50,6 +53,18 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   @FXML
   private Button nextButton;
 
+  private static final String LABEL_BTN_NEXT = "Next";
+  private static final String LABEL_BTN_INSTALL = "Install";
+  private static final String LABEL_BTN_UPGRADE = "Upgrade";
+
+  private static final String PATH_INTERLOK_VERSION = "META-INF/adaptris-version";
+
+  private static final String PARAMS_KEY_ARTIFACT = "artifactId=";
+  private static final String PARAMS_KEY_NAME = "component.name=";
+  private static final String PARAMS_EXTENSION = ".jar";
+
+  private LogHelper log = LogHelper.getInstance();
+
   private final List<OptionalComponentCell> optionalComponentCells = new ArrayList<>();
 
   /**
@@ -57,6 +72,9 @@ public class OptionalComponentsController extends CancelAwareInstallerController
    */
   @FXML
   private void initialize() {
+    log.info("inside initialize");
+
+
     licensedColumn.setCellFactory(tc -> {
       CheckBoxTableCell<OptionalComponentCell, Boolean> cell = new CheckBoxTableCell<>();
       cell.setAlignment(Pos.CENTER);
@@ -107,8 +125,6 @@ public class OptionalComponentsController extends CancelAwareInstallerController
     filterTextField.textProperty().addListener((observable, oldText, newText) -> {
       filteredOptionalComponentCells.setPredicate(oc -> match(oc, newText));
     });
-
-    nextButton.setText("Install");
   }
 
   private String getIdOrNameForTooltip(TableRow<OptionalComponentCell> tableRow, String name) {
@@ -139,9 +155,9 @@ public class OptionalComponentsController extends CancelAwareInstallerController
   @FXML
   private void handleTextChange(ActionEvent event) {
     if(((CheckBox) event.getSource()).isSelected())
-      nextButton.setText("Next");
+      nextButton.setText(LABEL_BTN_NEXT);
     else
-      nextButton.setText("Install");
+      nextButton.setText(LABEL_BTN_INSTALL);
   }
 
   @FXML
@@ -158,7 +174,80 @@ public class OptionalComponentsController extends CancelAwareInstallerController
 
   @FXML
   private void handlePrevious(ActionEvent event) throws IOException {
+    selectColumn.getTableView().getItems().forEach(
+            cell -> cell.setSelected(false)
+    );
     installerWizard.goToInstallDirectory(((Button) event.getSource()).getScene());
   }
 
+  /**
+   *  Logic to handle rendering changes for install operation. It does the following -
+   *
+   *  1. Sets all optional components to false
+   *  2. Sets the Next Button display to Install
+   */
+  public void renderInstall() {
+    //Remove all selected values
+    selectColumn.getTableView().getItems().forEach(
+            cell -> cell.setSelected(false)
+    );
+
+    nextButton.setText(LABEL_BTN_INSTALL);
+  }
+
+  /**
+   * Logic to handle rendering changes for update operation. It does the following -
+   *
+   *  1. Select only relevant optional components matching the existing optional components
+   *  2. Sets the Next Button display to Upgrade
+   */
+  public void renderUpgrade() {
+    if(installerWizard.getInstallDirectoryPath() != null) {
+      //Read existing optional components from the installed directory
+      List<String> matchingEntries = readMatchingOptionalComponents();
+
+      selectColumn.getTableView().getItems().forEach(
+              cell -> {
+                for (String entry : matchingEntries) {
+                  String componentName = null;
+                  String artifactId = null;
+                  for (String token : StringUtils.split(entry, ",")) {
+                    if (token.startsWith(PARAMS_KEY_NAME)) {
+                      componentName = token.replace(PARAMS_KEY_NAME, "");
+                    }
+                    if (token.startsWith(PARAMS_KEY_ARTIFACT)) {
+                      artifactId = token.replace(PARAMS_KEY_ARTIFACT, "");
+                    }
+                  }
+                  if (StringUtils.isNotEmpty(componentName) && StringUtils.isNotEmpty(artifactId)
+                          && cell.getName().equals(componentName) && cell.getId().equals(artifactId))
+                    cell.setSelected(true);
+                }
+              }
+      );
+    }
+
+    nextButton.setText(LABEL_BTN_UPGRADE);
+  }
+
+  private List<String> readMatchingOptionalComponents() {
+    List<String> matchingEntries = new ArrayList<>();
+
+    String installDirectoryPath = installerWizard.getInstallDirectoryPath();
+    List<File> jarFiles = FileUtils.getFilesListFromDirectory(installDirectoryPath+File.separator+"lib", PARAMS_EXTENSION);
+    List<File> filteredJars = FileUtils.filterJarsByContainedFile(jarFiles, PATH_INTERLOK_VERSION);
+
+    for (File jar : filteredJars) {
+      try {
+        String matchingLine = FileUtils.readFileFromJar(jar.getAbsolutePath(), PATH_INTERLOK_VERSION, PARAMS_KEY_ARTIFACT, PARAMS_KEY_NAME);
+        if (StringUtils.isNotEmpty(matchingLine)) {
+          log.info("Found matching line: " + matchingLine);
+          matchingEntries.add(matchingLine);
+        }
+      } catch (IOException e) {
+        log.info("Error reading file from JAR:");
+      }
+    }
+    return matchingEntries;
+  }
 }

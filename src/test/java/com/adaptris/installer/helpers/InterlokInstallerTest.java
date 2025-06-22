@@ -1,6 +1,7 @@
 package com.adaptris.installer.helpers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,7 +29,8 @@ public class InterlokInstallerTest {
 
     new InterlokInstaller().install(interlokProject,
         p -> {},
-        m -> {}
+        m -> {},
+            false
         );
 
     assertTrue(Files.isDirectory(interlokProjectPath));
@@ -45,6 +47,47 @@ public class InterlokInstallerTest {
     assertTrue(Files.isDirectory(interlokProjectPath.resolve("ui-resources")));
     assertTrue(Files.isDirectory(interlokProjectPath.resolve("webapps")));
     assertTrue(Files.isRegularFile(interlokProjectPath.resolve("webapps/interlok.war")));
+  }
+
+  @Disabled("Jenkins uses some proxy that make this test fails because of insecure http protocol")
+  @Test
+  public void testGenerateAndRunUpgrade() throws Exception {
+    Path resourcesPath = Paths.get(getClass().getResource("/interlok-json.xml").toURI()).getParent();
+    Path interlokProjectPath = resourcesPath.resolve("test-project");
+
+    InterlokProject interlokProject = new InterlokProject();
+    interlokProject.setOptionalComponents(Collections.singletonList(TestUtils.buildOptionalComponent()));
+    interlokProject.setDirectory(interlokProjectPath.toAbsolutePath().toString());
+    interlokProject.setVersion(TestUtils.INTERLOK_VERSION);
+
+    new InterlokInstaller().install(interlokProject,
+        p -> {},
+        m -> {},
+            false
+        );
+
+    assertTrue(Files.isDirectory(interlokProjectPath));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("config")));
+    assertFalse(Files.isDirectory(interlokProjectPath.resolve("install.directory.config.backup")));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("ui-resources")));
+    assertFalse(Files.isDirectory(interlokProjectPath.resolve("ui-resources.old")));
+    assertTrue(Files.isRegularFile(interlokProjectPath.resolve("config/adapter.xml")));
+    assertFalse(Files.isRegularFile(interlokProjectPath.resolve("config/adapter-backup.xml")));
+
+    new InterlokInstaller().install(interlokProject,
+            p -> {},
+            m -> {},
+            true
+    );
+
+    assertTrue(Files.isDirectory(interlokProjectPath));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("config")));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("install.directory.config.backup")));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("ui-resources")));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("ui-resources.old")));
+    assertTrue(Files.isRegularFile(interlokProjectPath.resolve("config/adapter.xml")));
+    assertTrue(Files.isRegularFile(interlokProjectPath.resolve("config/adapter-backup.xml")));
+    assertTrue(Files.isDirectory(interlokProjectPath.resolve("webapps")));
   }
 
 }

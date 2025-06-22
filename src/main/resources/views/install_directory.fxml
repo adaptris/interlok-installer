@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
+
 <?import javafx.geometry.*?>
-<?import javafx.collections.*?> 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.*?> 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import fxmltableview.*?>
-<?import java.lang.Object?> 
-
-
-<VBox fx:controller="com.adaptris.installer.controllers.InstallDirectoryController" 
-    xmlns:fx="http://javafx.com/fxml" styleClass="install-directory" spacing="10">
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<VBox fx:controller="com.adaptris.installer.controllers.InstallDirectoryController"
+      xmlns:fx="http://javafx.com/fxml" styleClass="install-directory" spacing="10">
     
   <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
   
   <children>
     <HBox styleClass="page-logo">
-      <padding><Insets top="50" bottom="10" /></padding>
+      <padding><Insets top="50" bottom="50" /></padding>
     </HBox>
-    <Label text="Where would you like to install Interlok:"></Label>
+    <Label text="Would you like to perform an "></Label>
+    <RadioButton fx:id="radioButtonInstall" text="Install" styleClass="radio-button" selected="true" onAction="#handleInstallSelected">
+      <HBox.margin>
+        <Insets right="3.0"/>
+      </HBox.margin>
+      <toggleGroup>
+        <ToggleGroup fx:id="radioGroup"/>
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="radioButtonUpgrade" text="Upgrade" styleClass="radio-button" onAction="#handleUpgradeSelected">
+      <HBox.margin>
+        <Insets right="30.0"/>
+        <Insets bottom="10.0"/>
+      </HBox.margin>
+      <toggleGroup>
+        <fx:reference source="radioGroup"/>
+      </toggleGroup>
+    </RadioButton>
+    <Label fx:id="upgradeWarningText" styleClass="warning" visible="false"></Label>
+    <Label text="Interlok Directory Path:"></Label>
     <VBox prefHeight="60" spacing="10">
-    
-      <padding><Insets top="0" bottom="30" /></padding>
-      
+      <padding><Insets top="0" bottom="0" /></padding>
       <children>
         <HBox spacing="5" styleClass="directory-picker">
           <children>
@@ -32,13 +44,12 @@
             <TextField fx:id="chooseDirTextField" text=""></TextField>
           </children>
         </HBox>
+        <Label fx:id="installErrorText" styleClass="error" visible="false"></Label>
       </children>
     </VBox>
     <Label text="Additional Nexus URL:"></Label>
     <VBox prefHeight="361" spacing="10">
-    
       <padding><Insets top="0" bottom="0" /></padding>
-      
       <children>
         <HBox spacing="5" styleClass="url-picker">
           <children>

@@ -1,7 +1,10 @@
 package com.adaptris.installer;
 
+import java.io.IOException;
 import java.util.Objects;
 
+import com.adaptris.installer.controllers.OptionalComponentsController;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -12,6 +15,8 @@ public class InstallerWizard {
   private Parent optionalComponents;
   private Parent installProgress;
   private Parent optionalDependencies;
+  private boolean isUpgrade;
+  private String installDirectoryPath;
 
   private FxmlLoader fxmlLoader;
 
@@ -51,15 +56,14 @@ public class InstallerWizard {
     return fxmlLoader.loadOrExit("/views/install_directory.fxml");
   }
 
-  public void goToOptionalComponents(Scene scene) {
-    if (Objects.isNull(optionalComponents)) {
-      optionalComponents = loadOptionalComponentsNode();
+  public void goToOptionalComponents(Scene scene) throws IOException {
+    OptionalComponentsController controller = loadAndGetOptionalComponentsController();
+    if(!isUpgrade) {
+      controller.renderInstall();
+    } else {
+      controller.renderUpgrade();
     }
     scene.setRoot(optionalComponents);
-  }
-
-  public Parent loadOptionalComponentsNode() {
-    return fxmlLoader.loadOrExit("/views/optional_components.fxml");
   }
 
   public void goToInstallProgress(Scene scene) {
@@ -84,4 +88,25 @@ public class InstallerWizard {
     return fxmlLoader.loadOrExit("/views/optional_dependencies.fxml");
   }
 
+  public boolean isUpgrade() {
+    return isUpgrade;
+  }
+  public void setIsUpgrade(boolean isUpgrade) {
+    this.isUpgrade = isUpgrade;
+  }
+
+  public String getInstallDirectoryPath() {
+    return installDirectoryPath;
+  }
+
+  public void setInstallDirectoryPath(String installDirectoryPath) {
+    this.installDirectoryPath = installDirectoryPath;
+  }
+
+  public OptionalComponentsController loadAndGetOptionalComponentsController() throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/optional_components.fxml"));
+    optionalComponents = fxmlLoader.load();
+    OptionalComponentsController controller = fxmlLoader.<OptionalComponentsController>getController();
+    return controller;
+  }
 }
